@@ -14,13 +14,15 @@ function createPrismaClient() {
   return new PrismaClient({ adapter });
 }
 
-// Reuse one client across hot reloads in development.
-const globalForPrisma = globalThis as unknown as {
-  prisma?: ReturnType<typeof createPrismaClient>;
-};
+type AppPrismaClient = ReturnType<typeof createPrismaClient>;
 
-export const prisma = globalForPrisma.prisma ?? createPrismaClient();
+// One client per process; reused across hot reloads in development.
+const globalForPrisma = globalThis as unknown as { prisma?: AppPrismaClient };
 
-if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = prisma;
+/** Lazily creates the client so importing a repository never touches env or the DB. */
+export function getPrisma(): AppPrismaClient {
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = createPrismaClient();
+  }
+  return globalForPrisma.prisma;
 }

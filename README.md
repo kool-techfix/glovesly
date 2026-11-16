@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Glovesly Pro-Project website
 
-## Getting Started
+Next.js 16 rebuild of gloveslyproject.com with a CMS admin. Architecture, layering and conventions follow ICAADA: see `CLAUDE.md` and `docs/reference/ARCHITECTURE.md`.
 
-First, run the development server:
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install                     # also runs prisma generate
+cp .env.example .env             # fill in every required variable
+pnpm db:migrate --name init      # first migration (needs DIRECT_URL)
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Scripts: `pnpm dev` · `pnpm build` · `pnpm lint` · `pnpm db:generate` · `pnpm db:migrate` · `pnpm db:deploy` · `pnpm db:seed` · `pnpm db:studio`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## What exists so far
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Layering is strict: Route Handler → Guard → Service → Repository → Prisma. Only `src/Repositories/` and `src/lib/prisma.ts` import Prisma.
 
-## Learn More
+**Shared infrastructure**
 
-To learn more about Next.js, take a look at the following resources:
+| Area | Files |
+|---|---|
+| Env | `src/lib/env.ts` (Zod `getEnv()`), validated at boot by `src/instrumentation.ts` |
+| Database | `prisma/schema.prisma`, `prisma.config.ts`, `src/lib/prisma.ts` (`getPrisma()`, adapter-pg) |
+| API helpers | `src/lib/api/`: `api-error` · `response` (`ok`/`handle`, `{ data, meta }` / `{ error }`) · `request` (Zod parsing, client IP) · `content-routes` (route factories for content modules) |
+| Auth | `src/lib/auth/`: `session` (HS256 JWT, `jti` = Session id) · `cookies` (`glovesly_session`) · `password` (bcrypt) · `tokens` (SHA-256 hashed reset/invite links) · `auth-guard` (`requireAuth`/`requireEditor`/`requireAdmin`, DB re-check every request) |
+| Caching | `src/lib/cache.ts`: `unstable_cache` wrappers, `revalidateContent()` |
+| Other | `rate-limit.ts` (in-memory), `cloudinary.ts` (upload signing, URL allow-list), `slug.ts`, `email/` (Nodemailer SMTP + branded templates), `nigeria-states.ts` |
+| Repositories | `repository-utils.ts` (`ContentRepository`, `withPrismaErrors`, enum mirror checks), user, session, password-token, activity-log |
+| Schemas | `common.schema.ts` (domain enums, `contentBaseShape`, field helpers), auth, user, activity |
+| Services | `content.service.ts` (`createContentService()`: listing, slugs, status transitions, publish rules, activity log, revalidation), auth, password, user, activity, notification |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+**API routes**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Route | Guard |
+|---|---|
+| `POST /api/auth/login` · `POST /api/auth/logout` · `GET /api/auth/me` | login rate-limited; me: signed in |
+| `POST /api/auth/password/{forgot,check,reset}` | none; rate-limited |
+| `GET/POST /api/admin/users` · `GET/PATCH/DELETE /api/admin/users/[id]` | ADMIN |
+| `DELETE /api/admin/users/[id]/sessions` (sign out everywhere) · `POST /api/admin/users/[id]/password-link` | ADMIN |
+| `GET /api/admin/activity` | EDITOR+ |
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Not built yet:** the content modules (Service, Project, NewsPost, TeamMember, Partner), contact form and inbox, workspace settings, media upload signing route, seed script, public pages and the admin UI.

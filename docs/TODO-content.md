@@ -42,13 +42,10 @@ Everything in this file except `companySummary` (taken from the brief) is a plac
   - services introduction
   - projects introduction
 - [ ] **Message from the CEO** (`ceoMessage`): the text, name and title are from the owner. Still needed: a portrait of the CEO (at least 1200px, uploaded to Cloudinary) with alt text. The home page teaser can be removed by setting `showCeoTeaserOnHome` to `false`.
-- [ ] **About:**
-  - page headline
-  - company story (two paragraphs: history, founding, milestones)
-  - mission statement
-  - vision statement
-  - three values, each with a sentence
-  - team introduction
+- [ ] **About (`aboutPage`):** the copy (title, three paragraphs, vision, mission) is the owner's text from the current About page, used verbatim. Still needed:
+  - **Hero photo:** the team photo with branded caps from the old About page. Landscape, at least 1920px wide, uploaded to Cloudinary, with alt text. Until then the hero is a solid accent background.
+  - **Second photo:** the one shown beside the first paragraph on the old About page, at least 1200px wide, with alt text. Set it as `howWeWorkImage`; until then "How we work" is full-width text.
+  - **Portfolio list:** the seven items under "What we deliver" are taken from paragraph 3. Confirm the wording.
 - [ ] **Page intros:** the headline and introduction for the Services, Projects, News, Our team and Contact pages.
 - [ ] **Clients and partners section:** a one-sentence introduction, plus a title and one-line description for each partner group (`partnerGroups`). The groups themselves (Government, Private clients, Technology partners) are provisional.
 - [ ] **Nigeria map section:** a one-sentence introduction. The stats beside the map and the office locations come from the admin Settings and are seeded placeholders.

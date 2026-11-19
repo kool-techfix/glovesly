@@ -1,86 +1,115 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 
-import { PartnerTile } from "@/components/public/cards";
 import { CeoMessageSection } from "@/components/public/ceo-message";
-import { CtaBand, ListSection } from "@/components/public/sections";
-import { ButtonLink, PageHero, SectionHeading } from "@/components/site";
-import { about } from "@/data/content";
-import { partnerService } from "@/Services/partner.service";
+import { ButtonLink, Eyebrow, PageHero } from "@/components/site";
+import { aboutMetaDescription, aboutPage } from "@/data/content";
+import { cn } from "@/lib/utils";
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "About",
-  description: about.hero.description,
+  title: aboutPage.meta.title,
+  description: aboutMetaDescription,
 };
 
-export default async function AboutPage() {
-  const partners = await partnerService.listPublished();
+export default function AboutPage() {
+  const { hero, sections, paragraphs, portfolio, vision, mission, closing, howWeWorkImage } = aboutPage;
 
   return (
     <>
-      <PageHero eyebrow={about.hero.eyebrow} title={about.hero.title} description={about.hero.description} />
+      <PageHero eyebrow={hero.eyebrow} title={hero.title} tone="accent" image={hero.image}>
+        <ButtonLink href={hero.cta.href} testId="link-about-team">
+          {hero.cta.label}
+        </ButtonLink>
+      </PageHero>
 
-      <section className="section-pad">
-        <div className="container-wide about-story">
-          <SectionHeading eyebrow={about.story.eyebrow} title={about.story.title} />
-          <div className="prose-body">
-            {about.story.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+      {/* Who we are */}
+      <section className="section-pad" aria-labelledby="about-who-title">
+        <div className="container-wide about-split">
+          <div className="reveal">
+            <Eyebrow as="h2" id="about-who-title">
+              {sections.whoWeAre}
+            </Eyebrow>
+            <dl className="about-fact">
+              <dt>Founded</dt>
+              <dd className="display">{aboutPage.founded}</dd>
+            </dl>
+          </div>
+          <div className="prose-body about-prose reveal reveal-delay-1">
+            <p>{paragraphs[0]}</p>
           </div>
         </div>
       </section>
 
-      <CeoMessageSection />
-
-      <section className="section-pad" aria-label="Mission and vision">
-        <div className="container-wide grid gap-6 md:grid-cols-2">
-          {about.missionVision.map((item) => (
-            <div key={item.title} className="statement-card">
-              <h2 className="display text-2xl">{item.title}</h2>
-              <p className="lede mt-4">{item.text}</p>
+      {/* How we work */}
+      <section className="section-pad section-band" aria-labelledby="about-how-title">
+        <div className={cn("container-wide", howWeWorkImage && "about-split about-split--media")}>
+          <div className="reveal">
+            <Eyebrow as="h2" id="about-how-title">
+              {sections.howWeWork}
+            </Eyebrow>
+            <div className="prose-body about-prose mt-6">
+              <p>{paragraphs[1]}</p>
             </div>
-          ))}
+          </div>
+          {howWeWorkImage ? (
+            <div className="about-photo reveal reveal-delay-1">
+              <Image src={howWeWorkImage.src} alt={howWeWorkImage.alt} fill sizes="(max-width: 860px) 100vw, 45vw" loading="lazy" />
+            </div>
+          ) : null}
         </div>
       </section>
 
-      <section className="section-pad section-band">
+      {/* What we deliver */}
+      <section className="section-pad" aria-labelledby="about-deliver-title">
         <div className="container-wide">
-          <SectionHeading eyebrow={about.values.eyebrow} title={about.values.title} />
-          <ul className="sector-grid mt-12">
-            {about.values.items.map((value) => (
-              <li key={value.title} className="sector-card">
-                <h3 className="card-title">{value.title}</h3>
-                <p className="card-text mt-3">{value.text}</p>
-              </li>
+          <Eyebrow as="h2" id="about-deliver-title" className="reveal">
+            {sections.whatWeDeliver}
+          </Eyebrow>
+          <ul className="about-portfolio reveal reveal-delay-1" aria-label="Our portfolio">
+            {portfolio.map((item) => (
+              <li key={item}>{item}</li>
             ))}
           </ul>
+          <div className="prose-body about-prose mt-10 reveal reveal-delay-2">
+            <p>{paragraphs[2]}</p>
+          </div>
         </div>
       </section>
 
-      <section className="section-pad">
-        <div className="container-wide flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading eyebrow={about.team.eyebrow} title={about.team.title} description={about.team.description} />
-          <ButtonLink href="/our-team" testId="link-about-team">
-            Meet the team
-          </ButtonLink>
+      {/* Vision and mission */}
+      <section className="section-pad section-band" aria-label="Vision and mission">
+        <div className="container-wide about-statements">
+          <article className="editorial-card reveal">
+            <h2 className="display editorial-card-title">{vision.title}</h2>
+            <p className="editorial-card-text">{vision.text}</p>
+          </article>
+          <article className="editorial-card reveal reveal-delay-1">
+            <h2 className="display editorial-card-title">{mission.title}</h2>
+            <p className="display about-pull-quote">{mission.text}</p>
+          </article>
         </div>
       </section>
 
-      {partners.length ? (
-        <ListSection band eyebrow={about.partners.eyebrow} title={about.partners.title}>
-          <ul className="partner-grid">
-            {partners.map((partner) => (
-              <li key={partner.id}>
-                <PartnerTile partner={partner} />
-              </li>
-            ))}
-          </ul>
-        </ListSection>
-      ) : null}
+      <CeoMessageSection band={false} />
 
-      <CtaBand area="about" />
+      {/* Closing band */}
+      <section className="about-closing" aria-labelledby="about-closing-title">
+        <div className="container-wide about-closing-inner">
+          <h2 id="about-closing-title" className="display about-closing-title">
+            {closing.title}
+          </h2>
+          <div className="about-closing-actions">
+            <ButtonLink href={closing.primaryCta.href} testId="link-about-contact">
+              {closing.primaryCta.label}
+            </ButtonLink>
+            <ButtonLink href={closing.secondaryCta.href} variant="secondary" onDark testId="link-about-team-closing">
+              {closing.secondaryCta.label}
+            </ButtonLink>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

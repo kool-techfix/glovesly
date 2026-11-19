@@ -161,43 +161,83 @@ export const home = {
   },
 };
 
-export const about = {
+/* ------------------------------------------------------------------
+   About page. All copy below is from the current gloveslyproject.com
+   About page, supplied by the owner. Keep it verbatim: do not rewrite,
+   shorten or correct it.
+   ------------------------------------------------------------------ */
+
+export type ContentImage = { src: string; alt: string } | null;
+
+export type AboutPage = {
+  hero: {
+    eyebrow: string;
+    title: string;
+    /** TODO(content): team photo (branded caps) from the old About page. */
+    image: ContentImage;
+    cta: { href: string; label: string };
+  };
+  meta: { title: string };
+  /** Year stated in paragraphs[0]. */
+  founded: string;
+  /** [0] who we are, [1] how we work, [2] what we deliver. */
+  paragraphs: [string, string, string];
+  sections: { whoWeAre: string; howWeWork: string; whatWeDeliver: string };
+  /** TODO(content): the second photo from the old About page. */
+  howWeWorkImage: ContentImage;
+  /** Taken from paragraphs[2]. */
+  portfolio: string[];
+  vision: { title: string; text: string };
+  mission: { title: string; text: string };
+  closing: {
+    title: string;
+    primaryCta: { href: string; label: string };
+    secondaryCta: { href: string; label: string };
+  };
+};
+
+export const aboutPage: AboutPage = {
   hero: {
     eyebrow: "About us",
-    title: "Placeholder: who Glovesly Pro-Project is",
-    description: companySummary,
+    title: "Our Journey in Construction, Your Path to Satisfaction",
+    image: null,
+    cta: { href: "/our-team", label: "Meet our team" },
   },
-  story: {
-    eyebrow: "Our story",
-    title: "Placeholder: company story heading",
-    paragraphs: [
-      "Placeholder: the company's history (founding year, founders, milestones) supplied by the owner.",
-      "Placeholder: a second paragraph about how the company works today.",
-    ],
-  },
-  missionVision: [
-    { title: "Our mission", text: "Placeholder: the owner's mission statement." },
-    { title: "Our vision", text: "Placeholder: the owner's vision statement." },
+  meta: { title: "About us" },
+  founded: "2016",
+  paragraphs: [
+    "GLOVESLY Pro-Project was founded in 2016 with the aim of filling the vacuum in Aviation industry, civil construction and also provide Security solutions using modern Surveillance Equipment. The challenging and growing requirements in the Aviation industry, new technologies and new demands for security and modernization constantly emerge, this means expansion, renovation and new construction of airports and airport facilities. Such a dynamic industry requires a construction company with deep aviation expertise, which is why so many in the industry turn to Glovesly. Our aviation construction services are delivered with an approach that combines design, engineering and precision in one streamlined process that prioritizes safety over all.",
+    "Glovesly Pro-Project Ltd found success working with public and private clients in the aviation sector by repeatedly executing projects of all sizes and delivery methods. As a valued stakeholder invested in sharing visions for the future, our collaborative approach to airside and landside projects serves as a key differentiator with airport authorities, and fixed-base operators. The expertise and creativity our team provides helps drive decisions to elevate the overall passenger experience, passenger safety and the facilities’ lifecycle, all while prioritizing design to ensure construction deliverables are achieved to the client’s desirable levels without impacting day-to-day operations. For these reasons and more, Glovesly Pro-Project Ltd has earned a reputation as one of the top Aviation contractors in the country today.",
+    "Our balanced portfolio includes everything from terminals, Aprons, Taxi Ways, Security Surveillance systems, Disabled Aircraft Recovery Equipment, and Fire/Smoke Simulators and Range of other Safety Equipment and Services. We firmly understand the regulations for aviation facilities (including military and federal installations) and embrace opportunities to uncover solutions to challenges that are burdensome to clients, airlines and passengers. Because of this knowledge, passion and customer-focused approach, we have become an emerging leader in aviation construction to upgrade aging infrastructure and build new, world-class airports focused on enhancing the overall passenger experience. We made a successful entry into the local and international market by actively participating in tenders for special equipment, Civil Construction, thus making a significant contribution to the industry.",
   ],
-  values: {
-    eyebrow: "What we value",
-    title: "Our values",
-    items: [
-      { title: "Placeholder value one", text: "Placeholder: one sentence explaining this value." },
-      { title: "Placeholder value two", text: "Placeholder: one sentence explaining this value." },
-      { title: "Placeholder value three", text: "Placeholder: one sentence explaining this value." },
-    ],
+  sections: { whoWeAre: "Who we are", howWeWork: "How we work", whatWeDeliver: "What we deliver" },
+  howWeWorkImage: null,
+  portfolio: [
+    "Terminals",
+    "Aprons",
+    "Taxiways",
+    "Security surveillance systems",
+    "Disabled aircraft recovery equipment",
+    "Fire/smoke simulators",
+    "Other safety equipment and services",
+  ],
+  vision: {
+    title: "Our vision",
+    text: "We strive to be high value player in all our business concerns, by ensuring a total quality service as well as safety of personnel equipment and environment while providing solutions to our client’s door steps.",
   },
-  team: {
-    eyebrow: "Our people",
-    title: "Meet the team",
-    description: "Placeholder: a sentence introducing the leadership team.",
+  mission: {
+    title: "Our mission",
+    text: "GLOVESLY PRO-PROJECT LIMITED Mission is “to provide services and products of superior quality and value, that improves our clients and people all over the world while delivering profits to our shareholders with high commitment to their philosophy and ensuring safety in actualizing their dream”.",
   },
-  partners: {
-    eyebrow: "Clients and partners",
-    title: "Who we work with",
+  closing: {
+    title: "Let's work together",
+    primaryCta: { href: "/contact", label: ctaLabel },
+    secondaryCta: { href: "/our-team", label: "Meet our team" },
   },
 };
+
+/** First sentence of paragraphs[0], used as the page's meta description. */
+export const aboutMetaDescription = aboutPage.paragraphs[0].slice(0, aboutPage.paragraphs[0].indexOf(". ") + 1);
 
 /* ------------------------------------------------------------------
    Message from the CEO (About page, optional home teaser)

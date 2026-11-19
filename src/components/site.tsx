@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -8,14 +9,17 @@ import { cn } from "@/lib/utils";
 type EyebrowProps = {
   children: React.ReactNode;
   onDark?: boolean;
+  /** Render as a heading when the eyebrow is the section's only title. */
+  as?: "p" | "h2";
+  id?: string;
   className?: string;
 };
 
-export function Eyebrow({ children, onDark = false, className }: EyebrowProps) {
+export function Eyebrow({ children, onDark = false, as: Tag = "p", id, className }: EyebrowProps) {
   return (
-    <p className={cn("eyebrow", onDark && "eyebrow-on-dark", className)}>
+    <Tag id={id} className={cn("eyebrow", onDark && "eyebrow-on-dark", className)}>
       {children}
-    </p>
+    </Tag>
   );
 }
 
@@ -63,6 +67,12 @@ type PageHeroProps = {
   title: React.ReactNode;
   description?: React.ReactNode;
   children?: React.ReactNode;
+  /**
+   * "light" (default): secondary band. "accent": flat accent background with white text.
+   * An `image` always uses the dark treatment (photo under a flat 48% black shade).
+   */
+  tone?: "light" | "accent";
+  image?: { src: string; alt: string } | null;
   className?: string;
 };
 
@@ -71,12 +81,21 @@ export function PageHero({
   title,
   description,
   children,
+  tone = "light",
+  image,
   className,
 }: PageHeroProps) {
+  const onDark = Boolean(image) || tone === "accent";
   return (
-    <section className={cn("page-hero", className)}>
+    <section className={cn("page-hero", onDark && "page-hero-dark", image && "has-image", className)}>
+      {image ? (
+        <div className="page-hero-media">
+          <Image src={image.src} alt={image.alt} fill sizes="100vw" preload className="page-hero-image" />
+          <span className="page-hero-shade" />
+        </div>
+      ) : null}
       <div className="container-wide relative z-10">
-        <Eyebrow className="reveal">{eyebrow}</Eyebrow>
+        <Eyebrow onDark={onDark} className="reveal">{eyebrow}</Eyebrow>
         <h1 className="display page-hero-title reveal reveal-delay-1">{title}</h1>
         {description ? (
           <p className="lede page-hero-description reveal reveal-delay-2">

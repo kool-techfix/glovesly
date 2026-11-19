@@ -18,6 +18,8 @@ const fontDisplay = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
+  // Resolves relative Open Graph URLs. APP_URL is validated at boot (src/lib/env.ts).
+  metadataBase: new URL(process.env.APP_URL?.trim() || "http://localhost:3000"),
   title: {
     template: "%s · Glovesly Pro-Project",
     default: "Glovesly Pro-Project",

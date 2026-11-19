@@ -76,4 +76,16 @@ Media URLs must be on `res.cloudinary.com/<CLOUDINARY_CLOUD_NAME>/`.
 
 Projects whose state is empty or unknown are flagged on the dashboard, in the sidebar and on their row (`summary.projectsWithoutState`). Editors see Settings read-only; Users is ADMIN only.
 
-**Not built yet:** profile endpoints and screen (`/api/admin/profile`), public pages.
+**Public site** (`src/app/(public)/`, ARCHITECTURE.md §3–4)
+
+| Area | Files |
+|---|---|
+| Layout | `(public)/layout.tsx` (server): `SiteHeader` (logo + client `SiteNav` with the active pill and mobile menu) and `SiteFooter` (contact details from workspace settings) |
+| Pages | `/`, `/about`, `/services`, `/services/[slug]`, `/projects`, `/projects/[slug]`, `/news`, `/news/[slug]`, `/our-team`, `/contact`. Server Components with `revalidate = 3600` that call the services directly. Detail pages export `generateStaticParams` and `generateMetadata`, and call `notFound()` for unknown or unpublished slugs |
+| Components | `src/components/public/`: cards, `media-image` (Cloudinary via `next/image`, placeholder when empty), `projects-list` (sector filter), `contact-form` (honeypot `website_url`, server errors inline) |
+| Copy | `src/data/content.ts` (placeholders, see `docs/TODO-content.md`) |
+| SEO | per-page metadata, `src/app/sitemap.ts`, `src/app/robots.ts`, `/wp/*` redirects in `next.config.ts` |
+
+`pnpm build` prerenders public pages from the database, so it needs a reachable database and a complete, valid `.env`, including the Cloudinary variables.
+
+**Not built yet:** profile endpoints and screen (`/api/admin/profile`), the partners carousel and the Nigeria map sections.

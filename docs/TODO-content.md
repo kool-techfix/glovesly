@@ -21,3 +21,37 @@ Everything below is a placeholder. None of it is a company fact. Replace each it
 - [ ] **Partner groups:** the `PartnerType` values (GOVERNMENT, PRIVATE_CLIENT, TECHNOLOGY_PARTNER) are provisional.
 - [ ] **Accent colour:** about `#463DE1` (see CLAUDE.md), unconfirmed.
 - [ ] **Fonts:** Inter and Plus Jakarta Sans are placeholders.
+
+## Page copy (`src/data/content.ts`)
+
+Everything in this file except `companySummary` (taken from the brief) is a placeholder that starts with "Placeholder".
+
+- [ ] **Logo:** the header and footer use a text wordmark with a "G" mark (`src/components/public/logo.tsx`). The real logo file (SVG preferred) is needed, plus a favicon.
+- [ ] **Home:**
+  - hero headline
+  - sectors introduction
+  - one or two sentences for each of the four sectors
+  - services introduction
+  - projects introduction
+- [ ] **About:**
+  - page headline
+  - company story (two paragraphs: history, founding, milestones)
+  - mission statement
+  - vision statement
+  - three values, each with a sentence
+  - team introduction
+- [ ] **Page intros:** the headline and introduction for the Services, Projects, News, Our team and Contact pages.
+- [ ] **Call-to-action band:** a supporting sentence under "Have a project in mind?"
+- [ ] **Contact page:** an introduction, including how quickly the team replies.
+
+## Before launch
+
+- [ ] **Old WordPress URLs:** check each one against the WordPress export (`next.config.ts`). The redirects are in place but unverified:
+  - `/wp` → `/`
+  - `/wp/about` → `/about`
+  - `/wp/services` → `/services`
+  - `/wp/projects` → `/projects`
+  - `/wp/our-team` → `/our-team`
+  - `/wp/lavarai` → `/news`
+  - `/wp/contact` → `/contact`
+- [ ] **Temporary preview:** remove the `/design` page.

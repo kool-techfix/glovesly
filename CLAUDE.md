@@ -66,6 +66,7 @@ Fonts are not decided yet. Use `next/font/google` behind CSS variables (`--app-f
 - Accessibility: `.focus-ring`, ARIA on carousels, tabs, menus and the map, `prefers-reduced-motion` respected, 48px touch targets.
 - Public pages are Server Components with ISR (`revalidate = 3600`) reading the services directly. Interactive leaves are client components that receive DTOs as props.
 - Sentence-case headings and buttons. British/Nigerian English spelling.
+- No gradients. Solid colours from the token set only. `pnpm check:gradients` enforces this for `src/`.
 
 ## Content rules
 

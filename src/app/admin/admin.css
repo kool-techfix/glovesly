@@ -1304,13 +1304,11 @@ a.adm-stat:hover {
   justify-content: space-between;
   gap: 2rem;
   padding: 2.5rem;
-  background:
-    radial-gradient(circle at 20% 110%, rgb(255 255 255 / 0.14), transparent 55%),
-    linear-gradient(150deg, var(--admin-primary) 0%, #134a7a 100%);
+  background: var(--admin-primary);
   color: #fff;
 }
 .adm-brand--on-dark .adm-brand-sub {
-  color: rgb(255 255 255 / 0.75);
+  color: #fff;
 }
 .adm-auth-panel-text {
   max-width: 26rem;

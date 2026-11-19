@@ -29,7 +29,7 @@ export const activityLogRepository = {
       ...(params.actorId ? { actorId: params.actorId } : {}),
     };
     const prisma = getPrisma();
-    const [items, total] = await prisma.$transaction([
+    const [items, total] = await Promise.all([
       prisma.activityLog.findMany({
         where,
         orderBy: { createdAt: "desc" },

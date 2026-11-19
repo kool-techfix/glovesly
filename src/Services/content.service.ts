@@ -3,6 +3,7 @@ import { pageMeta, type PageMeta } from "@/lib/api/response";
 import type { Actor } from "@/lib/auth/auth-guard";
 import { cachedContent, revalidateContent, type ContentModule } from "@/lib/cache";
 import { isCloudinaryUrl } from "@/lib/cloudinary";
+import { STATUS_TRANSITIONS } from "@/lib/domain";
 import { uniqueSlug } from "@/lib/slug";
 import type {
   ContentRecord,
@@ -18,13 +19,7 @@ import { activityService } from "@/Services/activity.service";
  * Each module's service passes in what is specific to it.
  */
 
-/** Allowed status transitions. New records always start as DRAFT. */
-export const STATUS_TRANSITIONS: Record<ContentStatus, readonly ContentStatus[]> = {
-  DRAFT: ["REVIEW", "PUBLISHED"],
-  REVIEW: ["PUBLISHED", "DRAFT"],
-  PUBLISHED: ["ARCHIVED", "DRAFT"],
-  ARCHIVED: ["DRAFT"],
-};
+export { STATUS_TRANSITIONS };
 
 export function canTransition(from: ContentStatus, to: ContentStatus) {
   return STATUS_TRANSITIONS[from].includes(to);

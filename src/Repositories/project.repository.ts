@@ -1,4 +1,5 @@
 import type { Project, Prisma } from "@/generated/prisma/client";
+import { NIGERIA_STATES } from "@/lib/nigeria-states";
 import { getPrisma } from "@/lib/prisma";
 import {
   pageArgs,
@@ -20,7 +21,7 @@ export const projectRepository: ContentRepository<ProjectRecord, ProjectCreateIn
       ...(params.status ? { status: params.status } : {}),
     };
     const prisma = getPrisma();
-    const [items, total] = await prisma.$transaction([
+    const [items, total] = await Promise.all([
       prisma.project.findMany({
         where,
         orderBy: [{ sortOrder: "asc" }, { createdAt: "desc" }],
@@ -70,3 +71,8 @@ export const projectRepository: ContentRepository<ProjectRecord, ProjectCreateIn
     return toStatusCounts(rows);
   },
 };
+
+/** Projects whose state is empty or not one of the 36 states + FCT (e.g. imported rows). */
+export function countProjectsWithoutValidState(): Promise<number> {
+  return getPrisma().project.count({ where: { state: { notIn: [...NIGERIA_STATES] } } });
+}

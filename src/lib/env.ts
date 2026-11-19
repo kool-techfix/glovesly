@@ -79,7 +79,12 @@ let cached: Env | undefined;
 export function getEnv(): Env {
   if (cached) return cached;
 
-  const result = envSchema.safeParse(process.env);
+  // Treat `KEY=` (empty, as in .env.example) as unset, so optional variables
+  // stay optional and required ones report "is required".
+  const raw = Object.fromEntries(
+    Object.entries(process.env).filter(([, value]) => value !== undefined && value.trim() !== ""),
+  );
+  const result = envSchema.safeParse(raw);
   if (!result.success) {
     const problems = result.error.issues
       .map((issue) => `  - ${issue.path.join(".") || "(root)"}: ${issue.message}`)

@@ -20,7 +20,7 @@ export const partnerRepository: ContentRepository<PartnerRecord, PartnerCreateIn
       ...(params.status ? { status: params.status } : {}),
     };
     const prisma = getPrisma();
-    const [items, total] = await prisma.$transaction([
+    const [items, total] = await Promise.all([
       prisma.partner.findMany({
         where,
         orderBy: [{ sortOrder: "asc" }, { name: "asc" }],

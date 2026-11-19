@@ -1,5 +1,11 @@
 import { createHash } from "node:crypto";
 
+import {
+  UPLOAD_FOLDERS,
+  UPLOAD_RESOURCE_TYPES,
+  type UploadFolder,
+  type UploadResourceType,
+} from "@/lib/domain";
 import { getEnv } from "@/lib/env";
 
 /*
@@ -10,11 +16,7 @@ import { getEnv } from "@/lib/env";
 
 export const UPLOAD_ROOT_FOLDER = "glovesly";
 
-export const UPLOAD_FOLDERS = ["services", "projects", "news", "team", "partners", "misc"] as const;
-export type UploadFolder = (typeof UPLOAD_FOLDERS)[number];
-
-export const UPLOAD_RESOURCE_TYPES = ["image", "video", "raw"] as const;
-export type UploadResourceType = (typeof UPLOAD_RESOURCE_TYPES)[number];
+export { UPLOAD_FOLDERS, UPLOAD_RESOURCE_TYPES, type UploadFolder, type UploadResourceType };
 
 export type UploadSignature = {
   uploadUrl: string;

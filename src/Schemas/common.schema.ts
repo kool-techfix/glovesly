@@ -1,43 +1,59 @@
 import { z } from "zod";
 
 import { isCloudinaryUrl } from "@/lib/cloudinary";
+import {
+  CONTENT_STATUSES,
+  MESSAGE_STATUSES,
+  PARTNER_TYPES,
+  PASSWORD_TOKEN_PURPOSES,
+  PROJECT_SECTORS,
+  PROJECT_STATUSES,
+  USER_ROLES,
+  USER_STATUSES,
+  type ContentStatus,
+  type MessageStatus,
+  type PartnerType,
+  type PasswordTokenPurpose,
+  type ProjectSector,
+  type ProjectStatus,
+  type UserRole,
+  type UserStatus,
+} from "@/lib/domain";
 import { SLUG_MAX_LENGTH, SLUG_PATTERN } from "@/lib/slug";
 
 /*
  * Domain enums mirroring the Prisma enums (checked at compile time in
  * src/Repositories/repository-utils.ts), so Services never import Prisma.
+ * The plain lists live in src/lib/domain.ts so client code can use them.
  */
 
-export const CONTENT_STATUSES = ["DRAFT", "REVIEW", "PUBLISHED", "ARCHIVED"] as const;
-export type ContentStatus = (typeof CONTENT_STATUSES)[number];
+export {
+  CONTENT_STATUSES,
+  MESSAGE_STATUSES,
+  PARTNER_TYPES,
+  PASSWORD_TOKEN_PURPOSES,
+  PROJECT_SECTORS,
+  PROJECT_STATUSES,
+  USER_ROLES,
+  USER_STATUSES,
+};
+export type {
+  ContentStatus,
+  MessageStatus,
+  PartnerType,
+  PasswordTokenPurpose,
+  ProjectSector,
+  ProjectStatus,
+  UserRole,
+  UserStatus,
+};
+
 export const contentStatusSchema = z.enum(CONTENT_STATUSES);
-
-export const USER_ROLES = ["ADMIN", "EDITOR"] as const;
-export type UserRole = (typeof USER_ROLES)[number];
 export const userRoleSchema = z.enum(USER_ROLES);
-
-export const USER_STATUSES = ["ACTIVE", "DISABLED"] as const;
-export type UserStatus = (typeof USER_STATUSES)[number];
 export const userStatusSchema = z.enum(USER_STATUSES);
-
-export const PASSWORD_TOKEN_PURPOSES = ["RESET", "INVITE"] as const;
-export type PasswordTokenPurpose = (typeof PASSWORD_TOKEN_PURPOSES)[number];
-
-export const PROJECT_SECTORS = ["AVIATION", "CONSTRUCTION", "SECURITY", "ENERGY"] as const;
-export type ProjectSector = (typeof PROJECT_SECTORS)[number];
 export const projectSectorSchema = z.enum(PROJECT_SECTORS);
-
-export const PROJECT_STATUSES = ["ONGOING", "COMPLETED"] as const;
-export type ProjectStatus = (typeof PROJECT_STATUSES)[number];
 export const projectStatusSchema = z.enum(PROJECT_STATUSES);
-
-// PROVISIONAL: awaiting the owner's final partner groups.
-export const PARTNER_TYPES = ["GOVERNMENT", "PRIVATE_CLIENT", "TECHNOLOGY_PARTNER"] as const;
-export type PartnerType = (typeof PARTNER_TYPES)[number];
 export const partnerTypeSchema = z.enum(PARTNER_TYPES);
-
-export const MESSAGE_STATUSES = ["NEW", "READ", "ARCHIVED"] as const;
-export type MessageStatus = (typeof MESSAGE_STATUSES)[number];
 export const messageStatusSchema = z.enum(MESSAGE_STATUSES);
 
 // ---------------------------------------------------------------------------

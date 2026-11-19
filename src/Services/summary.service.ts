@@ -1,4 +1,5 @@
 import type { ContentModule } from "@/lib/cache";
+import { countProjectsWithoutValidState } from "@/Repositories/project.repository";
 import type { StatusCounts } from "@/Repositories/repository-utils";
 import { contactService } from "@/Services/contact.service";
 import { newsService } from "@/Services/news.service";
@@ -14,6 +15,8 @@ export type AdminSummaryDto = {
   reviewQueue: number;
   /** Contact messages still NEW. */
   unreadMessages: number;
+  /** Projects with an empty or unknown state (flagged in the admin). */
+  projectsWithoutState: number;
 };
 
 const services = {
@@ -28,15 +31,16 @@ const services = {
 export const summaryService = {
   async get(): Promise<AdminSummaryDto> {
     const keys = Object.keys(services) as ContentModule[];
-    const [counts, unreadMessages] = await Promise.all([
+    const [counts, unreadMessages, projectsWithoutState] = await Promise.all([
       Promise.all(keys.map((key) => services[key].countByStatus())),
       contactService.countUnread(),
+      countProjectsWithoutValidState(),
     ]);
     const modules = Object.fromEntries(keys.map((key, i) => [key, counts[i]])) as Record<
       ContentModule,
       StatusCounts
     >;
     const reviewQueue = counts.reduce((sum, c) => sum + c.REVIEW, 0);
-    return { modules, reviewQueue, unreadMessages };
+    return { modules, reviewQueue, unreadMessages, projectsWithoutState };
   },
 };

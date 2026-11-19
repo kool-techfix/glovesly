@@ -28,7 +28,7 @@ export const userRepository = {
       ...(params.role ? { role: params.role } : {}),
       ...(params.status ? { status: params.status } : {}),
     };
-    const [items, total] = await getPrisma().$transaction([
+    const [items, total] = await Promise.all([
       getPrisma().user.findMany({
         where,
         orderBy: [{ name: "asc" }, { createdAt: "asc" }],

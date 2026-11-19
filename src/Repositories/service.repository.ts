@@ -20,7 +20,7 @@ export const serviceRepository: ContentRepository<ServiceRecord, ServiceCreateIn
       ...(params.status ? { status: params.status } : {}),
     };
     const prisma = getPrisma();
-    const [items, total] = await prisma.$transaction([
+    const [items, total] = await Promise.all([
       prisma.service.findMany({
         where,
         orderBy: [{ sortOrder: "asc" }, { title: "asc" }],

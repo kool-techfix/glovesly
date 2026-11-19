@@ -30,7 +30,7 @@ export const contactMessageRepository = {
       ...(params.status ? { status: params.status } : {}),
     };
     const prisma = getPrisma();
-    const [items, total] = await prisma.$transaction([
+    const [items, total] = await Promise.all([
       prisma.contactMessage.findMany({
         where,
         orderBy: { createdAt: "desc" },

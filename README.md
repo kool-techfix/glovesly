@@ -64,4 +64,16 @@ Media URLs must be on `res.cloudinary.com/<CLOUDINARY_CLOUD_NAME>/`.
 | `GET /api/admin/settings` · `PATCH /api/admin/settings` | GET: EDITOR+ · PATCH: ADMIN |
 | `POST /api/admin/media/sign-upload` · `GET /api/admin/summary` | EDITOR+ |
 
-**Not built yet:** profile endpoints (`/api/admin/profile`), public pages and the admin UI.
+**Admin workspace** (`/admin`, ARCHITECTURE.md §6)
+
+| Area | Files |
+|---|---|
+| Pages | `src/app/admin/(auth)/{login,forgot-password,reset-password}`, `src/app/admin/(workspace)/` (server gate in `layout.tsx`; dashboard, services, projects, news, team, partners, messages, users, settings) |
+| Components | `src/components/admin/`: `admin-layout` (sidebar + header), `module-configs` (one `ModuleConfig` per module), `module-manager` (generic list/search/filter/CRUD/status screen), `fields-form` (schema-driven form, Cloudinary uploads), `admin-parts`, auth forms, dashboard, messages inbox, users, settings |
+| Client helpers | `src/lib/admin/`: `api-client`, `admin-store` (`AdminProvider`/`useAdmin`), `use-admin-list`, `field-values`, `cloudinary-upload`, `format` |
+| Styles | `src/app/admin/admin.css`, loaded only under `/admin`, scoped to `.admin-shell` / `.adm-*` with `--admin-*` variables |
+| Shared constants | `src/lib/domain.ts`: enum lists and status transitions that client code can import (re-exported by `common.schema.ts`) |
+
+Projects whose state is empty or unknown are flagged on the dashboard, in the sidebar and on their row (`summary.projectsWithoutState`). Editors see Settings read-only; Users is ADMIN only.
+
+**Not built yet:** profile endpoints and screen (`/api/admin/profile`), public pages.

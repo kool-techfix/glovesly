@@ -53,6 +53,11 @@ export interface ContentRepository<TRecord extends ContentRecord, TCreate, TUpda
   countByStatus(): Promise<StatusCounts>;
 }
 
+/*
+ * Paged lists run findMany and count with Promise.all, not $transaction: a
+ * read needs no transaction, and an array transaction must wait for a
+ * dedicated connection (2s limit), which can fail (P2028) on a cold pool.
+ */
 export function pageArgs(page: number, pageSize: number) {
   return { skip: (page - 1) * pageSize, take: pageSize };
 }

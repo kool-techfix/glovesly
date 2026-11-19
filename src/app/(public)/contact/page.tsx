@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/public/contact-form";
 import { PageHero } from "@/components/site";
 import { contactForm, pageIntros } from "@/data/content";
+import { directionsUrl } from "@/lib/display";
 import { settingsService } from "@/Services/settings.service";
 
 export const revalidate = 3600;
@@ -51,7 +52,7 @@ export default async function ContactPage() {
                     <span className="whitespace-pre-line">{settings.address}</span>
                     <br />
                     <a
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.address.replace(/\s+/g, " "))}`}
+                      href={directionsUrl(settings.address)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="link-arrow focus-ring mt-2"

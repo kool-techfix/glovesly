@@ -1,8 +1,8 @@
-import { Mail, MapPin, Phone } from "lucide-react";
 import Link from "next/link";
 
 import { Logo } from "@/components/public/logo";
 import { companySummary, footerNav, siteName } from "@/data/content";
+import { directionsUrl } from "@/lib/display";
 import type { WorkspaceSettingsDto } from "@/Services/settings.service";
 
 export function SiteFooter({ settings }: { settings: WorkspaceSettingsDto }) {
@@ -30,30 +30,45 @@ export function SiteFooter({ settings }: { settings: WorkspaceSettingsDto }) {
 
         <div>
           <h2 className="site-footer-heading">Contact</h2>
-          <ul className="site-footer-contact">
-            {settings.contactEmail ? (
-              <li>
-                <Mail aria-hidden="true" size={16} />
-                <a href={`mailto:${settings.contactEmail}`} className="site-footer-link focus-ring" data-testid="link-footer-email">
-                  {settings.contactEmail}
-                </a>
-              </li>
-            ) : null}
+          <dl className="site-footer-contact">
             {settings.phone ? (
-              <li>
-                <Phone aria-hidden="true" size={16} />
-                <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="site-footer-link focus-ring" data-testid="link-footer-phone">
-                  {settings.phone}
-                </a>
-              </li>
+              <div>
+                <dt className="site-footer-label">Phone</dt>
+                <dd>
+                  <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="site-footer-link focus-ring" data-testid="link-footer-phone">
+                    {settings.phone}
+                  </a>
+                </dd>
+              </div>
+            ) : null}
+            {settings.contactEmail ? (
+              <div>
+                <dt className="site-footer-label">Email</dt>
+                <dd>
+                  <a href={`mailto:${settings.contactEmail}`} className="site-footer-link focus-ring" data-testid="link-footer-email">
+                    {settings.contactEmail}
+                  </a>
+                </dd>
+              </div>
             ) : null}
             {settings.address ? (
-              <li>
-                <MapPin aria-hidden="true" size={16} />
-                <span className="whitespace-pre-line">{settings.address}</span>
-              </li>
+              <div>
+                <dt className="site-footer-label">Directions</dt>
+                <dd>
+                  <a
+                    href={directionsUrl(settings.address)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="site-footer-link site-footer-address focus-ring"
+                    data-testid="link-footer-directions"
+                  >
+                    <span className="whitespace-pre-line">{settings.address}</span>
+                    <span className="sr-only"> (opens Google Maps in a new tab)</span>
+                  </a>
+                </dd>
+              </div>
             ) : null}
-          </ul>
+          </dl>
         </div>
       </div>
       <div className="container-wide site-footer-bottom">

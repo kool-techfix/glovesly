@@ -17,6 +17,11 @@ export const sectorLabel = (sector: ProjectSector) => PROJECT_SECTOR_LABELS[sect
 export const projectStatusLabel = (status: ProjectStatus) => PROJECT_STATUS_LABELS[status];
 export const partnerTypeLabel = (type: PartnerType) => PARTNER_TYPE_LABELS[type];
 
+/** Google Maps search link for a postal address (line breaks collapsed). No API key needed. */
+export function directionsUrl(address: string): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address.replace(/\s+/g, " ").trim())}`;
+}
+
 /** Splits editor text (plain textarea) into paragraphs on blank lines. */
 export function toParagraphs(text: string | null | undefined): string[] {
   return (text ?? "")

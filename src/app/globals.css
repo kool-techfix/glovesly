@@ -1176,9 +1176,97 @@ a.partner-tile:hover {
 }
 .statement-card {
   padding: 2.25rem;
+  border: 1px solid hsl(var(--border));
   border-radius: calc(var(--radius) + 8px);
   background: hsl(var(--card));
   box-shadow: var(--shadow-sm);
+}
+
+/* Message from the CEO -------------------------------------------- */
+.ceo-section {
+  scroll-margin-top: 80px;
+}
+.ceo-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: 3rem;
+}
+.ceo-photo {
+  position: relative;
+  margin-top: 2.5rem;
+  aspect-ratio: 4 / 5;
+  max-width: 22rem;
+  overflow: hidden;
+  background: hsl(var(--border));
+}
+.ceo-photo img {
+  object-fit: cover;
+}
+.ceo-figure {
+  position: relative;
+  padding-top: 2rem;
+  border-top: 2px solid hsl(var(--primary));
+}
+.ceo-mark {
+  display: block;
+  height: 2.5rem;
+  font-family: var(--font-display);
+  font-size: 5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: hsl(var(--primary));
+}
+.ceo-quote {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 62ch;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: hsl(var(--foreground) / 0.9);
+}
+.ceo-cite {
+  display: grid;
+  gap: 0.15rem;
+  margin-top: 2rem;
+}
+.ceo-name {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+}
+.ceo-role {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+@media (max-width: 860px) {
+  .ceo-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+}
+
+/* Home teaser: compact, separated from the sectors section by a hairline. */
+.ceo-teaser {
+  padding-block: 4.5rem;
+  border-top: 1px solid hsl(var(--border));
+}
+.ceo-teaser-inner {
+  display: grid;
+  justify-items: start;
+  gap: 1.5rem;
+}
+.ceo-teaser-quote {
+  max-width: 30ch;
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  line-height: 1.2;
+  color: hsl(var(--foreground));
+}
+.ceo-teaser-figure .ceo-cite {
+  margin-top: 1.25rem;
 }
 
 /* Filters --------------------------------------------------------- */

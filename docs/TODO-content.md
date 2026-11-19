@@ -41,6 +41,7 @@ Everything in this file except `companySummary` (taken from the brief) is a plac
   - one or two sentences for each of the four sectors
   - services introduction
   - projects introduction
+- [ ] **Message from the CEO** (`ceoMessage`): the text, name and title are from the owner. Still needed: a portrait of the CEO (at least 1200px, uploaded to Cloudinary) with alt text. The home page teaser can be removed by setting `showCeoTeaserOnHome` to `false`.
 - [ ] **About:**
   - page headline
   - company story (two paragraphs: history, founding, milestones)

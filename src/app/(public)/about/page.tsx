@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { PartnerTile } from "@/components/public/cards";
+import { CeoMessageSection } from "@/components/public/ceo-message";
 import { CtaBand, ListSection } from "@/components/public/sections";
 import { ButtonLink, PageHero, SectionHeading } from "@/components/site";
 import { about } from "@/data/content";
@@ -31,7 +32,9 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <section className="section-pad section-band" aria-label="Mission and vision">
+      <CeoMessageSection />
+
+      <section className="section-pad" aria-label="Mission and vision">
         <div className="container-wide grid gap-6 md:grid-cols-2">
           {about.missionVision.map((item) => (
             <div key={item.title} className="statement-card">
@@ -42,7 +45,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <section className="section-pad">
+      <section className="section-pad section-band">
         <div className="container-wide">
           <SectionHeading eyebrow={about.values.eyebrow} title={about.values.title} />
           <ul className="sector-grid mt-12">
@@ -56,7 +59,7 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      <section className="section-pad section-band">
+      <section className="section-pad">
         <div className="container-wide flex flex-wrap items-end justify-between gap-6">
           <SectionHeading eyebrow={about.team.eyebrow} title={about.team.title} description={about.team.description} />
           <ButtonLink href="/our-team" testId="link-about-team">
@@ -66,7 +69,7 @@ export default async function AboutPage() {
       </section>
 
       {partners.length ? (
-        <ListSection eyebrow={about.partners.eyebrow} title={about.partners.title}>
+        <ListSection band eyebrow={about.partners.eyebrow} title={about.partners.title}>
           <ul className="partner-grid">
             {partners.map((partner) => (
               <li key={partner.id}>

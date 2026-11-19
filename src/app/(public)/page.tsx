@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 
 import { HeroCarousel } from "@/components/hero-carousel";
+import { CeoTeaser } from "@/components/public/ceo-message";
 import { NewsCard, ProjectCard, ServiceCard } from "@/components/public/cards";
 import { NigeriaMapSection } from "@/components/public/nigeria-map-section";
 import { PartnersSection } from "@/components/public/partners-section";
 import { CtaBand, EmptyNote, ListSection } from "@/components/public/sections";
 import { ButtonLink, SectionHeading } from "@/components/site";
-import { companySummary, heroSlides, home, sectors, type HeroSlide } from "@/data/content";
+import { companySummary, heroSlides, home, sectors, showCeoTeaserOnHome, type HeroSlide } from "@/data/content";
 import { newsService } from "@/Services/news.service";
 import { partnerService } from "@/Services/partner.service";
 import { projectService } from "@/Services/project.service";
@@ -66,6 +67,8 @@ export default async function HomePage() {
           </ul>
         </div>
       </section>
+
+      {showCeoTeaserOnHome ? <CeoTeaser /> : null}
 
       <ListSection
         band

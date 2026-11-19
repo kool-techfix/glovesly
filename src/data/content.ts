@@ -199,6 +199,30 @@ export const about = {
   },
 };
 
+/* ------------------------------------------------------------------
+   Message from the CEO (About page, optional home teaser)
+   ------------------------------------------------------------------ */
+
+/** Supplied by the owner. Keep the wording verbatim; it is a quotation. */
+export const ceoMessage = {
+  id: "ceo-message",
+  eyebrow: "Leadership",
+  title: "Message from the CEO",
+  paragraphs: [
+    "Drawing on my years with Glovesly, my goal has been to build upon the remarkable progress we’ve made in diversifying our capabilities and offerings. This journey aims to expand opportunities and deliver greater value to our clients, shareholders, and employees.",
+    "Since assuming this role, I’ve cherished the opportunity to connect with many of our clients and visit projects and offices worldwide. Witnessing our team’s dedication and the tangible impact of our solutions continues to inspire me. Together, we are making a positive difference today while shaping a better future for the world.",
+  ],
+  name: "Yasir Tijjani Abdullahi",
+  role: "CEO",
+  /** TODO(content): portrait of the CEO (Cloudinary URL, at least 1200px). Null hides the photo column. */
+  photo: null as { src: string; alt: string } | null,
+  /** Short excerpt for the home teaser, taken verbatim from the message. */
+  excerpt: "Together, we are making a positive difference today while shaping a better future for the world.",
+};
+
+/** Home page teaser linking to the full message. Set to false to remove it. */
+export const showCeoTeaserOnHome = true;
+
 export const pageIntros = {
   services: {
     eyebrow: "Services",

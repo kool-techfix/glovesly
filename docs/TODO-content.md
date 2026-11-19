@@ -9,11 +9,10 @@ Everything below is a placeholder. None of it is a company fact. Replace each it
 - [ ] **News:** "Sample News Post One" to "Sample News Post Four". Real posts or the WordPress posts (old `/wp/lavarai`) are needed.
 - [ ] **Team:** "Sample Person One" to "Sample Person Four" with the role "Sample role". Real names, roles, bios and photos are needed.
 - [ ] **Partners:** "Sample Partner One" to "Sample Partner Five". Real client and partner names, logos and website links are needed, and permission to show each logo.
+- [x] **Contact details** (supplied by the owner): `info@gloveslyproject.com`, +234 704 780 0065, 37 Yakubu Gowon Crescent, Abuja, Federal Capital Territory, Nigeria.
 - [ ] **Workspace settings:**
-  - contact email `contact@example.com`
-  - phone `+234 000 000 0000`
-  - address "Sample address"
-  - office "Sample Head Office" (FCT)
+  - office "Abuja office" (FCT): confirm whether it is the head office, the office name to show, and its coordinates (the map uses the FCT centre until then)
+  - any other offices
   - three "Sample stat" figures shown as "00"
 
 ## Decisions pending

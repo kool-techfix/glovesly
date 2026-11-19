@@ -1,4 +1,4 @@
-import { Building2, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Building2, Mail, MapPin, Phone } from "lucide-react";
 import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/public/contact-form";
@@ -47,7 +47,21 @@ export default async function ContactPage() {
               {settings.address ? (
                 <li>
                   <MapPin aria-hidden="true" size={18} />
-                  <span className="whitespace-pre-line">{settings.address}</span>
+                  <span>
+                    <span className="whitespace-pre-line">{settings.address}</span>
+                    <br />
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(settings.address.replace(/\s+/g, " "))}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="link-arrow focus-ring mt-2"
+                      data-testid="link-contact-directions"
+                    >
+                      Get directions
+                      <ArrowUpRight aria-hidden="true" size={16} />
+                      <span className="sr-only"> (opens Google Maps in a new tab)</span>
+                    </a>
+                  </span>
                 </li>
               ) : null}
             </ul>

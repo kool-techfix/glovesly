@@ -244,13 +244,13 @@ async function seedWorkspace() {
     update: {},
     create: {
       id: "workspace",
-      // example.com is reserved for documentation; alerts go nowhere real.
-      contactEmail: "contact@example.com",
-      phone: "+234 000 000 0000",
-      address: "Sample address. Replace with the real office address.",
-      officeLocations: [
-        { name: "Sample Head Office", state: "Federal Capital Territory", latitude: null, longitude: null, isHeadOffice: true },
-      ],
+      // Real contact details supplied by the owner. Contact-form alerts go to this
+      // address whenever SMTP is configured, including in development.
+      contactEmail: "info@gloveslyproject.com",
+      phone: "+234 704 780 0065",
+      address: "37 Yakubu Gowon Crescent,\nAbuja, Federal Capital Territory, Nigeria",
+      // Not yet confirmed as the head office; no coordinates supplied (the map uses the FCT centroid).
+      officeLocations: [{ name: "Abuja office", state: "Federal Capital Territory", latitude: null, longitude: null, isHeadOffice: false }],
       stats: [
         { label: "Sample stat one", value: "00" },
         { label: "Sample stat two", value: "00" },
@@ -258,7 +258,7 @@ async function seedWorkspace() {
       ],
     },
   });
-  console.info("  workspace settings: placeholders");
+  console.info("  workspace settings: contact details, placeholder stats");
 }
 
 // ---------------------------------------------------------------------------

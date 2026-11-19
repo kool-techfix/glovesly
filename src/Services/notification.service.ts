@@ -1,5 +1,10 @@
 import { queueEmail } from "@/lib/email/mailer";
-import { appUrl, inviteEmail, passwordResetEmail } from "@/lib/email/templates";
+import {
+  appUrl,
+  contactMessageAlertEmail,
+  inviteEmail,
+  passwordResetEmail,
+} from "@/lib/email/templates";
 import { PASSWORD_TOKEN_TTL_TEXT, passwordLinkPath } from "@/lib/auth/tokens";
 
 /*
@@ -25,5 +30,25 @@ export const notificationService = {
       expiresInText: PASSWORD_TOKEN_TTL_TEXT.RESET,
     });
     queueEmail({ to: user.email, tag: "password-reset", ...email });
+  },
+
+  /** Staff alert for a new contact message; replying answers the sender. */
+  sendContactAlert(
+    to: string,
+    message: {
+      id: string;
+      name: string;
+      email: string;
+      phone: string | null;
+      company: string | null;
+      subject: string | null;
+      message: string;
+    },
+  ) {
+    const email = contactMessageAlertEmail({
+      ...message,
+      inboxLink: appUrl(`/admin/messages?id=${encodeURIComponent(message.id)}`),
+    });
+    queueEmail({ to, replyTo: message.email, tag: "contact-alert", ...email });
   },
 };

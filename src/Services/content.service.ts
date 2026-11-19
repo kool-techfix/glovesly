@@ -2,6 +2,7 @@ import { ApiError } from "@/lib/api/api-error";
 import { pageMeta, type PageMeta } from "@/lib/api/response";
 import type { Actor } from "@/lib/auth/auth-guard";
 import { cachedContent, revalidateContent, type ContentModule } from "@/lib/cache";
+import { isCloudinaryUrl } from "@/lib/cloudinary";
 import { uniqueSlug } from "@/lib/slug";
 import type {
   ContentRecord,
@@ -27,6 +28,18 @@ export const STATUS_TRANSITIONS: Record<ContentStatus, readonly ContentStatus[]>
 
 export function canTransition(from: ContentStatus, to: ContentStatus) {
   return STATUS_TRANSITIONS[from].includes(to);
+}
+
+/** Publish-rule helper: the asset must be set and hosted on this site's Cloudinary account. */
+export function mediaProblem(url: string | null, label: string): string | null {
+  if (!url) return `${label} is required before publishing.`;
+  if (!isCloudinaryUrl(url)) return `${label} must be uploaded to this site's Cloudinary account.`;
+  return null;
+}
+
+/** Drops the passing checks from a list of publish-rule results. */
+export function problems(...checks: Array<string | null | false>): string[] {
+  return checks.filter((check): check is string => typeof check === "string");
 }
 
 /** DTO fields shared by every content module (dates as ISO strings). */

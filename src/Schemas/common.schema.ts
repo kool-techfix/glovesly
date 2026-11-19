@@ -143,3 +143,22 @@ export const listQuerySchema = z.object({
   pageSize: z.coerce.number().int().min(1).max(100).default(20),
 });
 export type ListQuery = z.infer<typeof listQuerySchema>;
+
+// ---------------------------------------------------------------------------
+// Coordinates (projects, office locations). Bounds are a loose box around
+// Nigeria to catch swapped or mistyped values, not an exact border check.
+// ---------------------------------------------------------------------------
+
+export const latitudeSchema = z.coerce
+  .number({ invalid_type_error: "Latitude must be a number" })
+  .min(4, "Latitude must be inside Nigeria (4 to 14)")
+  .max(14, "Latitude must be inside Nigeria (4 to 14)")
+  .nullish()
+  .transform((value) => value ?? null);
+
+export const longitudeSchema = z.coerce
+  .number({ invalid_type_error: "Longitude must be a number" })
+  .min(2.5, "Longitude must be inside Nigeria (2.5 to 15)")
+  .max(15, "Longitude must be inside Nigeria (2.5 to 15)")
+  .nullish()
+  .transform((value) => value ?? null);

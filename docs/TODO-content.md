@@ -32,8 +32,12 @@ Everything in this file except `companySummary` (taken from the brief) is a plac
   - **An SVG**, or a transparent PNG of at least 1000px, with a light version for dark backgrounds.
   - **A simplified icon** without the RC number for the favicon. "RC:1310011" is unreadable at favicon sizes.
   - **The filename:** it is spelled "glovely". Rename it with the next file.
+- [ ] **Home hero slideshow (`heroSlides`):**
+  - **Photos:** one per slide, five in all (vision, aviation infrastructure, construction, security solutions, energy solutions). Landscape, at least 1920px wide, uploaded to Cloudinary. Until then each slide shows a solid accent background. Replace the placeholder alt text with a description of each photo.
+  - **Slide 1:** the title "Your vision, our expertise" and the strapline about "providing solutions around the globe" come from the current site. Confirm the full sentence against the WordPress export.
+  - **Slides 2 to 5:** one sentence from the owner for each business line. The seeded services only have placeholder descriptions, so there was nothing real to summarise.
+  - **Service links:** each business-line slide links to `/services/aviation-infrastructure`, `/services/construction`, `/services/security-solutions` and `/services/energy-solutions` once a published service with that slug exists. Until then it falls back to `/services`. Use these slugs when creating the services, or change the hrefs in `heroSlides`.
 - [ ] **Home:**
-  - hero headline
   - sectors introduction
   - one or two sentences for each of the four sectors
   - services introduction

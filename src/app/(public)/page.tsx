@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 
+import { HeroCarousel } from "@/components/hero-carousel";
 import { NewsCard, ProjectCard, ServiceCard } from "@/components/public/cards";
 import { NigeriaMapSection } from "@/components/public/nigeria-map-section";
 import { PartnersSection } from "@/components/public/partners-section";
 import { CtaBand, EmptyNote, ListSection } from "@/components/public/sections";
-import { ButtonLink, Eyebrow, SectionHeading } from "@/components/site";
-import { companySummary, home, sectors } from "@/data/content";
+import { ButtonLink, SectionHeading } from "@/components/site";
+import { companySummary, heroSlides, home, sectors, type HeroSlide } from "@/data/content";
 import { newsService } from "@/Services/news.service";
 import { partnerService } from "@/Services/partner.service";
 import { projectService } from "@/Services/project.service";
-import { serviceService } from "@/Services/service.service";
+import { serviceService, type ServiceDto } from "@/Services/service.service";
 import { settingsService } from "@/Services/settings.service";
 
 export const revalidate = 3600;
@@ -18,6 +19,20 @@ export const metadata: Metadata = {
   title: { absolute: "Glovesly Pro-Project" },
   description: companySummary,
 };
+
+/**
+ * Point each slide's `/services/<slug>` CTA at the service page only when that
+ * service is published; otherwise fall back to the services list, so the hero
+ * never links to a 404 while the real services are still being written.
+ */
+function resolveHeroSlides(slides: HeroSlide[], services: ServiceDto[]): HeroSlide[] {
+  const published = new Set(services.map((service) => `/services/${service.slug}`));
+  return slides.map((slide) =>
+    slide.primaryCta.href.startsWith("/services/") && !published.has(slide.primaryCta.href)
+      ? { ...slide, primaryCta: { ...slide.primaryCta, href: "/services" } }
+      : slide,
+  );
+}
 
 export default async function HomePage() {
   const [services, projects, projectsByState, partners, news, settings] = await Promise.all([
@@ -31,21 +46,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <section className="home-hero">
-        <div className="container-wide relative z-10">
-          <Eyebrow className="reveal">{home.hero.eyebrow}</Eyebrow>
-          <h1 className="display home-hero-title reveal reveal-delay-1">{home.hero.title}</h1>
-          <p className="lede home-hero-text reveal reveal-delay-2">{home.hero.description}</p>
-          <div className="reveal reveal-delay-3 mt-10 flex flex-wrap gap-3">
-            <ButtonLink href={home.hero.primaryCta.href} testId="link-home-hero-services">
-              {home.hero.primaryCta.label}
-            </ButtonLink>
-            <ButtonLink href={home.hero.secondaryCta.href} variant="secondary" testId="link-home-hero-contact">
-              {home.hero.secondaryCta.label}
-            </ButtonLink>
-          </div>
-        </div>
-      </section>
+      <HeroCarousel slides={resolveHeroSlides(heroSlides, services)} label="Glovesly Pro-Project highlights" />
 
       <section className="section-pad" aria-labelledby="home-sectors">
         <div className="container-wide">

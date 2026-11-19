@@ -53,14 +53,83 @@ export const sectors: Array<{ key: ProjectSector; title: string; description: st
   },
 ];
 
-export const home = {
-  hero: {
+/* ------------------------------------------------------------------
+   Home hero slideshow (HeroCarousel)
+   ------------------------------------------------------------------ */
+
+export type HeroSlide = {
+  id: string;
+  eyebrow: string;
+  title: string;
+  text: string;
+  /** `src: null` = no photo yet. The slide shows a solid accent background until one is supplied. */
+  image: { src: string | null; alt: string };
+  primaryCta: { label: string; href: string };
+  secondaryCta: { label: string; href: string };
+};
+
+/**
+ * Slide 1 uses the current site's headline and strapline (confirm the full
+ * sentence against the WordPress export). Slides 2 to 4 are one per business
+ * line; their summaries are PLACEHOLDERS because the seeded services only have
+ * placeholder descriptions.
+ *
+ * A primary CTA pointing at `/services/<slug>` falls back to `/services` on the
+ * home page until a published service with that slug exists
+ * (see `resolveHeroSlides` in src/app/(public)/page.tsx).
+ *
+ * TODO(content): one landscape photo per slide, at least 1920px wide, uploaded
+ * to Cloudinary (docs/TODO-content.md). Alt text is already written below.
+ */
+export const heroSlides: HeroSlide[] = [
+  {
+    id: "vision",
     eyebrow: siteName,
-    title: "Placeholder headline from the owner",
-    description: companySummary,
-    primaryCta: { href: "/services", label: "Explore our services" },
-    secondaryCta: { href: "/contact", label: ctaLabel },
+    title: "Your vision, our expertise",
+    text: "Providing solutions around the globe in aviation infrastructure, construction, security and energy.",
+    image: { src: null, alt: "Placeholder: describe the hero photo once it is supplied." },
+    primaryCta: { label: "Our services", href: "/services" },
+    secondaryCta: { label: "Contact us", href: "/contact" },
   },
+  {
+    id: "aviation",
+    eyebrow: "What we do",
+    title: "Aviation infrastructure",
+    text: "Placeholder: one sentence from the owner summarising the aviation infrastructure service.",
+    image: { src: null, alt: "Placeholder: describe the aviation infrastructure photo once it is supplied." },
+    primaryCta: { label: "About this service", href: "/services/aviation-infrastructure" },
+    secondaryCta: { label: "View projects", href: "/projects" },
+  },
+  {
+    id: "construction",
+    eyebrow: "What we do",
+    title: "Construction",
+    text: "Placeholder: one sentence from the owner summarising the construction service.",
+    image: { src: null, alt: "Placeholder: describe the construction photo once it is supplied." },
+    primaryCta: { label: "About this service", href: "/services/construction" },
+    secondaryCta: { label: "View projects", href: "/projects" },
+  },
+  {
+    id: "security",
+    eyebrow: "What we do",
+    title: "Security solutions",
+    text: "Placeholder: one sentence from the owner summarising the security solutions service.",
+    image: { src: null, alt: "Placeholder: describe the security solutions photo once it is supplied." },
+    primaryCta: { label: "About this service", href: "/services/security-solutions" },
+    secondaryCta: { label: "View projects", href: "/projects" },
+  },
+  {
+    id: "energy",
+    eyebrow: "What we do",
+    title: "Energy solutions",
+    text: "Placeholder: one sentence from the owner summarising the energy solutions service.",
+    image: { src: null, alt: "Placeholder: describe the energy solutions photo once it is supplied." },
+    primaryCta: { label: "About this service", href: "/services/energy-solutions" },
+    secondaryCta: { label: "View projects", href: "/projects" },
+  },
+];
+
+export const home = {
   sectors: {
     eyebrow: "Sectors",
     title: "Four sectors, one partner",

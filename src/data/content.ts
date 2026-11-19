@@ -1,4 +1,4 @@
-import type { ProjectSector } from "@/lib/domain";
+import type { PartnerType, ProjectSector } from "@/lib/domain";
 
 /*
  * Page copy that editors do not manage in the admin.
@@ -79,6 +79,12 @@ export const home = {
   partners: {
     eyebrow: "Clients and partners",
     title: "Who we work with",
+    description: "Placeholder: one sentence about the organisations the company works with.",
+  },
+  map: {
+    eyebrow: "Across Nigeria",
+    title: "Where we work",
+    description: "Placeholder: one sentence about the company's reach across Nigeria.",
   },
   news: {
     eyebrow: "News",
@@ -162,3 +168,23 @@ export const contactForm = {
   title: "Send us a message",
   success: "Thank you. Your message has been sent and the team will be in touch.",
 };
+
+/**
+ * One row per partner type in the Clients & Partners section. Types are
+ * PROVISIONAL (see PartnerType); titles and descriptions are placeholders.
+ */
+export const partnerGroups: Record<PartnerType, { title: string; description: string }> = {
+  GOVERNMENT: {
+    title: "Government",
+    description: "Placeholder: one line about the government bodies the company works with.",
+  },
+  PRIVATE_CLIENT: {
+    title: "Private clients",
+    description: "Placeholder: one line about the company's private-sector clients.",
+  },
+  TECHNOLOGY_PARTNER: {
+    title: "Technology partners",
+    description: "Placeholder: one line about the company's technology partners.",
+  },
+};
+

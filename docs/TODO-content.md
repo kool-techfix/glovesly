@@ -41,6 +41,8 @@ Everything in this file except `companySummary` (taken from the brief) is a plac
   - three values, each with a sentence
   - team introduction
 - [ ] **Page intros:** the headline and introduction for the Services, Projects, News, Our team and Contact pages.
+- [ ] **Clients and partners section:** a one-sentence introduction, plus a title and one-line description for each partner group (`partnerGroups`). The groups themselves (Government, Private clients, Technology partners) are provisional.
+- [ ] **Nigeria map section:** a one-sentence introduction. The stats beside the map and the office locations come from the admin Settings and are seeded placeholders.
 - [ ] **Call-to-action band:** a supporting sentence under "Have a project in mind?"
 - [ ] **Contact page:** an introduction, including how quickly the team replies.
 

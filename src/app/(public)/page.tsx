@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 
-import { NewsCard, PartnerTile, ProjectCard, ServiceCard } from "@/components/public/cards";
+import { NewsCard, ProjectCard, ServiceCard } from "@/components/public/cards";
+import { NigeriaMapSection } from "@/components/public/nigeria-map-section";
+import { PartnersSection } from "@/components/public/partners-section";
 import { CtaBand, EmptyNote, ListSection } from "@/components/public/sections";
 import { ButtonLink, Eyebrow, SectionHeading } from "@/components/site";
 import { companySummary, home, sectors } from "@/data/content";
@@ -8,6 +10,7 @@ import { newsService } from "@/Services/news.service";
 import { partnerService } from "@/Services/partner.service";
 import { projectService } from "@/Services/project.service";
 import { serviceService } from "@/Services/service.service";
+import { settingsService } from "@/Services/settings.service";
 
 export const revalidate = 3600;
 
@@ -17,11 +20,13 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [services, projects, partners, news] = await Promise.all([
+  const [services, projects, projectsByState, partners, news, settings] = await Promise.all([
     serviceService.listPublished(),
     projectService.listPublished(),
+    projectService.listPublishedByState(),
     partnerService.listPublished(),
     newsService.listPublished(),
+    settingsService.getPublic(),
   ]);
 
   return (
@@ -108,17 +113,9 @@ export default async function HomePage() {
         )}
       </ListSection>
 
-      {partners.length ? (
-        <ListSection band eyebrow={home.partners.eyebrow} title={home.partners.title}>
-          <ul className="partner-grid">
-            {partners.map((partner) => (
-              <li key={partner.id}>
-                <PartnerTile partner={partner} />
-              </li>
-            ))}
-          </ul>
-        </ListSection>
-      ) : null}
+      <NigeriaMapSection projectsByState={projectsByState} settings={settings} />
+
+      <PartnersSection partners={partners} />
 
       {news.length ? (
         <ListSection

@@ -72,6 +72,9 @@ importers:
       '@types/bcrypt':
         specifier: 6.0.0
         version: 6.0.0
+      '@types/d3-geo':
+        specifier: ^3.1.0
+        version: 3.1.0
       '@types/node':
         specifier: ^20
         version: 20.19.43
@@ -84,6 +87,9 @@ importers:
       babel-plugin-react-compiler:
         specifier: 1.0.0
         version: 1.0.0
+      d3-geo:
+        specifier: ^3.1.2
+        version: 3.1.2
       dotenv:
         specifier: ^18.0.6
         version: 18.0.10
@@ -1386,6 +1392,10 @@ packages:
 
   d3-geo@3.1.0:
     resolution: {integrity: sha512-JEo5HxXDdDYXCaWdwLRt79y7giK8SbhZJbFWXqbRTolCHFI5jRqteLzCsq51NKbUoX0PjBVSohxrx+NoOUujYA==}
+    engines: {node: '>=12'}
+
+  d3-geo@3.1.2:
+    resolution: {integrity: sha512-5R8ZgDQorIxmauv7R6gpE/ndz+Z0qAZssigq0aXFdvPHdY41RqtW02jrRUQAL724NdPABYXo1+gQEGBBr7uKNg==}
     engines: {node: '>=12'}
 
   d3-interpolate@3.0.1:
@@ -4103,6 +4113,10 @@ snapshots:
   d3-format@3.1.0: {}
 
   d3-geo@3.1.0:
+    dependencies:
+      d3-array: 3.2.4
+
+  d3-geo@3.1.2:
     dependencies:
       d3-array: 3.2.4
 

@@ -1,3 +1,4 @@
+import { cachedContent } from "@/lib/cache";
 import { isNigeriaState } from "@/lib/nigeria-states";
 import { projectRepository, type ProjectRecord } from "@/Repositories/project.repository";
 import type { ProjectSector, ProjectStatus } from "@/Schemas/common.schema";
@@ -48,7 +49,13 @@ export function toProjectDto(record: ProjectRecord): ProjectDto {
   };
 }
 
-export const projectService = createContentService({
+/** A published project as the Nigeria map needs it. */
+export type ProjectMapEntry = { slug: string; title: string; sector: ProjectSector };
+
+/** Published projects grouped by state (only states with at least one project). */
+export type ProjectsByState = Record<string, ProjectMapEntry[]>;
+
+const base = createContentService({
   module: "projects",
   entityType: "project",
   label: "Project",
@@ -66,3 +73,22 @@ export const projectService = createContentService({
         "Set both latitude and longitude, or leave both empty.",
     ),
 });
+
+export const projectService = {
+  ...base,
+
+  /**
+   * Published projects grouped by state, for the Nigeria map. Cached under the
+   * projects tag, so publishing, editing or unpublishing a project updates it.
+   */
+  listPublishedByState(): Promise<ProjectsByState> {
+    return cachedContent("projects", ["by-state"], async () => {
+      const grouped: ProjectsByState = {};
+      for (const project of await projectRepository.listPublished()) {
+        if (!isNigeriaState(project.state)) continue;
+        (grouped[project.state] ??= []).push({ slug: project.slug, title: project.title, sector: project.sector });
+      }
+      return grouped;
+    });
+  },
+};

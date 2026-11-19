@@ -88,4 +88,13 @@ Projects whose state is empty or unknown are flagged on the dashboard, in the si
 
 `pnpm build` prerenders public pages from the database, so it needs a reachable database and a complete, valid `.env`, including the Cloudinary variables.
 
-**Not built yet:** profile endpoints and screen (`/api/admin/profile`), the partners carousel and the Nigeria map sections.
+**Home page sections**
+
+- **Clients and partners** (`partners-section.tsx`, server): one row per partner type with a CSS-only marquee. It pauses on hover and focus and is static under reduced motion.
+- **Nigeria map** (`nigeria-map-section.tsx`): the SVG renders on the server, and the small client component `nigeria-map-interactive.tsx` adds the tooltip, the selection and the project panel.
+  - States with published projects come from `projectService.listPublishedByState()`, cached under the projects tag.
+  - Offices and stats come from workspace settings.
+  - The state outlines are `src/data/nigeria-map.json`, built once by `pnpm exec tsx scripts/build-nigeria-map.ts`. Source: GRID3 via geoBoundaries, CC BY 4.0, credited under the map.
+  - `d3-geo` is a dev dependency used only by that script.
+
+**Not built yet:** profile endpoints and screen (`/api/admin/profile`).

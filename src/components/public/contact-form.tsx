@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Loader2 } from "lucide-react";
 import { useState } from "react";
 
 import { cn } from "@/lib/utils";
@@ -144,8 +144,8 @@ export function ContactForm({ title, successMessage }: { title: string; successM
       ) : null}
 
       <button type="submit" className="button-primary focus-ring mt-6" disabled={busy} data-testid="button-contact-submit">
-        {busy ? <Loader2 aria-hidden="true" className="button-icon animate-spin" /> : null}
-        {busy ? "Sending…" : "Send message"}
+        <span>{busy ? "Sending…" : "Send message"}</span>
+        {busy ? <Loader2 aria-hidden="true" className="button-icon animate-spin" /> : <ArrowRight aria-hidden="true" className="button-icon" />}
       </button>
     </form>
   );

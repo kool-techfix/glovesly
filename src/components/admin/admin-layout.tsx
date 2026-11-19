@@ -20,6 +20,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { LogoImage } from "@/components/brand-logo";
 import { useAdmin } from "@/lib/admin/admin-store";
 import { api, errorMessage } from "@/lib/admin/api-client";
 import { initials } from "@/lib/admin/format";
@@ -100,9 +101,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
 
       <aside className={cn("adm-sidebar", menuOpen && "is-open")} id="adm-sidebar" aria-label="Admin navigation">
         <div className="adm-brand">
-          <span className="adm-brand-mark" aria-hidden>
-            G
-          </span>
+          <LogoImage size={40} tile alt="" />
           <span>
             <span className="adm-brand-name">Glovesly</span>
             <span className="adm-brand-sub">Admin workspace</span>

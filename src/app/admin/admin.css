@@ -31,8 +31,8 @@
   --admin-muted: #5f6a75;
   --admin-muted-tint: #edf0f3;
 
-  --admin-radius: 0.5rem;
-  --admin-radius-lg: 0.75rem;
+  --admin-radius: 0.35rem;
+  --admin-radius-lg: 0.5rem;
   --admin-shadow: 0 1px 2px rgb(21 32 43 / 0.06), 0 8px 24px rgb(21 32 43 / 0.06);
   --admin-shadow-lg: 0 24px 64px rgb(21 32 43 / 0.24);
   --admin-focus: 0 0 0 3px rgb(30 115 190 / 0.35);
@@ -69,7 +69,7 @@
   top: -4rem;
   z-index: 100;
   padding: 0.75rem 1rem;
-  border-radius: var(--admin-radius);
+  border-radius: 0;
   background: var(--admin-primary);
   color: #fff;
   font-weight: 600;
@@ -140,18 +140,6 @@
   gap: 0.75rem;
   padding: 0.25rem 0.5rem 1.25rem;
 }
-.adm-brand-mark {
-  display: grid;
-  place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: var(--admin-radius);
-  background: var(--admin-primary);
-  color: #fff;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.1rem;
-}
 .adm-brand-name {
   display: block;
   color: #fff;
@@ -189,7 +177,7 @@
   gap: 0.75rem;
   min-height: 2.75rem;
   padding: 0.5rem 0.75rem;
-  border-radius: var(--admin-radius);
+  border-radius: 0;
   color: var(--admin-sidebar-text);
   font-weight: 500;
   transition: background-color 0.15s ease, color 0.15s ease;
@@ -206,7 +194,7 @@
   margin-left: auto;
   min-width: 1.5rem;
   padding: 0.0625rem 0.4375rem;
-  border-radius: 999px;
+  border-radius: 0;
   background: rgb(255 255 255 / 0.14);
   color: #fff;
   font-size: 0.75rem;
@@ -256,7 +244,7 @@
   align-items: center;
   min-height: 2rem;
   padding: 0.25rem 0.75rem;
-  border-radius: 999px;
+  border-radius: 0;
   background: var(--admin-warning-tint);
   color: var(--admin-warning);
   font-size: 0.8125rem;
@@ -486,7 +474,7 @@ a.adm-stat:hover {
   min-height: var(--admin-touch);
   padding: 0.5rem 1.125rem;
   border: 1px solid transparent;
-  border-radius: var(--admin-radius);
+  border-radius: 0;
   font-size: 0.9rem;
   font-weight: 600;
   line-height: 1.2;
@@ -557,7 +545,7 @@ a.adm-stat:hover {
   width: 2.5rem;
   height: 2.5rem;
   border: 1px solid transparent;
-  border-radius: var(--admin-radius);
+  border-radius: 0;
   background: transparent;
   color: var(--admin-ink-soft);
   cursor: pointer;
@@ -594,7 +582,7 @@ a.adm-stat:hover {
   display: inline-flex;
   align-items: center;
   padding: 0.125rem 0.625rem;
-  border-radius: 999px;
+  border-radius: 2px;
   font-size: 0.75rem;
   font-weight: 700;
   white-space: nowrap;
@@ -631,7 +619,7 @@ a.adm-stat:hover {
   width: fit-content;
   margin-top: 0.375rem;
   padding: 0.125rem 0.5rem;
-  border-radius: var(--admin-radius);
+  border-radius: 2px;
   background: var(--admin-warning-tint);
   color: var(--admin-warning);
   font-size: 0.75rem;
@@ -728,7 +716,7 @@ a.adm-stat:hover {
   flex-wrap: wrap;
   gap: 0.25rem;
   padding: 0.25rem;
-  border-radius: var(--admin-radius-lg);
+  border-radius: 0;
   background: var(--admin-muted-tint);
 }
 .adm-segment {
@@ -738,7 +726,7 @@ a.adm-stat:hover {
   min-height: 2.5rem;
   padding: 0.375rem 0.75rem;
   border: 0;
-  border-radius: var(--admin-radius);
+  border-radius: 0;
   background: transparent;
   color: var(--admin-ink-soft);
   font-size: 0.85rem;
@@ -1320,10 +1308,6 @@ a.adm-stat:hover {
     radial-gradient(circle at 20% 110%, rgb(255 255 255 / 0.14), transparent 55%),
     linear-gradient(150deg, var(--admin-primary) 0%, #134a7a 100%);
   color: #fff;
-}
-.adm-brand--on-dark .adm-brand-mark {
-  background: #fff;
-  color: var(--admin-primary);
 }
 .adm-brand--on-dark .adm-brand-sub {
   color: rgb(255 255 255 / 0.75);

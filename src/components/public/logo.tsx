@@ -1,21 +1,30 @@
 import Link from "next/link";
 
+import { LogoImage } from "@/components/brand-logo";
 import { cn } from "@/lib/utils";
 
 /**
- * PLACEHOLDER LOGO: a text wordmark until the owner supplies the real logo
- * file. Swap the contents of this component only.
+ * Header/footer lockup: the logo image (its alt text names the company) plus
+ * the company name as visible text. The image has no wordmark of its own, so
+ * the text is shown beside it; it is aria-hidden to avoid a double announcement.
  */
-export function Logo({ onDark = false, className, testId }: { onDark?: boolean; className?: string; testId: string }) {
+export function Logo({
+  onDark = false,
+  priority = false,
+  className,
+  testId,
+}: {
+  onDark?: boolean;
+  priority?: boolean;
+  className?: string;
+  testId: string;
+}) {
   return (
     <Link href="/" className={cn("site-logo focus-ring", onDark && "site-logo-on-dark", className)} data-testid={testId}>
-      <span className="site-logo-mark" aria-hidden="true">
-        G
-      </span>
-      <span className="site-logo-text">
+      <LogoImage size={44} tile={onDark} priority={priority} />
+      <span className="site-logo-text" aria-hidden="true">
         Glovesly <span className="site-logo-sub">Pro-Project</span>
       </span>
-      <span className="sr-only">, home</span>
     </Link>
   );
 }

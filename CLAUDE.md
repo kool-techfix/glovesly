@@ -26,7 +26,9 @@ Rebuild of gloveslyproject.com (WordPress with a predeveloped theme, currently s
 
 ## Differences from ICAADA
 
-- **Brand:** blue primary replaces the red accent (see Brand tokens).
+- **Brand:** blue primary replaces the red accent (see Brand tokens). Buttons, navigation, header and card styling are ICAADA's (square corners, underline on the active nav link, trailing-arrow buttons, "Let's talk ↗" nav CTA), not the old Glovesly theme's pill style.
+- **Logo:** the real Glovesly logo image (`public/brand/`) is used in the header, footer, admin and favicon. Do not draw a CSS brand mark like ICAADA's "IC" square.
+- **Buttons and navigation follow ICAADA exactly** (BRAND.md sections 4 and 5), with the blue primary in place of the red accent. Square corners, no radius on buttons, the nav CTA or the brand mark. Primary button: filled primary, white text, trailing `ArrowRight`, lifts 2px on hover, darker primary on hover, minimum 48px tall. Secondary button: primary-text outline (charcoal in ICAADA) that fills on hover, white outline variant on dark or hero backgrounds. Header: fixed, 80px, white at 96% opacity with a 10px backdrop blur. Nav links: small bold text (about 0.76 to 0.82rem), muted grey, with an underline in the primary colour on the active link and `aria-current="page"`. Nav CTA: filled primary with a trailing arrow icon, hover uses the darker primary. Mobile menu uses the `Menu` / `X` icons. Do not reproduce the old Glovesly pill-shaped nav or rounded "Let's Talk!" button.
 - **Modules:** `Service`, `Project`, `NewsPost`, `TeamMember`, `Partner` are the content modules. There is no Event, Voice, Program, Volunteer or Newsletter module.
 - **New public sections:** a Clients & Partners carousel section and a Nigeria map section (static SVG, no map tiles or API keys).
 - **Project location:** each `Project` has a `state` (a string validated against the list in `src/lib/nigeria-states.ts`: 36 states plus FCT) and optional latitude and longitude.
@@ -45,7 +47,7 @@ Light theme only. Define as HSL custom properties on `:root` and bridge with `@t
 
 | Token | Value | Role |
 |---|---|---|
-| `--primary` / `--ring` | `#1e73be` | Buttons, active nav pill, links, focus ring, eyebrows |
+| `--primary` / `--ring` | `#1e73be` | Buttons, active nav underline, links, focus ring, eyebrows |
 | `--primary-hover` | darker shade of `#1e73be` (about 10% darker) | Hover and pressed |
 | `--accent` | about `#463DE1` (indigo, from the current Services band) | Secondary accent, map and band backgrounds. **Unconfirmed; keep it easy to change** |
 | `--background` | `#FFFFFF` | Page |

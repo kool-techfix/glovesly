@@ -41,7 +41,7 @@ Create the design foundation:
 1. src/app/globals.css with: @import "tailwindcss"; the tw-animate-css and typography plugins; a :root block of HSL custom properties for the Glovesly tokens (primary #1e73be, a darker primary-hover, accent about #463DE1, background, secondary #F8F8F8, foreground, muted-foreground #505858, border, ring); and an @theme inline block bridging them to Tailwind colours, radius and fonts, as BRAND.md does.
 2. Fonts through next/font/google in src/app/layout.tsx, exposed as --app-font-sans and --app-font-display. Use Inter for body and Plus Jakarta Sans for display as temporary choices, and note in a comment that they are placeholders to be confirmed.
 3. Root layout: <html lang="en">, metadata with a title template "%s · Glovesly Pro-Project" and a short description, globals.css import.
-4. Reusable, hook-free building blocks in src/components/site.tsx: Eyebrow, ButtonLink (primary and secondary, trailing arrow icon), PageHero, SectionHeading. Follow BRAND.md section 5 patterns, but use the blue primary and the rounded pill nav/CTA style of the current Glovesly site (pill-shaped active nav item, rounded "Let's talk" button) instead of ICAADA's square corners.
+4. Reusable, hook-free building blocks in src/components/site.tsx: Eyebrow, ButtonLink (primary and secondary, trailing arrow icon), PageHero, SectionHeading. Follow BRAND.md sections 4 and 5 exactly for button style: square corners, primary button with a trailing ArrowRight that lifts 2px on hover and darkens, secondary outline button that fills on hover (white outline variant for dark backgrounds), nav CTA, .link-arrow text link, 48px minimum height. The only change from ICAADA is that the blue primary replaces the red accent everywhere (buttons, eyebrows, focus ring, active nav underline, text selection).
 5. Add .focus-ring, .container-wide, .section-pad, .reveal animations (respect prefers-reduced-motion) as in BRAND.md.
 6. A temporary /design page (remove later) showing all tokens, buttons, eyebrow and PageHero.
 
@@ -141,7 +141,7 @@ Verify with tsc, lint and build, and sign in with the seeded admin to check each
 Read docs/reference/ARCHITECTURE.md sections 3 and 4 and CLAUDE.md.
 
 Build the public site under src/app/(public)/:
-- layout: fixed header with the logo (placeholder until the real logo file is supplied), nav (Home, About, Services, Projects, News, Contact) with a pill-shaped active item matching the current site, "Let's talk" CTA linking to /contact, mobile menu, footer. Split the nav into its own client component so the layout stays a server component.
+- layout: header and navigation built exactly like ICAADA's (ARCHITECTURE.md section 4 and BRAND.md sections 4 and 5): fixed 80px header, white at 96% opacity with backdrop blur, small bold muted nav links with an underline in the primary colour and aria-current="page" on the active link, a square-cornered nav CTA ("Let's talk", linking to /contact) with a trailing arrow, and the same mobile menu behaviour. Nav items: Home, About, Services, Projects, News, Contact. Use the Glovesly logo in the brand slot (placeholder until the real logo file is supplied; if there is no image logo, copy ICAADA's CSS brand-mark lockup with "GP" and the company name). Add a footer in the same style. Split the nav into its own client component so the layout stays a server component.
 - Pages (Server Components, revalidate = 3600, services called directly): /, /about, /services, /services/[slug], /projects, /projects/[slug], /news, /news/[slug], /our-team, /contact with a ContactForm posting to /api/public/contact, showing server field errors inline.
 - Detail pages export generateStaticParams, generateMetadata and call notFound() for unknown or unpublished slugs.
 - Page copy that editors do not manage lives in src/data/content.ts. Use placeholder copy and list what the owner must supply in docs/TODO-content.md.
@@ -184,4 +184,21 @@ I will place the WordPress export (WXR .xml) and the downloaded media in imports
 4. Produce a short report of imported and skipped items.
 
 Verify with tsc and lint. Do not run the import against production. Commit.
+```
+
+
+---
+
+## Follow-up prompt A: Use the Glovesly logo and verify the ICAADA nav and button style
+
+Run this after Prompts 2 and 7, once the logo file is in the repo (for example `public/brand/glovesly-logo.svg` or `.png`).
+
+```
+Read CLAUDE.md (Differences from ICAADA) and docs/reference/BRAND.md sections 1, 4 and 5.
+
+1. Logo: use the real Glovesly logo at public/brand/ (if the file is missing, stop and tell me the filename you expect). Replace the placeholder or CSS-drawn brand mark everywhere: public header (next/image, about 40 to 48px tall, priority, alt "Glovesly Pro-Project", linking to /), footer, admin sidebar and login screen, and the favicon and app icons (src/app/icon.* and apple-icon). Check it on a dark background too; if the logo does not work on dark, place it on a white tile there or tell me to supply a light version.
+2. Verify, and fix where needed, that buttons and navigation match ICAADA exactly with blue in place of red: square corners; primary button filled blue with a trailing ArrowRight, lifting 2px on hover and darkening; secondary outline that fills on hover; fixed 80px header, white at 96% opacity with backdrop blur; small bold muted nav links with a primary-colour underline and aria-current="page" on the active link; square nav CTA "Let's talk" with a trailing arrow; the same mobile menu behaviour. Remove any leftover pill radius or rounded CTA from earlier work, in the public site and the admin.
+3. Update the /design page to show the final buttons, nav states and logo placements.
+
+Verify with tsc, lint and build, and check desktop and mobile widths. Commit as "style: use Glovesly logo, verify ICAADA nav and buttons".
 ```

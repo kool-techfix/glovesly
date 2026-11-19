@@ -7,7 +7,7 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="container-wide site-header-inner">
-        <Logo testId="link-header-logo" />
+        <Logo priority testId="link-header-logo" />
         <SiteNav items={mainNav} ctaLabel={ctaLabel} />
       </div>
     </header>

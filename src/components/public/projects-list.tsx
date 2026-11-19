@@ -26,7 +26,7 @@ export function ProjectsList({ projects }: { projects: ProjectDto[] }) {
           <button
             key={filter.value}
             type="button"
-            className="filter-pill focus-ring"
+            className="filter-button focus-ring"
             aria-pressed={sector === filter.value}
             onClick={() => setSector(filter.value)}
             data-testid={`button-projects-filter-${filter.value.toLowerCase()}`}

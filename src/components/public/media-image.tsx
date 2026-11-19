@@ -27,7 +27,7 @@ export function MediaImage({
   return (
     <div className={cn("media-frame", className)}>
       {src ? (
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className={fit === "contain" ? "object-contain p-6" : "object-cover"} />
+        <Image src={src} alt={alt} fill sizes={sizes} preload={priority} className={fit === "contain" ? "object-contain p-6" : "object-cover"} />
       ) : (
         <div className="media-placeholder" role={alt ? "img" : undefined} aria-label={alt || undefined}>
           <span aria-hidden="true">{label ?? ""}</span>

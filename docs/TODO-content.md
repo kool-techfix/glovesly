@@ -26,7 +26,12 @@ Everything below is a placeholder. None of it is a company fact. Replace each it
 
 Everything in this file except `companySummary` (taken from the brief) is a placeholder that starts with "Placeholder".
 
-- [ ] **Logo:** the header and footer use a text wordmark with a "G" mark (`src/components/public/logo.tsx`). The real logo file (SVG preferred) is needed, plus a favicon.
+- [ ] **Logo:** the site uses `public/brand/glovely-logo.png` (header, footer, admin, favicon and app icons). For a sharper result, ask the owner for:
+  - **A proper export.** The file is a 500×500 JPEG saved with a `.png` name. It has a white background and no transparency, so on dark backgrounds it sits on a white tile.
+  - **The full lockup.** The image has no "Glovesly" wordmark, so the site shows the name as text beside it. The bottom edge also shows a cut-off line under "RC:1310011", so it appears to be cropped from a larger lockup.
+  - **An SVG**, or a transparent PNG of at least 1000px, with a light version for dark backgrounds.
+  - **A simplified icon** without the RC number for the favicon. "RC:1310011" is unreadable at favicon sizes.
+  - **The filename:** it is spelled "glovely". Rename it with the next file.
 - [ ] **Home:**
   - hero headline
   - sectors introduction

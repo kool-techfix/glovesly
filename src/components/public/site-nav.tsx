@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, X } from "lucide-react";
+import { ArrowUpRight, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -46,7 +46,7 @@ export function SiteNav({ items, ctaLabel }: { items: NavItem[]; ctaLabel: strin
             <li key={item.href}>
               <Link
                 href={item.href}
-                className="nav-pill focus-ring"
+                className="nav-link focus-ring"
                 aria-current={isActive(pathname, item.href) ? "page" : undefined}
                 data-testid={`link-nav-${item.key}`}
               >
@@ -57,8 +57,9 @@ export function SiteNav({ items, ctaLabel }: { items: NavItem[]; ctaLabel: strin
         </ul>
       </nav>
 
-      <Link href="/contact" className="button-primary focus-ring site-nav-cta" data-testid="link-header-cta">
-        {ctaLabel}
+      <Link href="/contact" className="nav-cta focus-ring" data-testid="link-header-cta">
+        <span>{ctaLabel}</span>
+        <ArrowUpRight aria-hidden="true" className="nav-cta-icon" />
       </Link>
 
       <button
@@ -90,8 +91,9 @@ export function SiteNav({ items, ctaLabel }: { items: NavItem[]; ctaLabel: strin
             ))}
           </ul>
         </nav>
-        <Link href="/contact" className="button-primary focus-ring w-full" data-testid="link-mobile-cta">
-          {ctaLabel}
+        <Link href="/contact" className="nav-cta nav-cta-block focus-ring" data-testid="link-mobile-cta">
+          <span>{ctaLabel}</span>
+          <ArrowUpRight aria-hidden="true" className="nav-cta-icon" />
         </Link>
       </div>
     </>

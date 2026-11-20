@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { CeoMessageSection } from "@/components/public/ceo-message";
+import { ClosingBand } from "@/components/public/sections";
 import { ButtonLink, Eyebrow, PageHero } from "@/components/site";
 import { aboutMetaDescription, aboutPage } from "@/data/content";
 import { cn } from "@/lib/utils";
@@ -36,7 +37,7 @@ export default function AboutPage() {
               <dd className="display">{aboutPage.founded}</dd>
             </dl>
           </div>
-          <div className="prose-body about-prose reveal reveal-delay-1">
+          <div className="prose-body prose-measure reveal reveal-delay-1">
             <p>{paragraphs[0]}</p>
           </div>
         </div>
@@ -49,7 +50,7 @@ export default function AboutPage() {
             <Eyebrow as="h2" id="about-how-title">
               {sections.howWeWork}
             </Eyebrow>
-            <div className="prose-body about-prose mt-6">
+            <div className="prose-body prose-measure mt-6">
               <p>{paragraphs[1]}</p>
             </div>
           </div>
@@ -72,7 +73,7 @@ export default function AboutPage() {
               <li key={item}>{item}</li>
             ))}
           </ul>
-          <div className="prose-body about-prose mt-10 reveal reveal-delay-2">
+          <div className="prose-body prose-measure mt-10 reveal reveal-delay-2">
             <p>{paragraphs[2]}</p>
           </div>
         </div>
@@ -94,22 +95,7 @@ export default function AboutPage() {
 
       <CeoMessageSection band={false} />
 
-      {/* Closing band */}
-      <section className="about-closing" aria-labelledby="about-closing-title">
-        <div className="container-wide about-closing-inner">
-          <h2 id="about-closing-title" className="display about-closing-title">
-            {closing.title}
-          </h2>
-          <div className="about-closing-actions">
-            <ButtonLink href={closing.primaryCta.href} testId="link-about-contact">
-              {closing.primaryCta.label}
-            </ButtonLink>
-            <ButtonLink href={closing.secondaryCta.href} variant="secondary" onDark testId="link-about-team-closing">
-              {closing.secondaryCta.label}
-            </ButtonLink>
-          </div>
-        </div>
-      </section>
+      <ClosingBand id="about-closing-title" content={closing} primaryTestId="link-about-contact" secondaryTestId="link-about-team-closing" />
     </>
   );
 }

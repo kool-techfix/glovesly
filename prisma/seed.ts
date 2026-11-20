@@ -6,8 +6,10 @@
  *
  * - Two dev accounts (ADMIN and EDITOR). Override with the SEED_* variables;
  *   the fake defaults are refused when NODE_ENV=production.
- * - Clearly fake placeholder content for every module and the workspace
- *   settings, so pages and admin screens have something to show. Nothing here
+ * - The four real services (owner copy, prisma/seed-services.ts), in every
+ *   environment.
+ * - Clearly fake placeholder content for the other modules and the workspace
+ *   settings, so pages and admin screens have something to show. Nothing there
  *   is a company fact; see docs/TODO-content.md. Skipped in production.
  *
  * This is one of the two files outside src/Repositories allowed to use Prisma.
@@ -18,6 +20,7 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcrypt";
 
 import { PrismaClient } from "../src/generated/prisma/client";
+import { RETIRED_SAMPLE_SERVICE_SLUGS, SEED_SERVICES } from "./seed-services";
 
 const BCRYPT_ROUNDS = 12;
 const isProduction = process.env.NODE_ENV === "production";
@@ -105,29 +108,38 @@ function publishedFields(status: "DRAFT" | "REVIEW" | "PUBLISHED") {
   return { status, publishedAt: status === "PUBLISHED" ? now : null };
 }
 
+/**
+ * The four real service lines (owner copy, prisma/seed-services.ts). Seeded in
+ * every environment. PUBLISHED without images: the seed writes through Prisma,
+ * so the API's publish rule (image required) does not apply; public pages show
+ * a solid accent block until a photo is uploaded.
+ */
 async function seedServices() {
-  const rows = [
-    { slug: "sample-service-one", title: "Sample Service One", status: "PUBLISHED" as const },
-    { slug: "sample-service-two", title: "Sample Service Two", status: "PUBLISHED" as const },
-    { slug: "sample-service-three", title: "Sample Service Three", status: "REVIEW" as const },
-    { slug: "sample-service-four", title: "Sample Service Four", status: "DRAFT" as const },
-  ];
-  for (const [index, row] of rows.entries()) {
+  const removed = await prisma.service.deleteMany({ where: { slug: { in: RETIRED_SAMPLE_SERVICE_SLUGS } } });
+  if (removed.count) console.info(`  services: removed ${removed.count} old placeholder rows`);
+
+  let created = 0;
+  for (const service of SEED_SERVICES) {
+    const existing = await prisma.service.findUnique({ where: { slug: service.slug }, select: { id: true } });
     await prisma.service.upsert({
-      where: { slug: row.slug },
+      where: { slug: service.slug },
       update: {},
       create: {
-        slug: row.slug,
-        title: row.title,
-        sortOrder: index,
-        ...publishedFields(row.status),
-        summary: "Placeholder summary. Replace with the owner's description of this service.",
-        body: "Placeholder body text. Replace with the owner's copy before launch.",
-        capabilities: ["Sample capability A", "Sample capability B", "Sample capability C"],
+        slug: service.slug,
+        title: service.title,
+        sector: service.sector,
+        sortOrder: service.sortOrder,
+        ...publishedFields("PUBLISHED"),
+        summary: service.summary,
+        body: service.paragraphs.join("\n\n"),
+        capabilities: service.capabilities,
+        imageUrl: null,
+        imagePublicId: null,
       },
     });
+    if (!existing) created += 1;
   }
-  console.info(`  services: ${rows.length} placeholders`);
+  console.info(`  services: ${created} created, ${SEED_SERVICES.length - created} already present (left unchanged)`);
 }
 
 async function seedProjects() {
@@ -267,6 +279,9 @@ async function main() {
   console.info("Seeding users…");
   await seedUsers();
 
+  console.info("Seeding services (owner copy)…");
+  await seedServices();
+
   if (isProduction) {
     console.info("NODE_ENV=production: skipping placeholder content.");
     return;
@@ -274,7 +289,6 @@ async function main() {
 
   console.info("Seeding placeholder content…");
   const admin = await prisma.user.findFirst({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" } });
-  await seedServices();
   await seedProjects();
   await seedNews(admin?.id ?? null);
   await seedTeam();

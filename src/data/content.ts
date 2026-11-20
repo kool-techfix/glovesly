@@ -61,7 +61,10 @@ export type HeroSlide = {
   id: string;
   eyebrow: string;
   title: string;
+  /** Leave empty on a service slide: the text comes from that service's summary. */
   text: string;
+  /** Service slides: the text is that service's summary, the primary CTA its page. */
+  serviceSlug?: string;
   /** `src: null` = no photo yet. The slide shows a solid accent background until one is supplied. */
   image: { src: string | null; alt: string };
   primaryCta: { label: string; href: string };
@@ -70,12 +73,11 @@ export type HeroSlide = {
 
 /**
  * Slide 1 uses the current site's headline and strapline (confirm the full
- * sentence against the WordPress export). Slides 2 to 4 are one per business
- * line; their summaries are PLACEHOLDERS because the seeded services only have
- * placeholder descriptions.
- *
- * A primary CTA pointing at `/services/<slug>` falls back to `/services` on the
- * home page until a published service with that slug exists
+ * sentence against the WordPress export). Slides 2 to 5 are one per service:
+ * on the home page each takes its text from the service's summary (edited in
+ * the admin) and links to /services/<serviceSlug>. If the service is not
+ * published the link falls back to /services; if it has no summary (Energy
+ * Solutions, for now) the slide shows no text
  * (see `resolveHeroSlides` in src/app/(public)/page.tsx).
  *
  * TODO(content): one landscape photo per slide, at least 1920px wide, uploaded
@@ -95,16 +97,18 @@ export const heroSlides: HeroSlide[] = [
     id: "aviation",
     eyebrow: "What we do",
     title: "Aviation infrastructure",
-    text: "Placeholder: one sentence from the owner summarising the aviation infrastructure service.",
+    text: "",
+    serviceSlug: "aviation",
     image: { src: null, alt: "Placeholder: describe the aviation infrastructure photo once it is supplied." },
-    primaryCta: { label: "About this service", href: "/services/aviation-infrastructure" },
+    primaryCta: { label: "About this service", href: "/services/aviation" },
     secondaryCta: { label: "View projects", href: "/projects" },
   },
   {
     id: "construction",
     eyebrow: "What we do",
     title: "Construction",
-    text: "Placeholder: one sentence from the owner summarising the construction service.",
+    text: "",
+    serviceSlug: "construction",
     image: { src: null, alt: "Placeholder: describe the construction photo once it is supplied." },
     primaryCta: { label: "About this service", href: "/services/construction" },
     secondaryCta: { label: "View projects", href: "/projects" },
@@ -113,7 +117,8 @@ export const heroSlides: HeroSlide[] = [
     id: "security",
     eyebrow: "What we do",
     title: "Security solutions",
-    text: "Placeholder: one sentence from the owner summarising the security solutions service.",
+    text: "",
+    serviceSlug: "security-solutions",
     image: { src: null, alt: "Placeholder: describe the security solutions photo once it is supplied." },
     primaryCta: { label: "About this service", href: "/services/security-solutions" },
     secondaryCta: { label: "View projects", href: "/projects" },
@@ -122,7 +127,8 @@ export const heroSlides: HeroSlide[] = [
     id: "energy",
     eyebrow: "What we do",
     title: "Energy solutions",
-    text: "Placeholder: one sentence from the owner summarising the energy solutions service.",
+    text: "",
+    serviceSlug: "energy-solutions",
     image: { src: null, alt: "Placeholder: describe the energy solutions photo once it is supplied." },
     primaryCta: { label: "About this service", href: "/services/energy-solutions" },
     secondaryCta: { label: "View projects", href: "/projects" },
@@ -189,11 +195,7 @@ export type AboutPage = {
   portfolio: string[];
   vision: { title: string; text: string };
   mission: { title: string; text: string };
-  closing: {
-    title: string;
-    primaryCta: { href: string; label: string };
-    secondaryCta: { href: string; label: string };
-  };
+  closing: ClosingBandContent;
 };
 
 export const aboutPage: AboutPage = {
@@ -264,10 +266,11 @@ export const ceoMessage = {
 export const showCeoTeaserOnHome = true;
 
 export const pageIntros = {
+  // From the current site's Services page (owner copy, verbatim).
   services: {
-    eyebrow: "Services",
-    title: "Placeholder: services page headline",
-    description: "Placeholder: an introduction to the company's services.",
+    eyebrow: "Our services",
+    title: "We provide solutions around the globe.",
+    description: "Our Journey, Your Path to Satisfaction",
   },
   projects: {
     eyebrow: "Projects",
@@ -289,6 +292,19 @@ export const pageIntros = {
     title: ctaLabel,
     description: "Placeholder: a sentence inviting enquiries and saying how quickly the team replies.",
   },
+};
+
+export type ClosingBandContent = {
+  title: string;
+  primaryCta: { href: string; label: string };
+  secondaryCta: { href: string; label: string };
+};
+
+/** Closing band on /services and every /services/[slug]. */
+export const servicesClosing: ClosingBandContent = {
+  title: "Need a solution for your project?",
+  primaryCta: { href: "/contact", label: ctaLabel },
+  secondaryCta: { href: "/projects", label: "View projects" },
 };
 
 export const ctaBand = {

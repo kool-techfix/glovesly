@@ -158,6 +158,8 @@ model Service {
   summary       String        @default("")
   body          String        @default("") @db.Text
   capabilities  String[]      @default([])
+  /// Links the service to projects in the same sector (related projects on /services/[slug]).
+  sector        ProjectSector?
   imageUrl      String?
   imagePublicId String?
   createdAt     DateTime      @default(now())

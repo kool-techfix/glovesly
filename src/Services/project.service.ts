@@ -77,6 +77,11 @@ const base = createContentService({
 export const projectService = {
   ...base,
 
+  /** Up to `limit` published projects in a sector, in sortOrder (related projects on a service page). */
+  async listPublishedBySector(sector: ProjectSector, limit = 3): Promise<ProjectDto[]> {
+    return (await base.listPublished()).filter((project) => project.sector === sector).slice(0, limit);
+  },
+
   /**
    * Published projects grouped by state, for the Nigeria map. Cached under the
    * projects tag, so publishing, editing or unpublishing a project updates it.

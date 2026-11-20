@@ -1,6 +1,37 @@
 import { ButtonLink, SectionHeading } from "@/components/site";
-import { ctaBand } from "@/data/content";
+import { ctaBand, type ClosingBandContent } from "@/data/content";
 import { cn } from "@/lib/utils";
+
+/** Flat accent closing band with a primary and a white-outline secondary button. */
+export function ClosingBand({
+  id,
+  content,
+  primaryTestId,
+  secondaryTestId,
+}: {
+  id: string;
+  content: ClosingBandContent;
+  primaryTestId: string;
+  secondaryTestId: string;
+}) {
+  return (
+    <section className="closing-band" aria-labelledby={id}>
+      <div className="container-wide closing-band-inner">
+        <h2 id={id} className="display closing-band-title">
+          {content.title}
+        </h2>
+        <div className="closing-band-actions">
+          <ButtonLink href={content.primaryCta.href} testId={primaryTestId}>
+            {content.primaryCta.label}
+          </ButtonLink>
+          <ButtonLink href={content.secondaryCta.href} variant="secondary" onDark testId={secondaryTestId}>
+            {content.secondaryCta.label}
+          </ButtonLink>
+        </div>
+      </div>
+    </section>
+  );
+}
 
 /** Closing call-to-action band used at the bottom of most pages. */
 export function CtaBand({ area }: { area: string }) {

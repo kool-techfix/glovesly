@@ -5,6 +5,7 @@ import {
   contentBaseShape,
   longText,
   optionalPublicId,
+  projectSectorSchema,
   stringList,
   text,
 } from "@/Schemas/common.schema";
@@ -15,6 +16,8 @@ export const serviceCreateSchema = z.object({
   summary: longText(500, "Summary"),
   body: longText(20_000, "Body"),
   capabilities: stringList(20, 160, "capability"),
+  // Optional; the admin select sends "" for "No sector".
+  sector: z.preprocess((value) => (value === "" ? null : value), projectSectorSchema.nullish()),
   imageUrl: cloudinaryUrl,
   imagePublicId: optionalPublicId,
 });

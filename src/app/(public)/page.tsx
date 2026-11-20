@@ -26,13 +26,21 @@ export const metadata: Metadata = {
  * service is published; otherwise fall back to the services list, so the hero
  * never links to a 404 while the real services are still being written.
  */
+/**
+ * Service slides take their text from the published service's summary and link
+ * to its page. An unpublished service falls back to /services with no text.
+ */
 function resolveHeroSlides(slides: HeroSlide[], services: ServiceDto[]): HeroSlide[] {
-  const published = new Set(services.map((service) => `/services/${service.slug}`));
-  return slides.map((slide) =>
-    slide.primaryCta.href.startsWith("/services/") && !published.has(slide.primaryCta.href)
-      ? { ...slide, primaryCta: { ...slide.primaryCta, href: "/services" } }
-      : slide,
-  );
+  const bySlug = new Map(services.map((service) => [service.slug, service]));
+  return slides.map((slide) => {
+    if (!slide.serviceSlug) return slide;
+    const service = bySlug.get(slide.serviceSlug);
+    return {
+      ...slide,
+      text: service?.summary ?? "",
+      primaryCta: { ...slide.primaryCta, href: service ? `/services/${service.slug}` : "/services" },
+    };
+  });
 }
 
 export default async function HomePage() {

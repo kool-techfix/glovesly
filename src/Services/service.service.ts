@@ -1,3 +1,4 @@
+import type { ProjectSector } from "@/lib/domain";
 import { serviceRepository, type ServiceRecord } from "@/Repositories/service.repository";
 import {
   createContentService,
@@ -13,6 +14,8 @@ export type ServiceDto = ContentDtoBase & {
   summary: string;
   body: string;
   capabilities: string[];
+  /** Projects in this sector are shown as related projects. */
+  sector: ProjectSector | null;
   imageUrl: string | null;
   imagePublicId: string | null;
 };
@@ -24,6 +27,7 @@ export function toServiceDto(record: ServiceRecord): ServiceDto {
     summary: record.summary,
     body: record.body,
     capabilities: record.capabilities,
+    sector: record.sector,
     imageUrl: record.imageUrl,
     imagePublicId: record.imagePublicId,
   };

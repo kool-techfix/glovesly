@@ -144,7 +144,7 @@ export function HeroCarousel({ slides, label = "Highlights" }: HeroCarouselProps
               <div className="container-wide hero-slide-content">
                 <Eyebrow onDark>{slide.eyebrow}</Eyebrow>
                 <Heading className="display hero-title">{slide.title}</Heading>
-                <p className="hero-text">{slide.text}</p>
+                {slide.text ? <p className="hero-text">{slide.text}</p> : null}
                 <div className="hero-actions">
                   <ButtonLink href={slide.primaryCta.href} testId={`link-hero-primary-${i + 1}`}>
                     {slide.primaryCta.label}

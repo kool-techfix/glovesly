@@ -64,25 +64,25 @@ export default function AboutPage() {
 
       {/* What we deliver */}
       <section className="section-pad" aria-labelledby="about-deliver-title">
-        <div className={cn("container-wide", portfolioImage && "about-split about-split--media about-split--reversed")}>
-          <div>
-            <Eyebrow as="h2" id="about-deliver-title" className="reveal">
-              {sections.whatWeDeliver}
-            </Eyebrow>
-            <ul className="about-portfolio reveal reveal-delay-1" aria-label="Our portfolio">
-              {portfolio.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-            <div className="prose-body prose-measure mt-10 reveal reveal-delay-2">
+        <div className="container-wide">
+          <Eyebrow as="h2" id="about-deliver-title" className="reveal">
+            {sections.whatWeDeliver}
+          </Eyebrow>
+          <ul className="about-portfolio reveal reveal-delay-1" aria-label="Our portfolio">
+            {portfolio.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <div className={cn("mt-10", portfolioImage && "about-split about-split--media")}>
+            <div className="prose-body prose-measure reveal reveal-delay-2">
               <p>{paragraphs[2]}</p>
             </div>
+            {portfolioImage ? (
+              <div className="about-photo about-photo--square reveal reveal-delay-2">
+                <Image src={portfolioImage.src} alt={portfolioImage.alt} fill sizes="(max-width: 860px) 100vw, 45vw" loading="lazy" />
+              </div>
+            ) : null}
           </div>
-          {portfolioImage ? (
-            <div className="about-photo about-photo--square reveal reveal-delay-1">
-              <Image src={portfolioImage.src} alt={portfolioImage.alt} fill sizes="(max-width: 860px) 100vw, 45vw" loading="lazy" />
-            </div>
-          ) : null}
         </div>
       </section>
 

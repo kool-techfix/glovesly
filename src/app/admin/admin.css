@@ -999,6 +999,12 @@ a.adm-stat:hover {
   border: 1px solid var(--admin-line);
   background: var(--admin-paper);
 }
+.adm-asset-preview--dark {
+  background: #14181f;
+}
+.adm-asset-preview--dark .adm-asset-placeholder {
+  color: #fff;
+}
 .adm-asset-preview img {
   width: 100%;
   height: 100%;

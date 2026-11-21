@@ -231,6 +231,7 @@ function Field({
             onChange={onChange}
             onUploadingChange={onUploadingChange}
             describedBy={describedBy(id, error, field.help)}
+            previewTone={field.previewTone}
           />
         </FieldShell>
       );
@@ -284,6 +285,7 @@ function AssetInput({
   onChange,
   onUploadingChange,
   describedBy: describedById,
+  previewTone = "light",
 }: {
   id: string;
   value: AssetValue;
@@ -293,6 +295,7 @@ function AssetInput({
   onChange: (value: AssetValue) => void;
   onUploadingChange: (delta: number) => void;
   describedBy?: string;
+  previewTone?: "light" | "dark";
 }) {
   const [progress, setProgress] = useState<number | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -313,7 +316,7 @@ function AssetInput({
 
   return (
     <div className="adm-asset">
-      <div className="adm-asset-preview">
+      <div className={previewTone === "dark" ? "adm-asset-preview adm-asset-preview--dark" : "adm-asset-preview"}>
         {value.url ? (
           // eslint-disable-next-line @next/next/no-img-element -- admin preview of an arbitrary upload
           <img src={value.url} alt={`${label} preview`} />

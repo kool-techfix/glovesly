@@ -23,11 +23,21 @@ const nextConfig: NextConfig = {
   reactCompiler: true,
   images: {
     remotePatterns: cloudName
-      ? [{ protocol: "https", hostname: "res.cloudinary.com", pathname: `/${cloudName}/**` }]
+      ? [
+          {
+            protocol: "https",
+            hostname: "res.cloudinary.com",
+            pathname: `/${cloudName}/**`,
+          },
+        ]
       : [],
   },
   async redirects() {
-    return legacyRedirects.map(([source, destination]) => ({ source, destination, permanent: true }));
+    return legacyRedirects.map(([source, destination]) => ({
+      source,
+      destination,
+      permanent: true,
+    }));
   },
 };
 

@@ -41,12 +41,13 @@ export const PROJECT_STATUS_LABELS: Record<ProjectStatus, string> = {
 };
 
 // PROVISIONAL: awaiting the owner's final partner groups.
-export const PARTNER_TYPES = ["GOVERNMENT", "PRIVATE_CLIENT", "TECHNOLOGY_PARTNER"] as const;
+export const PARTNER_TYPES = ["GOVERNMENT", "PRIVATE_CLIENT", "TECHNOLOGY_PARTNER", "INTERNATIONAL_PARTNER"] as const;
 export type PartnerType = (typeof PARTNER_TYPES)[number];
 export const PARTNER_TYPE_LABELS: Record<PartnerType, string> = {
   GOVERNMENT: "Government",
   PRIVATE_CLIENT: "Private client",
   TECHNOLOGY_PARTNER: "Technology partner",
+  INTERNATIONAL_PARTNER: "International partner",
 };
 
 export const MESSAGE_STATUSES = ["NEW", "READ", "ARCHIVED"] as const;

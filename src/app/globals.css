@@ -1048,39 +1048,6 @@
   color: hsl(var(--primary));
 }
 
-.partner-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12rem), 1fr));
-  gap: 1rem;
-}
-.partner-tile {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  min-height: 8rem;
-  height: 100%;
-  padding: 1.25rem;
-  border: 1px solid hsl(var(--border));
-  border-radius: calc(var(--radius) + 4px);
-  background: hsl(var(--card));
-  text-align: center;
-  transition: border-color 0.2s ease;
-}
-a.partner-tile:hover {
-  border-color: hsl(var(--primary));
-}
-.partner-name {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 1.05rem;
-}
-.partner-type {
-  font-size: 0.75rem;
-  color: hsl(var(--muted-foreground));
-}
-
 .team-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
@@ -1782,25 +1749,66 @@ textarea.form-input {
   }
 }
 
+/*
+ * Logo cards: a fixed logo height, width from the logo's aspect ratio
+ * (--logo-ratio, set inline), clamped so a 9:1 wordmark does not take over the
+ * strip and a square mark is not tiny. Square corners, thin border, white.
+ */
+.marquee {
+  --logo-h: 56px;
+}
+@media (max-width: 640px) {
+  .marquee {
+    --logo-h: 48px;
+  }
+}
 .logo-card {
   position: relative;
   display: grid;
   place-items: center;
-  width: 11rem;
-  height: 6rem;
-  padding: 0.75rem 1rem;
+  width: clamp(9rem, calc(var(--logo-h) * var(--logo-ratio, 2.5) + 2.5rem), 18rem);
+  height: calc(var(--logo-h) + 2rem);
+  padding: 1rem 1.25rem;
   border: 1px solid hsl(var(--border));
-  border-radius: calc(var(--radius) + 8px);
-  background: hsl(var(--card));
+  border-radius: 0;
+  background: #fff;
   text-align: center;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 a.logo-card:hover {
   border-color: hsl(var(--primary));
-  box-shadow: var(--shadow-sm);
 }
+.logo-card-media {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+/* Dark-background artwork sits straight on the dark band. */
+.logo-card--on-dark {
+  border-color: hsl(0 0% 100% / 0.22);
+  background: transparent;
+}
+
+/* Clients & Partners on a dark band (tone="dark"). */
+.partners-section--dark {
+  background: hsl(var(--foreground));
+  color: #fff;
+}
+.partners-section--dark .eyebrow {
+  color: hsl(0 0% 100% / 0.85);
+}
+.partners-section--dark .section-heading-title,
+.partners-section--dark .card-title {
+  color: #fff;
+}
+.partners-section--dark .lede,
+.partners-section--dark .card-text {
+  color: hsl(0 0% 100% / 0.85);
+}
+.partners-section--dark .partner-row {
+  border-top-color: hsl(0 0% 100% / 0.15);
+}
+
 .logo-card-name {
   font-family: var(--font-display);
   font-weight: 700;

@@ -55,6 +55,8 @@ export type FieldConfig = {
   folder?: UploadFolder;
   /** assets */
   maxItems?: number;
+  /** asset: preview background, "dark" for white artwork. */
+  previewTone?: "light" | "dark";
   /** Shown in the form but never sent. */
   readOnly?: boolean;
   /** Value for a new record. */
@@ -316,7 +318,25 @@ export const moduleConfigs: Record<ModuleKey, ModuleConfig> = {
       slugField("Internal identifier."),
       sortOrderField,
       { name: "websiteUrl", label: "Website", kind: "url", placeholder: "https://…", wide: true },
-      { name: "logoUrl", label: "Logo", kind: "asset", publicIdField: "logoPublicId", folder: "partners", wide: true },
+      {
+        name: "logoUrl",
+        label: "Logo",
+        kind: "asset",
+        publicIdField: "logoPublicId",
+        folder: "partners",
+        wide: true,
+        help: "The version for light backgrounds (dark lettering). Required to publish.",
+      },
+      {
+        name: "logoOnDarkUrl",
+        label: "Logo for dark backgrounds",
+        kind: "asset",
+        publicIdField: "logoOnDarkPublicId",
+        folder: "partners",
+        wide: true,
+        previewTone: "dark",
+        help: "Optional white or light version. Without one, dark sections show the logo above on a white tile.",
+      },
     ],
   },
 };

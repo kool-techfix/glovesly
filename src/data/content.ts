@@ -335,5 +335,10 @@ export const partnerGroups: Record<PartnerType, { title: string; description: st
     title: "Technology partners",
     description: "Placeholder: one line about the company's technology partners.",
   },
+  // TODO(content): description not supplied yet. Empty = no paragraph is rendered.
+  INTERNATIONAL_PARTNER: {
+    title: "International partners",
+    description: "",
+  },
 };
 

@@ -53,6 +53,41 @@ export function signUpload(options: {
   };
 }
 
+export type ServerUploadSignature = {
+  uploadUrl: string;
+  /** Every field to POST with the file, including api_key and signature. */
+  fields: Record<string, string>;
+};
+
+/**
+ * Signed upload with a fixed public_id, for scripts (scripts/upload-partner-logos.ts).
+ * overwrite + invalidate make re-runs replace the asset (and its CDN copies)
+ * instead of creating duplicates. Same signing as signUpload.
+ */
+export function signServerUpload(options: {
+  folder: UploadFolder;
+  publicId: string;
+  resourceType: UploadResourceType;
+}): ServerUploadSignature {
+  const env = getEnv();
+  const params = {
+    folder: `${UPLOAD_ROOT_FOLDER}/${options.folder}`,
+    invalidate: "true",
+    overwrite: "true",
+    public_id: options.publicId,
+    timestamp: Math.floor(Date.now() / 1000),
+  };
+  const signature = signParams(params, env.CLOUDINARY_API_SECRET);
+  return {
+    uploadUrl: `https://api.cloudinary.com/v1_1/${env.CLOUDINARY_CLOUD_NAME}/${options.resourceType}/upload`,
+    fields: {
+      ...Object.fromEntries(Object.entries(params).map(([key, value]) => [key, String(value)])),
+      api_key: env.CLOUDINARY_API_KEY,
+      signature,
+    },
+  };
+}
+
 /** Allow-list check: only https://res.cloudinary.com/<CLOUDINARY_CLOUD_NAME>/… URLs. */
 export function isCloudinaryUrl(value: string): boolean {
   let url: URL;

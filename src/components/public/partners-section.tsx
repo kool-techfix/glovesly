@@ -13,13 +13,46 @@ import type { PartnerDto } from "@/Services/partner.service";
  * Only the first copy of each logo is exposed to assistive tech and the
  * keyboard; the repeats are aria-hidden. Pauses on hover and focus-within;
  * under prefers-reduced-motion it becomes a static, wrapped list.
+ *
+ * Cards vary in width (sized by each logo's aspect ratio); the loop still
+ * works because the second half is an exact copy of the first.
  */
 
 const MIN_ITEMS_PER_HALF = 8;
 
-function LogoCard({ partner, hidden }: { partner: PartnerDto; hidden: boolean }) {
-  const content = partner.logoUrl ? (
-    <Image src={partner.logoUrl} alt={hidden ? "" : partner.name} fill sizes="180px" className="object-contain p-5" />
+/** Width ÷ height used when a logo's size is unknown (admin uploads). */
+const DEFAULT_LOGO_RATIO = 2.5;
+
+export type LogoTone = "light" | "dark";
+
+/**
+ * Which file to show. "light" (white cards): logoUrl. "dark": logoOnDarkUrl
+ * when there is one, otherwise logoUrl on a white tile so it stays legible.
+ */
+function logoFor(partner: PartnerDto, tone: LogoTone) {
+  if (tone === "dark" && partner.logoOnDarkUrl) return { src: partner.logoOnDarkUrl, onDarkArtwork: true };
+  return { src: partner.logoUrl, onDarkArtwork: false };
+}
+
+/** Logo card sized by the logo's aspect ratio (see .logo-card in globals.css). */
+export function LogoCard({ partner, hidden = false, tone = "light" }: { partner: PartnerDto; hidden?: boolean; tone?: LogoTone }) {
+  const { src, onDarkArtwork } = logoFor(partner, tone);
+  const ratio = partner.logoWidth && partner.logoHeight ? partner.logoWidth / partner.logoHeight : DEFAULT_LOGO_RATIO;
+  const style = { "--logo-ratio": ratio.toFixed(3) } as React.CSSProperties;
+  const className = cn("logo-card", onDarkArtwork && "logo-card--on-dark");
+
+  const content = src ? (
+    <span className="logo-card-media">
+      <Image
+        src={src}
+        alt={hidden ? "" : `${partner.name} logo`}
+        fill
+        sizes="18rem"
+        // SVGs are served as-is (no optimiser, no dangerouslyAllowSVG needed).
+        unoptimized={src.toLowerCase().endsWith(".svg")}
+        className="object-contain"
+      />
+    </span>
   ) : (
     <span className="logo-card-name">{partner.name}</span>
   );
@@ -29,8 +62,9 @@ function LogoCard({ partner, hidden }: { partner: PartnerDto; hidden: boolean })
       <a
         href={partner.websiteUrl}
         target="_blank"
-        rel="noreferrer"
-        className="logo-card focus-ring"
+        rel="noopener noreferrer"
+        className={cn(className, "focus-ring")}
+        style={style}
         tabIndex={hidden ? -1 : undefined}
         data-testid={hidden ? undefined : `link-partner-${partner.slug}`}
       >
@@ -39,10 +73,14 @@ function LogoCard({ partner, hidden }: { partner: PartnerDto; hidden: boolean })
       </a>
     );
   }
-  return <div className="logo-card">{content}</div>;
+  return (
+    <div className={className} style={style}>
+      {content}
+    </div>
+  );
 }
 
-function Marquee({ partners, label }: { partners: PartnerDto[]; label: string }) {
+function Marquee({ partners, label, tone }: { partners: PartnerDto[]; label: string; tone: LogoTone }) {
   const repeats = Math.max(1, Math.ceil(MIN_ITEMS_PER_HALF / partners.length));
   const half = Array.from({ length: repeats }, (_, r) => partners.map((partner) => ({ partner, hidden: r > 0 }))).flat();
   const track = [...half, ...half.map((item) => ({ ...item, hidden: true, duplicate: true }))];
@@ -56,7 +94,7 @@ function Marquee({ partners, label }: { partners: PartnerDto[]; label: string })
             className={cn("marquee-item", hidden && "marquee-repeat", "duplicate" in rest && "marquee-duplicate")}
             aria-hidden={hidden || undefined}
           >
-            <LogoCard partner={partner} hidden={hidden} />
+            <LogoCard partner={partner} hidden={hidden} tone={tone} />
           </li>
         ))}
       </ul>
@@ -64,7 +102,7 @@ function Marquee({ partners, label }: { partners: PartnerDto[]; label: string })
   );
 }
 
-export function PartnersSection({ partners }: { partners: PartnerDto[] }) {
+export function PartnersSection({ partners, tone = "light" }: { partners: PartnerDto[]; tone?: LogoTone }) {
   const groups = PARTNER_TYPES.map((type) => ({
     type,
     ...partnerGroups[type],
@@ -74,7 +112,10 @@ export function PartnersSection({ partners }: { partners: PartnerDto[] }) {
   if (!groups.length) return null;
 
   return (
-    <section className="section-pad section-band" aria-labelledby="partners-title">
+    <section
+      className={cn("section-pad", tone === "dark" ? "partners-section--dark" : "section-band")}
+      aria-labelledby="partners-title"
+    >
       <div className="container-wide">
         <div id="partners-title">
           <SectionHeading eyebrow={home.partners.eyebrow} title={home.partners.title} description={home.partners.description} />
@@ -84,9 +125,9 @@ export function PartnersSection({ partners }: { partners: PartnerDto[] }) {
             <div key={group.type} className="partner-row">
               <div className="partner-row-copy">
                 <h3 className="card-title">{group.title}</h3>
-                <p className="card-text mt-2">{group.description}</p>
+                {group.description ? <p className="card-text mt-2">{group.description}</p> : null}
               </div>
-              <Marquee partners={group.partners} label={group.title} />
+              <Marquee partners={group.partners} label={group.title} tone={tone} />
             </div>
           ))}
         </div>

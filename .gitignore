@@ -43,3 +43,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Raw source files for one-off upload scripts (the uploaded copies live on Cloudinary)
+/imports/

@@ -2,9 +2,8 @@ import { ArrowRight, Linkedin, MapPin } from "lucide-react";
 import Link from "next/link";
 
 import { MediaImage } from "@/components/public/media-image";
-import { formatLongDate, initials, partnerTypeLabel, projectStatusLabel, sectorLabel } from "@/lib/display";
+import { formatLongDate, initials, projectStatusLabel, sectorLabel } from "@/lib/display";
 import type { NewsPostDto } from "@/Services/news.service";
-import type { PartnerDto } from "@/Services/partner.service";
 import type { ProjectDto } from "@/Services/project.service";
 import type { ServiceDto } from "@/Services/service.service";
 import type { TeamMemberDto } from "@/Services/team.service";
@@ -109,32 +108,5 @@ export function TeamCard({ member }: { member: TeamMemberDto }) {
         ) : null}
       </div>
     </article>
-  );
-}
-
-export function PartnerTile({ partner }: { partner: PartnerDto }) {
-  const content = (
-    <>
-      {partner.logoUrl ? (
-        <MediaImage src={partner.logoUrl} alt={partner.name} sizes="200px" fit="contain" className="h-20 w-full" />
-      ) : (
-        <span className="partner-name">{partner.name}</span>
-      )}
-      <span className="partner-type">{partnerTypeLabel(partner.type)}</span>
-    </>
-  );
-  return partner.websiteUrl ? (
-    <a
-      href={partner.websiteUrl}
-      target="_blank"
-      rel="noreferrer"
-      className="partner-tile focus-ring"
-      data-testid={`link-partner-${partner.slug}`}
-    >
-      {content}
-      <span className="sr-only"> (opens in a new tab)</span>
-    </a>
-  ) : (
-    <div className="partner-tile">{content}</div>
   );
 }

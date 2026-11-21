@@ -8,7 +8,7 @@ Everything below is a placeholder. None of it is a company fact. Replace each it
 - [ ] **Projects:** "Sample Project One" to "Sample Project Five". The client is "Sample Client" and the location is "Sample location". The states (FCT, Lagos, Kano, Rivers, Enugu) were picked at random because the field is required. They are **not** places the company has worked. Real projects, clients, states, coordinates, years and photos are needed.
 - [ ] **News:** "Sample News Post One" to "Sample News Post Four". Real posts or the WordPress posts (old `/wp/lavarai`) are needed.
 - [ ] **Team:** "Sample Person One" to "Sample Person Four" with the role "Sample role". Real names, roles, bios and photos are needed.
-- [ ] **Partners:** "Sample Partner One" to "Sample Partner Five". Real client and partner names, logos and website links are needed, and permission to show each logo.
+- [x] **Partners:** five real international partners (Alpine Metal Tech UK Ltd, AMS Aircraft Recovery Limited, DAT-CON, STRUCTURUS, ADB SAFEGATE) are seeded with logos from `pnpm partners:upload`, in every environment. The old "Sample Partner" rows are removed by the seed.
 - [x] **Contact details** (supplied by the owner): `info@gloveslyproject.com`, +234 704 780 0065, 37 Yakubu Gowon Crescent, Abuja, Federal Capital Territory, Nigeria.
 - [ ] **Workspace settings:**
   - office "Abuja office" (FCT): confirm whether it is the head office, the office name to show, and its coordinates (the map uses the FCT centre until then)
@@ -44,6 +44,11 @@ Everything in this file except `companySummary` (taken from the brief) is a plac
   - **Energy Solutions: write summary and body.** The owner has not supplied either, so the page shows only the capabilities list and the home slide shows no text. Add them in the admin.
   - **Photos:** one per service (Aviation, Construction, Security Solutions, Energy Solutions), landscape, at least 1600px wide, uploaded in the admin. Until then `/services` and each service page show a solid accent block.
   - **Titles:** the old site used the headings "Construction Services" and "Security Solution". The new titles match the navigation and capability lists; confirm with the owner.
+- [ ] **Partners (Clients & Partners section):**
+  - **Confirm each partner consents to its logo being shown** (all five international partners).
+  - **Partner website URLs:** none supplied, so the logos are not links. Add them in the admin; each logo then opens the site in a new tab.
+  - **International partners group description:** one line for `partnerGroups.INTERNATIONAL_PARTNER` in `src/data/content.ts`. Until then no description is shown.
+  - **Better source files:** SVG for ADB SAFEGATE, AMS Aircraft Recovery and DAT-CON, and a horizontal DAT-CON logo. The AMS file is only 291×87 (and is a WebP saved as `.png`), so it is slightly soft on high-density screens; the square DAT-CON mark reads small in a horizontal strip.
 - [ ] **Message from the CEO** (`ceoMessage`): the text, name and title are from the owner. Still needed: a portrait of the CEO (at least 1200px, uploaded to Cloudinary) with alt text. The home page teaser can be removed by setting `showCeoTeaserOnHome` to `false`.
 - [ ] **About (`aboutPage`):** the copy (title, three paragraphs, vision, mission) is the owner's text from the current About page, used verbatim. Still needed:
   - **Hero photo:** the team photo with branded caps from the old About page. Landscape, at least 1920px wide, uploaded to Cloudinary, with alt text. Until then the hero is a solid accent background.

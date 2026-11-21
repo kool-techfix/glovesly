@@ -1,0 +1,42 @@
+{
+  "alpine-metal-tech": {
+    "logoUrl": "https://res.cloudinary.com/dikbulrav/image/upload/v1795258089/glovesly/partners/alpine-metal-tech.png",
+    "logoPublicId": "glovesly/partners/alpine-metal-tech",
+    "logoOnDarkUrl": null,
+    "logoOnDarkPublicId": null,
+    "logoWidth": 1450,
+    "logoHeight": 154
+  },
+  "ams-aircraft-recovery": {
+    "logoUrl": "https://res.cloudinary.com/dikbulrav/image/upload/v1795258089/glovesly/partners/ams-aircraft-recovery.webp",
+    "logoPublicId": "glovesly/partners/ams-aircraft-recovery",
+    "logoOnDarkUrl": null,
+    "logoOnDarkPublicId": null,
+    "logoWidth": 291,
+    "logoHeight": 87
+  },
+  "dat-con": {
+    "logoUrl": "https://res.cloudinary.com/dikbulrav/image/upload/v1795258090/glovesly/partners/dat-con.png",
+    "logoPublicId": "glovesly/partners/dat-con",
+    "logoOnDarkUrl": null,
+    "logoOnDarkPublicId": null,
+    "logoWidth": 200,
+    "logoHeight": 200
+  },
+  "structurus": {
+    "logoUrl": "https://res.cloudinary.com/dikbulrav/image/upload/v1795258091/glovesly/partners/structurus.svg",
+    "logoPublicId": "glovesly/partners/structurus",
+    "logoOnDarkUrl": "https://res.cloudinary.com/dikbulrav/image/upload/v1795258094/glovesly/partners/structurus-on-dark.svg",
+    "logoOnDarkPublicId": "glovesly/partners/structurus-on-dark",
+    "logoWidth": 987,
+    "logoHeight": 369
+  },
+  "adb-safegate": {
+    "logoUrl": "https://res.cloudinary.com/dikbulrav/image/upload/v1795258097/glovesly/partners/adb-safegate.png",
+    "logoPublicId": "glovesly/partners/adb-safegate",
+    "logoOnDarkUrl": "https://res.cloudinary.com/dikbulrav/image/upload/v1795258097/glovesly/partners/adb-safegate-on-dark.png",
+    "logoOnDarkPublicId": "glovesly/partners/adb-safegate-on-dark",
+    "logoWidth": 696,
+    "logoHeight": 250
+  }
+}

@@ -6,8 +6,9 @@
  *
  * - Two dev accounts (ADMIN and EDITOR). Override with the SEED_* variables;
  *   the fake defaults are refused when NODE_ENV=production.
- * - The four real services (owner copy, prisma/seed-services.ts), in every
- *   environment.
+ * - The four real services (owner copy, prisma/seed-services.ts) and the five
+ *   international partners (logos from prisma/data/partner-logos.json, written
+ *   by `pnpm partners:upload`), in every environment.
  * - Clearly fake placeholder content for the other modules and the workspace
  *   settings, so pages and admin screens have something to show. Nothing there
  *   is a company fact; see docs/TODO-content.md. Skipped in production.
@@ -15,6 +16,9 @@
  * This is one of the two files outside src/Repositories allowed to use Prisma.
  */
 import "dotenv/config";
+
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcrypt";
@@ -226,28 +230,82 @@ async function seedTeam() {
   console.info(`  team: ${rows.length} placeholders`);
 }
 
+const PARTNER_LOGOS_FILE = join(import.meta.dirname, "data", "partner-logos.json");
+
+/** Real international partners (owner-supplied). Logos come from `pnpm partners:upload`. */
+const SEED_PARTNERS = [
+  { sortOrder: 10, slug: "alpine-metal-tech", name: "Alpine Metal Tech UK Ltd" },
+  { sortOrder: 20, slug: "ams-aircraft-recovery", name: "AMS Aircraft Recovery Limited" },
+  { sortOrder: 30, slug: "dat-con", name: "DAT-CON" },
+  { sortOrder: 40, slug: "structurus", name: "STRUCTURUS" },
+  { sortOrder: 50, slug: "adb-safegate", name: "ADB SAFEGATE" },
+];
+
+const RETIRED_SAMPLE_PARTNER_SLUGS = [
+  "sample-partner-one",
+  "sample-partner-two",
+  "sample-partner-three",
+  "sample-partner-four",
+  "sample-partner-five",
+];
+
+type PartnerLogoEntry = {
+  logoUrl: string;
+  logoPublicId: string;
+  logoOnDarkUrl: string | null;
+  logoOnDarkPublicId: string | null;
+  logoWidth: number;
+  logoHeight: number;
+};
+
+function readPartnerLogos(): Record<string, PartnerLogoEntry> {
+  if (!existsSync(PARTNER_LOGOS_FILE)) {
+    throw new Error(`${PARTNER_LOGOS_FILE} is missing. Run pnpm partners:upload first.`);
+  }
+  const logos = JSON.parse(readFileSync(PARTNER_LOGOS_FILE, "utf8")) as Record<string, PartnerLogoEntry>;
+  const absent = SEED_PARTNERS.filter((partner) => !logos[partner.slug]?.logoUrl).map((partner) => partner.slug);
+  if (absent.length) {
+    throw new Error(`prisma/data/partner-logos.json has no logo for: ${absent.join(", ")}. Run pnpm partners:upload first.`);
+  }
+  return logos;
+}
+
+/**
+ * Seeded in every environment. websiteUrl stays null: no URLs were supplied
+ * (docs/TODO-content.md). Removes the old "Sample Partner" rows so the
+ * carousel shows only real partners.
+ */
 async function seedPartners() {
-  const rows = [
-    { slug: "sample-partner-one", name: "Sample Partner One", type: "GOVERNMENT" as const, status: "PUBLISHED" as const },
-    { slug: "sample-partner-two", name: "Sample Partner Two", type: "PRIVATE_CLIENT" as const, status: "PUBLISHED" as const },
-    { slug: "sample-partner-three", name: "Sample Partner Three", type: "PRIVATE_CLIENT" as const, status: "PUBLISHED" as const },
-    { slug: "sample-partner-four", name: "Sample Partner Four", type: "TECHNOLOGY_PARTNER" as const, status: "PUBLISHED" as const },
-    { slug: "sample-partner-five", name: "Sample Partner Five", type: "GOVERNMENT" as const, status: "DRAFT" as const },
-  ];
-  for (const [index, row] of rows.entries()) {
+  const logos = readPartnerLogos();
+
+  const removed = await prisma.partner.deleteMany({ where: { slug: { in: RETIRED_SAMPLE_PARTNER_SLUGS } } });
+  if (removed.count) console.info(`  partners: removed ${removed.count} old placeholder rows`);
+
+  let created = 0;
+  for (const partner of SEED_PARTNERS) {
+    const existing = await prisma.partner.findUnique({ where: { slug: partner.slug }, select: { id: true } });
+    const logo = logos[partner.slug]!;
     await prisma.partner.upsert({
-      where: { slug: row.slug },
+      where: { slug: partner.slug },
       update: {},
       create: {
-        slug: row.slug,
-        name: row.name,
-        type: row.type,
-        sortOrder: index,
-        ...publishedFields(row.status),
+        slug: partner.slug,
+        name: partner.name,
+        type: "INTERNATIONAL_PARTNER",
+        sortOrder: partner.sortOrder,
+        ...publishedFields("PUBLISHED"),
+        logoUrl: logo.logoUrl,
+        logoPublicId: logo.logoPublicId,
+        logoOnDarkUrl: logo.logoOnDarkUrl,
+        logoOnDarkPublicId: logo.logoOnDarkPublicId,
+        logoWidth: logo.logoWidth,
+        logoHeight: logo.logoHeight,
+        websiteUrl: null,
       },
     });
+    if (!existing) created += 1;
   }
-  console.info(`  partners: ${rows.length} placeholders`);
+  console.info(`  partners: ${created} created, ${SEED_PARTNERS.length - created} already present (left unchanged)`);
 }
 
 async function seedWorkspace() {
@@ -279,8 +337,9 @@ async function main() {
   console.info("Seeding users…");
   await seedUsers();
 
-  console.info("Seeding services (owner copy)…");
+  console.info("Seeding services and partners (owner content)…");
   await seedServices();
+  await seedPartners();
 
   if (isProduction) {
     console.info("NODE_ENV=production: skipping placeholder content.");
@@ -292,7 +351,6 @@ async function main() {
   await seedProjects();
   await seedNews(admin?.id ?? null);
   await seedTeam();
-  await seedPartners();
   await seedWorkspace();
   console.info("Done.");
 }

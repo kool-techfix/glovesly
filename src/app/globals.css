@@ -1215,6 +1215,18 @@
 .about-photo img {
   object-fit: cover;
 }
+.about-photo--square {
+  aspect-ratio: 1 / 1;
+}
+/* Photo on the left on wide screens; the heading stays first in reading order. */
+@media (min-width: 861px) {
+  .about-split--reversed {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  }
+  .about-split--reversed > .about-photo {
+    order: -1;
+  }
+}
 .about-portfolio {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));

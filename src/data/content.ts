@@ -25,31 +25,43 @@ export const mainNav: NavItem[] = [
   { href: "/contact", label: "Contact", key: "contact" },
 ];
 
-export const footerNav: NavItem[] = [...mainNav.slice(1, 5), { href: "/our-team", label: "Our team", key: "our-team" }, mainNav[5]!];
+export const footerNav: NavItem[] = [
+  ...mainNav.slice(1, 5),
+  { href: "/our-team", label: "Our team", key: "our-team" },
+  mainNav[5]!,
+];
 
 export const ctaLabel = "Let's talk";
 
 /** The four sectors named in the brief. Descriptions are placeholders. */
-export const sectors: Array<{ key: ProjectSector; title: string; description: string }> = [
+export const sectors: Array<{
+  key: ProjectSector;
+  title: string;
+  description: string;
+}> = [
   {
     key: "AVIATION",
     title: "Aviation infrastructure",
-    description: "Placeholder: one or two sentences from the owner about the company's aviation infrastructure work.",
+    description:
+      "Placeholder: one or two sentences from the owner about the company's aviation infrastructure work.",
   },
   {
     key: "CONSTRUCTION",
     title: "Construction",
-    description: "Placeholder: one or two sentences from the owner about the company's construction work.",
+    description:
+      "Placeholder: one or two sentences from the owner about the company's construction work.",
   },
   {
     key: "SECURITY",
     title: "Security solutions",
-    description: "Placeholder: one or two sentences from the owner about the company's security solutions.",
+    description:
+      "Placeholder: one or two sentences from the owner about the company's security solutions.",
   },
   {
     key: "ENERGY",
     title: "Energy solutions",
-    description: "Placeholder: one or two sentences from the owner about the company's energy solutions.",
+    description:
+      "Placeholder: one or two sentences from the owner about the company's energy solutions.",
   },
 ];
 
@@ -89,7 +101,10 @@ export const heroSlides: HeroSlide[] = [
     eyebrow: siteName,
     title: "Your vision, our expertise",
     text: "Providing solutions around the globe in aviation infrastructure, construction, security and energy.",
-    image: { src: null, alt: "Placeholder: describe the hero photo once it is supplied." },
+    image: {
+      src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263678/glovesly/heroSlides/3d-rendering-building-construction-blue-prints-1920x1200_tsod7i.jpg",
+      alt: "Placeholder: describe the hero photo once it is supplied.",
+    },
     primaryCta: { label: "Our services", href: "/services" },
     secondaryCta: { label: "Contact us", href: "/contact" },
   },
@@ -99,7 +114,10 @@ export const heroSlides: HeroSlide[] = [
     title: "Aviation infrastructure",
     text: "",
     serviceSlug: "aviation",
-    image: { src: null, alt: "Placeholder: describe the aviation infrastructure photo once it is supplied." },
+    image: {
+      src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263678/glovesly/heroSlides/3d-crane-against-sunset-sky_vur1qy.jpg",
+      alt: "Placeholder: describe the aviation infrastructure photo once it is supplied.",
+    },
     primaryCta: { label: "About this service", href: "/services/aviation" },
     secondaryCta: { label: "View projects", href: "/projects" },
   },
@@ -109,7 +127,10 @@ export const heroSlides: HeroSlide[] = [
     title: "Construction",
     text: "",
     serviceSlug: "construction",
-    image: { src: null, alt: "Placeholder: describe the construction photo once it is supplied." },
+    image: {
+      src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263679/glovesly/heroSlides/builder-safety-helmet-roof-construction-worker-standing-sunset-city-generative-ai_k9vmzt.jpg",
+      alt: "Placeholder: describe the construction photo once it is supplied.",
+    },
     primaryCta: { label: "About this service", href: "/services/construction" },
     secondaryCta: { label: "View projects", href: "/projects" },
   },
@@ -119,8 +140,14 @@ export const heroSlides: HeroSlide[] = [
     title: "Security solutions",
     text: "",
     serviceSlug: "security-solutions",
-    image: { src: null, alt: "Placeholder: describe the security solutions photo once it is supplied." },
-    primaryCta: { label: "About this service", href: "/services/security-solutions" },
+    image: {
+      src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263683/glovesly/heroSlides/builders-top-view-house-construction-plan-copy-1-1920x1200-1_fflyng.jpg",
+      alt: "Placeholder: describe the security solutions photo once it is supplied.",
+    },
+    primaryCta: {
+      label: "About this service",
+      href: "/services/security-solutions",
+    },
     secondaryCta: { label: "View projects", href: "/projects" },
   },
   {
@@ -129,8 +156,14 @@ export const heroSlides: HeroSlide[] = [
     title: "Energy solutions",
     text: "",
     serviceSlug: "energy-solutions",
-    image: { src: null, alt: "Placeholder: describe the energy solutions photo once it is supplied." },
-    primaryCta: { label: "About this service", href: "/services/energy-solutions" },
+    image: {
+      src: null,
+      alt: "Placeholder: describe the energy solutions photo once it is supplied.",
+    },
+    primaryCta: {
+      label: "About this service",
+      href: "/services/energy-solutions",
+    },
     secondaryCta: { label: "View projects", href: "/projects" },
   },
 ];
@@ -139,7 +172,8 @@ export const home = {
   sectors: {
     eyebrow: "Sectors",
     title: "Four sectors, one partner",
-    description: "Placeholder: a short introduction to how the four sectors fit together.",
+    description:
+      "Placeholder: a short introduction to how the four sectors fit together.",
   },
   services: {
     eyebrow: "What we do",
@@ -154,12 +188,14 @@ export const home = {
   partners: {
     eyebrow: "Clients and partners",
     title: "Who we work with",
-    description: "Placeholder: one sentence about the organisations the company works with.",
+    description:
+      "Placeholder: one sentence about the organisations the company works with.",
   },
   map: {
     eyebrow: "Across Nigeria",
     title: "Where we work",
-    description: "Placeholder: one sentence about the company's reach across Nigeria.",
+    description:
+      "Placeholder: one sentence about the company's reach across Nigeria.",
   },
   news: {
     eyebrow: "News",
@@ -193,6 +229,8 @@ export type AboutPage = {
   howWeWorkImage: ContentImage;
   /** Taken from paragraphs[2]. */
   portfolio: string[];
+  /** Shown beside the portfolio in "What we deliver". Null = text only. */
+  portfolioImage: ContentImage;
   vision: { title: string; text: string };
   mission: { title: string; text: string };
   closing: ClosingBandContent;
@@ -212,8 +250,12 @@ export const aboutPage: AboutPage = {
     "Glovesly Pro-Project Ltd found success working with public and private clients in the aviation sector by repeatedly executing projects of all sizes and delivery methods. As a valued stakeholder invested in sharing visions for the future, our collaborative approach to airside and landside projects serves as a key differentiator with airport authorities, and fixed-base operators. The expertise and creativity our team provides helps drive decisions to elevate the overall passenger experience, passenger safety and the facilities’ lifecycle, all while prioritizing design to ensure construction deliverables are achieved to the client’s desirable levels without impacting day-to-day operations. For these reasons and more, Glovesly Pro-Project Ltd has earned a reputation as one of the top Aviation contractors in the country today.",
     "Our balanced portfolio includes everything from terminals, Aprons, Taxi Ways, Security Surveillance systems, Disabled Aircraft Recovery Equipment, and Fire/Smoke Simulators and Range of other Safety Equipment and Services. We firmly understand the regulations for aviation facilities (including military and federal installations) and embrace opportunities to uncover solutions to challenges that are burdensome to clients, airlines and passengers. Because of this knowledge, passion and customer-focused approach, we have become an emerging leader in aviation construction to upgrade aging infrastructure and build new, world-class airports focused on enhancing the overall passenger experience. We made a successful entry into the local and international market by actively participating in tenders for special equipment, Civil Construction, thus making a significant contribution to the industry.",
   ],
-  sections: { whoWeAre: "Who we are", howWeWork: "How we work", whatWeDeliver: "What we deliver" },
-  howWeWorkImage: null,
+  sections: {
+    whoWeAre: "Who we are",
+    howWeWork: "How we work",
+    whatWeDeliver: "What we deliver",
+  },
+  howWeWorkImage: {src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795283007/glovesly/heroSlides/woman-studying-draft-construction-site-1000x1000-1-1000x1000_evxvco.jpg", alt: "How we work image"},
   portfolio: [
     "Terminals",
     "Aprons",
@@ -223,6 +265,7 @@ export const aboutPage: AboutPage = {
     "Fire/smoke simulators",
     "Other safety equipment and services",
   ],
+  portfolioImage: {src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795283007/glovesly/heroSlides/woman-studying-draft-construction-site-1000x1000-1-1000x1000_evxvco.jpg", alt: "A group gathered round an equipment control panel while one person points at the touchscreen"},
   vision: {
     title: "Our vision",
     text: "We strive to be high value player in all our business concerns, by ensuring a total quality service as well as safety of personnel equipment and environment while providing solutions to our client’s door steps.",
@@ -239,7 +282,10 @@ export const aboutPage: AboutPage = {
 };
 
 /** First sentence of paragraphs[0], used as the page's meta description. */
-export const aboutMetaDescription = aboutPage.paragraphs[0].slice(0, aboutPage.paragraphs[0].indexOf(". ") + 1);
+export const aboutMetaDescription = aboutPage.paragraphs[0].slice(
+  0,
+  aboutPage.paragraphs[0].indexOf(". ") + 1,
+);
 
 /* ------------------------------------------------------------------
    Message from the CEO (About page, optional home teaser)
@@ -257,9 +303,13 @@ export const ceoMessage = {
   name: "Yasir Tijjani Abdullahi",
   role: "CEO",
   /** TODO(content): portrait of the CEO (Cloudinary URL, at least 1200px). Null hides the photo column. */
-  photo: null as { src: string; alt: string } | null,
+  photo: {
+    src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263679/glovesly/heroSlides/MD-pic_png_lneqsa.jpg",
+    alt: "CEO portrait.",
+  },
   /** Short excerpt for the home teaser, taken verbatim from the message. */
-  excerpt: "Together, we are making a positive difference today while shaping a better future for the world.",
+  excerpt:
+    "Together, we are making a positive difference today while shaping a better future for the world.",
 };
 
 /** Home page teaser linking to the full message. Set to false to remove it. */
@@ -275,7 +325,8 @@ export const pageIntros = {
   projects: {
     eyebrow: "Projects",
     title: "Placeholder: projects page headline",
-    description: "Placeholder: an introduction to the company's projects across Nigeria.",
+    description:
+      "Placeholder: an introduction to the company's projects across Nigeria.",
   },
   news: {
     eyebrow: "News",
@@ -290,7 +341,8 @@ export const pageIntros = {
   contact: {
     eyebrow: "Contact",
     title: ctaLabel,
-    description: "Placeholder: a sentence inviting enquiries and saying how quickly the team replies.",
+    description:
+      "Placeholder: a sentence inviting enquiries and saying how quickly the team replies.",
   },
 };
 
@@ -315,25 +367,32 @@ export const ctaBand = {
 
 export const contactForm = {
   title: "Send us a message",
-  success: "Thank you. Your message has been sent and the team will be in touch.",
+  success:
+    "Thank you. Your message has been sent and the team will be in touch.",
 };
 
 /**
  * One row per partner type in the Clients & Partners section. Types are
  * PROVISIONAL (see PartnerType); titles and descriptions are placeholders.
  */
-export const partnerGroups: Record<PartnerType, { title: string; description: string }> = {
+export const partnerGroups: Record<
+  PartnerType,
+  { title: string; description: string }
+> = {
   GOVERNMENT: {
     title: "Government",
-    description: "Placeholder: one line about the government bodies the company works with.",
+    description:
+      "Placeholder: one line about the government bodies the company works with.",
   },
   PRIVATE_CLIENT: {
     title: "Private clients",
-    description: "Placeholder: one line about the company's private-sector clients.",
+    description:
+      "Placeholder: one line about the company's private-sector clients.",
   },
   TECHNOLOGY_PARTNER: {
     title: "Technology partners",
-    description: "Placeholder: one line about the company's technology partners.",
+    description:
+      "Placeholder: one line about the company's technology partners.",
   },
   // TODO(content): description not supplied yet. Empty = no paragraph is rendered.
   INTERNATIONAL_PARTNER: {
@@ -341,4 +400,3 @@ export const partnerGroups: Record<PartnerType, { title: string; description: st
     description: "",
   },
 };
-

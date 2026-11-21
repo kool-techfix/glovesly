@@ -128,7 +128,7 @@ export const heroSlides: HeroSlide[] = [
     text: "",
     serviceSlug: "construction",
     image: {
-      src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263679/glovesly/heroSlides/builder-safety-helmet-roof-construction-worker-standing-sunset-city-generative-ai_k9vmzt.jpg",
+      src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795283007/glovesly/heroSlides/mobile-crane-road-tower-crane-construction-site_rsm0yi.jpg",
       alt: "Placeholder: describe the construction photo once it is supplied.",
     },
     primaryCta: { label: "About this service", href: "/services/construction" },
@@ -141,7 +141,7 @@ export const heroSlides: HeroSlide[] = [
     text: "",
     serviceSlug: "security-solutions",
     image: {
-      src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263683/glovesly/heroSlides/builders-top-view-house-construction-plan-copy-1-1920x1200-1_fflyng.jpg",
+      src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263679/glovesly/heroSlides/builder-safety-helmet-roof-construction-worker-standing-sunset-city-generative-ai_k9vmzt.jpg",
       alt: "Placeholder: describe the security solutions photo once it is supplied.",
     },
     primaryCta: {
@@ -157,7 +157,7 @@ export const heroSlides: HeroSlide[] = [
     text: "",
     serviceSlug: "energy-solutions",
     image: {
-      src: null,
+      src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263683/glovesly/heroSlides/builders-top-view-house-construction-plan-copy-1-1920x1200-1_fflyng.jpg",
       alt: "Placeholder: describe the energy solutions photo once it is supplied.",
     },
     primaryCta: {

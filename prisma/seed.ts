@@ -6,9 +6,10 @@
  *
  * - Two dev accounts (ADMIN and EDITOR). Override with the SEED_* variables;
  *   the fake defaults are refused when NODE_ENV=production.
- * - The four real services (owner copy, prisma/seed-services.ts) and the five
+ * - The four real services (owner copy, prisma/seed-services.ts), the five
  *   international partners (logos from prisma/data/partner-logos.json, written
- *   by `pnpm partners:upload`), in every environment.
+ *   by `pnpm partners:upload`) and the six real projects
+ *   (prisma/seed-projects.ts), in every environment.
  * - Clearly fake placeholder content for the other modules and the workspace
  *   settings, so pages and admin screens have something to show. Nothing there
  *   is a company fact; see docs/TODO-content.md. Skipped in production.
@@ -24,6 +25,8 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcrypt";
 
 import { PrismaClient } from "../src/generated/prisma/client";
+import { isNigeriaState } from "../src/lib/nigeria-states";
+import { SEED_PROJECTS } from "./seed-projects";
 import { RETIRED_SAMPLE_SERVICE_SLUGS, SEED_SERVICES } from "./seed-services";
 
 const BCRYPT_ROUNDS = 12;
@@ -146,36 +149,52 @@ async function seedServices() {
   console.info(`  services: ${created} created, ${SEED_SERVICES.length - created} already present (left unchanged)`);
 }
 
+/**
+ * The six real projects (prisma/seed-projects.ts). Created only if the slug is
+ * missing; an existing row is never touched, because the owner edits these in
+ * the admin (images, descriptions, years). Placeholder rows are removed, but
+ * only those whose slug starts with "sample-".
+ */
 async function seedProjects() {
-  // States are required by the schema; these are arbitrary placeholders, not
-  // places the company has worked. Replace with real projects from the owner.
-  const rows = [
-    { slug: "sample-project-one", title: "Sample Project One", sector: "AVIATION" as const, state: "Federal Capital Territory", status: "PUBLISHED" as const },
-    { slug: "sample-project-two", title: "Sample Project Two", sector: "CONSTRUCTION" as const, state: "Lagos", status: "PUBLISHED" as const },
-    { slug: "sample-project-three", title: "Sample Project Three", sector: "SECURITY" as const, state: "Kano", status: "PUBLISHED" as const },
-    { slug: "sample-project-four", title: "Sample Project Four", sector: "ENERGY" as const, state: "Rivers", status: "REVIEW" as const },
-    { slug: "sample-project-five", title: "Sample Project Five", sector: "CONSTRUCTION" as const, state: "Enugu", status: "DRAFT" as const },
-  ];
-  for (const [index, row] of rows.entries()) {
-    await prisma.project.upsert({
-      where: { slug: row.slug },
-      update: {},
-      create: {
-        slug: row.slug,
-        title: row.title,
-        sortOrder: index,
-        ...publishedFields(row.status),
-        sector: row.sector,
-        state: row.state,
-        client: "Sample Client",
-        locationLabel: "Sample location",
-        summary: "Placeholder summary. Replace with real project details from the owner.",
-        body: "Placeholder body text. Replace before launch.",
-        projectStatus: index % 2 === 0 ? "COMPLETED" : "ONGOING",
+  const removed = await prisma.project.deleteMany({ where: { slug: { startsWith: "sample-" } } });
+  if (removed.count) console.info(`  projects: removed ${removed.count} placeholder rows (slug sample-*)`);
+
+  let created = 0;
+  for (const project of SEED_PROJECTS) {
+    if (!isNigeriaState(project.state)) throw new Error(`${project.slug}: "${project.state}" is not in NIGERIA_STATES`);
+    const existing = await prisma.project.findUnique({ where: { slug: project.slug }, select: { id: true } });
+    if (existing) {
+      console.info(`  kept existing: ${project.slug}`);
+      continue;
+    }
+    await prisma.project.create({
+      data: {
+        slug: project.slug,
+        title: project.title,
+        sortOrder: project.sortOrder,
+        ...publishedFields("PUBLISHED"),
+        sector: project.sector,
+        client: project.client,
+        state: project.state,
+        locationLabel: project.locationLabel,
+        projectStatus: "COMPLETED",
+        // Not supplied yet: left empty, never filler. The admin's publish rule
+        // (cover image required) is not applied here; the seed writes directly.
+        summary: "",
+        body: "",
+        year: null,
+        latitude: null,
+        longitude: null,
+        coverImageUrl: null,
+        coverImagePublicId: null,
+        galleryUrls: [],
+        galleryPublicIds: [],
       },
     });
+    created += 1;
+    console.info(`  created: ${project.slug}`);
   }
-  console.info(`  projects: ${rows.length} placeholders`);
+  console.info(`  projects: ${created} created, ${SEED_PROJECTS.length - created} kept`);
 }
 
 async function seedNews(authorId: string | null) {
@@ -337,22 +356,26 @@ async function main() {
   console.info("Seeding users…");
   await seedUsers();
 
-  console.info("Seeding services and partners (owner content)…");
+  console.info("Seeding services, partners and projects (owner content)…");
   await seedServices();
   await seedPartners();
+  await seedProjects();
 
   if (isProduction) {
     console.info("NODE_ENV=production: skipping placeholder content.");
-    return;
+  } else {
+    console.info("Seeding placeholder content…");
+    const admin = await prisma.user.findFirst({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" } });
+    await seedNews(admin?.id ?? null);
+    await seedTeam();
+    await seedWorkspace();
   }
 
-  console.info("Seeding placeholder content…");
-  const admin = await prisma.user.findFirst({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" } });
-  await seedProjects();
-  await seedNews(admin?.id ?? null);
-  await seedTeam();
-  await seedWorkspace();
   console.info("Done.");
+  console.info(
+    "\nNote: the seed writes straight to the database and does not clear Next.js caches.\n" +
+      "To see the changes now: stop the dev server, delete .next (rm -rf .next) and start it again.",
+  );
 }
 
 main()

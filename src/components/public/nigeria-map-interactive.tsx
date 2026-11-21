@@ -160,7 +160,9 @@ export function NigeriaMapInteractive({
                     <Link href={`/projects/${project.slug}`} className="map-panel-link focus-ring" data-testid={`link-map-project-${project.slug}`}>
                       <span>
                         <span className="block font-semibold">{project.title}</span>
-                        <span className="map-panel-meta">{PROJECT_SECTOR_LABELS[project.sector]}</span>
+                        <span className="map-panel-meta">
+                          {[PROJECT_SECTOR_LABELS[project.sector], project.client, project.locationLabel].filter(Boolean).join(" · ")}
+                        </span>
                       </span>
                       <ArrowRight aria-hidden="true" size={16} />
                     </Link>

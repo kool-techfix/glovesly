@@ -5,7 +5,12 @@ Everything below is a placeholder. None of it is a company fact. Replace each it
 ## Seeded placeholder rows (`prisma/seed.ts`, development only)
 
 - [x] **Services:** the four real services (Aviation, Construction, Security Solutions, Energy Solutions) are seeded from the owner's copy in `prisma/seed-services.ts`, in every environment. The old "Sample Service" rows are removed by the seed.
-- [ ] **Projects:** "Sample Project One" to "Sample Project Five". The client is "Sample Client" and the location is "Sample location". The states (FCT, Lagos, Kano, Rivers, Enugu) were picked at random because the field is required. They are **not** places the company has worked. Real projects, clients, states, coordinates, years and photos are needed.
+- [x] **Projects:** the six real projects are seeded (`prisma/seed-projects.ts`) with the title, sector, client, state and location supplied by the owner. The "Sample Project" rows are removed. Still needed:
+  - [ ] Project photos (cover image for each of the six projects). Until then each card and project page shows a flat accent block with the sector label. Note: the admin needs a cover image before it will publish a project, so these six were published by the seed; editing them in the admin is fine.
+  - [ ] Project descriptions and summaries
+  - [ ] Project years
+  - [ ] Client for the Mobile and Fixed Surveillance System
+  - [ ] Whether to show full names for FAAN, NCAT and GAT (abbreviations are used as supplied)
 - [ ] **News:** "Sample News Post One" to "Sample News Post Four". Real posts or the WordPress posts (old `/wp/lavarai`) are needed.
 - [ ] **Team:** "Sample Person One" to "Sample Person Four" with the role "Sample role". Real names, roles, bios and photos are needed.
 - [x] **Partners:** five real international partners (Alpine Metal Tech UK Ltd, AMS Aircraft Recovery Limited, DAT-CON, STRUCTURUS, ADB SAFEGATE) are seeded with logos from `pnpm partners:upload`, in every environment. The old "Sample Partner" rows are removed by the seed.

@@ -1034,6 +1034,22 @@
   color: hsl(var(--primary));
 }
 
+/* Project with no photo yet: flat accent block with the sector label. */
+.project-fallback {
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: hsl(var(--accent));
+}
+.project-fallback span {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  color: #fff;
+}
+
 .sector-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
@@ -1108,6 +1124,14 @@
 }
 .detail-aside-title {
   font-size: 1.25rem;
+}
+/* Facts on their own (no body copy yet): full width, not sticky. */
+.detail-aside--wide {
+  position: static;
+}
+.fact-list--row {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: 1.25rem 2rem;
 }
 @media (max-width: 960px) {
   .detail-aside {
@@ -1535,7 +1559,8 @@
   border-color: hsl(var(--primary));
   color: hsl(var(--primary));
 }
-.filter-button[aria-pressed="true"] {
+.filter-button[aria-pressed="true"],
+.filter-button[aria-current="page"] {
   background: hsl(var(--primary));
   border-color: hsl(var(--primary));
   color: hsl(var(--primary-foreground));

@@ -41,7 +41,7 @@ export default async function ServiceDetailPage({ params }: Props) {
   const [service, services] = await Promise.all([serviceService.getPublishedBySlug(slug), serviceService.listPublished()]);
   if (!service) notFound();
 
-  const related = service.sector ? await projectService.listPublishedBySector(service.sector, 3) : [];
+  const related = service.sector ? await projectService.listPublishedBySector(service.sector) : [];
   const position = services.findIndex((item) => item.id === service.id);
   const previous = position > 0 ? services[position - 1] : undefined;
   const next = position >= 0 && position < services.length - 1 ? services[position + 1] : undefined;

@@ -81,6 +81,6 @@ export function ListSection({
   );
 }
 
-export function EmptyNote({ children }: { children: React.ReactNode }) {
-  return <p className="empty-note">{children}</p>;
+export function EmptyNote({ children, className }: { children: React.ReactNode; className?: string }) {
+  return <p className={cn("empty-note", className)}>{children}</p>;
 }

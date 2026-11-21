@@ -50,7 +50,13 @@ export function toProjectDto(record: ProjectRecord): ProjectDto {
 }
 
 /** A published project as the Nigeria map needs it. */
-export type ProjectMapEntry = { slug: string; title: string; sector: ProjectSector };
+export type ProjectMapEntry = {
+  slug: string;
+  title: string;
+  sector: ProjectSector;
+  client: string | null;
+  locationLabel: string | null;
+};
 
 /** Published projects grouped by state (only states with at least one project). */
 export type ProjectsByState = Record<string, ProjectMapEntry[]>;
@@ -78,7 +84,7 @@ export const projectService = {
   ...base,
 
   /** Up to `limit` published projects in a sector, in sortOrder (related projects on a service page). */
-  async listPublishedBySector(sector: ProjectSector, limit = 3): Promise<ProjectDto[]> {
+  async listPublishedBySector(sector: ProjectSector, limit = 6): Promise<ProjectDto[]> {
     return (await base.listPublished()).filter((project) => project.sector === sector).slice(0, limit);
   },
 
@@ -91,7 +97,13 @@ export const projectService = {
       const grouped: ProjectsByState = {};
       for (const project of await projectRepository.listPublished()) {
         if (!isNigeriaState(project.state)) continue;
-        (grouped[project.state] ??= []).push({ slug: project.slug, title: project.title, sector: project.sector });
+        (grouped[project.state] ??= []).push({
+          slug: project.slug,
+          title: project.title,
+          sector: project.sector,
+          client: project.client,
+          locationLabel: project.locationLabel,
+        });
       }
       return grouped;
     });

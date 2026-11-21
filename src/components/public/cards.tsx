@@ -2,7 +2,8 @@ import { ArrowRight, Linkedin, MapPin } from "lucide-react";
 import Link from "next/link";
 
 import { MediaImage } from "@/components/public/media-image";
-import { formatLongDate, initials, projectStatusLabel, sectorLabel } from "@/lib/display";
+import { formatLongDate, initials, sectorLabel } from "@/lib/display";
+import { cn } from "@/lib/utils";
 import type { NewsPostDto } from "@/Services/news.service";
 import type { ProjectDto } from "@/Services/project.service";
 import type { ServiceDto } from "@/Services/service.service";
@@ -29,10 +30,26 @@ export function ServiceCard({ service }: { service: ServiceDto }) {
   );
 }
 
+/**
+ * A project's cover, or a flat accent block with the sector label while the
+ * project has no photo. Decorative: the title and sector are in the card text.
+ */
+export function ProjectCover({ project, sizes, className }: { project: ProjectDto; sizes: string; className?: string }) {
+  if (project.coverImageUrl) {
+    return <MediaImage src={project.coverImageUrl} alt="" sizes={sizes} className={className} />;
+  }
+  return (
+    <div className={cn("media-frame project-fallback", className)} aria-hidden="true">
+      <span>{sectorLabel(project.sector)}</span>
+    </div>
+  );
+}
+
 export function ProjectCard({ project }: { project: ProjectDto }) {
+  const location = project.locationLabel || project.state;
   return (
     <article className="card group">
-      <MediaImage src={project.coverImageUrl} alt="" label={project.title.charAt(0)} sizes="(max-width: 720px) 100vw, 33vw" className="aspect-[4/3]" />
+      <ProjectCover project={project} sizes="(max-width: 720px) 100vw, 33vw" className="aspect-[4/3]" />
       <div className="card-body">
         <p className="card-kicker">{sectorLabel(project.sector)}</p>
         <h3 className="card-title">
@@ -41,10 +58,20 @@ export function ProjectCard({ project }: { project: ProjectDto }) {
           </Link>
         </h3>
         <p className="card-meta">
-          <MapPin aria-hidden="true" size={14} />
-          {project.locationLabel ? `${project.locationLabel}, ${project.state}` : project.state}
-          <span aria-hidden="true">·</span>
-          {projectStatusLabel(project.projectStatus)}
+          {project.client ? (
+            <>
+              <span>
+                <span className="sr-only">Client: </span>
+                {project.client}
+              </span>
+              <span aria-hidden="true">·</span>
+            </>
+          ) : null}
+          <span className="inline-flex items-center gap-1">
+            <MapPin aria-hidden="true" size={14} />
+            <span className="sr-only">Location: </span>
+            {location}
+          </span>
         </p>
         {project.summary ? <p className="card-text">{project.summary}</p> : null}
       </div>

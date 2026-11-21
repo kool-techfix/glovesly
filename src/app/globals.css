@@ -30,6 +30,7 @@
   --destructive-foreground: 0 0% 100%;
 
   --radius: 0.35rem; /* ICAADA's radius (cards, inputs). Buttons and nav are square. */
+  --radius-media: calc(var(--radius) + 8px); /* Photos outside the heroes; matches cards. */
   --shadow-sm: 0 8px 24px hsl(220 20% 10% / 0.06);
   --shadow-md: 0 16px 42px hsl(220 20% 10% / 0.1);
   --ease-out-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -951,6 +952,9 @@
 .card:focus-within {
   border-color: hsl(var(--primary));
 }
+.card > .media-frame {
+  border-radius: 0;
+}
 .card-body {
   display: flex;
   flex: 1;
@@ -1013,6 +1017,7 @@
 .media-frame {
   position: relative;
   overflow: hidden;
+  border-radius: var(--radius-media);
   background: hsl(var(--secondary));
 }
 .media-placeholder {
@@ -1210,7 +1215,8 @@
   position: relative;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: hsl(var(--accent));
+  border-radius: var(--radius-media);
+  background: hsl(var(--secondary));
 }
 .about-photo img {
   object-fit: cover;
@@ -1302,6 +1308,7 @@
 .service-media {
   position: relative;
   overflow: hidden;
+  border-radius: var(--radius-media);
   aspect-ratio: 4 / 3;
   background: hsl(var(--accent));
 }
@@ -1429,6 +1436,7 @@
   aspect-ratio: 4 / 5;
   max-width: 22rem;
   overflow: hidden;
+  border-radius: var(--radius-media);
   background: hsl(var(--border));
 }
 .ceo-photo img {

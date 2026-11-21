@@ -56,7 +56,7 @@ export default async function ProjectDetailPage({ params }: Props) {
               label={project.title.charAt(0)}
               sizes="(max-width: 960px) 100vw, 60vw"
               priority
-              className="aspect-[16/9] rounded-[var(--radius)]"
+              className="aspect-[16/9]"
             />
             <Paragraphs text={project.body} className="mt-10" />
           </div>
@@ -86,7 +86,7 @@ export default async function ProjectDetailPage({ params }: Props) {
                     src={url}
                     alt={`${project.title}, photo ${index + 1}`}
                     sizes="(max-width: 720px) 100vw, 33vw"
-                    className="aspect-[4/3] rounded-[var(--radius)]"
+                    className="aspect-[4/3]"
                   />
                 </li>
               ))}

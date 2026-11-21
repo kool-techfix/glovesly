@@ -81,7 +81,7 @@ export function TeamCard({ member }: { member: TeamMemberDto }) {
         alt={member.photoUrl ? `Photo of ${member.name}` : ""}
         label={initials(member.name)}
         sizes="(max-width: 720px) 100vw, 25vw"
-        className="aspect-[4/5] rounded-[var(--radius)]"
+        className="aspect-[4/5]"
       />
       <div className="mt-4">
         <h3 className="card-title">{member.name}</h3>

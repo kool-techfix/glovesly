@@ -57,7 +57,7 @@ export default async function NewsDetailPage({ params }: Props) {
             label={post.title.charAt(0)}
             sizes="(max-width: 860px) 100vw, 800px"
             priority
-            className="aspect-[16/9] rounded-[var(--radius)]"
+            className="aspect-[16/9]"
           />
           <Paragraphs text={post.body} className="mt-10" />
           {post.tags.length ? (

@@ -1,6 +1,12 @@
 import type { Actor } from "@/lib/auth/auth-guard";
 import { newsPostRepository, type NewsPostRecord } from "@/Repositories/news-post.repository";
-import type { NewsCreateInput } from "@/Schemas/news.schema";
+import { ApiError } from "@/lib/api/api-error";
+import {
+  missingSourceField,
+  SOURCE_PAIR_MESSAGES,
+  type NewsCreateInput,
+  type NewsUpdateInput,
+} from "@/Schemas/news.schema";
 import {
   createContentService,
   mediaProblem,
@@ -18,6 +24,9 @@ export type NewsPostDto = ContentDtoBase & {
   tags: string[];
   authorId: string | null;
   author: { id: string; name: string } | null;
+  /** Outlet that first reported the story; set together with sourceUrl. */
+  sourceName: string | null;
+  sourceUrl: string | null;
 };
 
 export function toNewsPostDto(record: NewsPostRecord): NewsPostDto {
@@ -31,6 +40,8 @@ export function toNewsPostDto(record: NewsPostRecord): NewsPostDto {
     tags: record.tags,
     authorId: record.authorId,
     author: record.author,
+    sourceName: record.sourceName,
+    sourceUrl: record.sourceUrl,
   };
 }
 
@@ -50,5 +61,22 @@ export const newsService = {
   /** The author defaults to whoever creates the post. */
   create(input: NewsCreateInput, actor: Actor) {
     return base.create({ ...input, authorId: input.authorId === undefined ? actor.id : input.authorId }, actor);
+  },
+  /**
+   * An update that sends only one of sourceName/sourceUrl is checked against
+   * the stored row, so the pair can never end up half set.
+   */
+  async update(id: string, input: NewsUpdateInput, actor: Actor) {
+    if (("sourceName" in input) !== ("sourceUrl" in input)) {
+      const existing = await newsPostRepository.findById(id);
+      if (existing) {
+        const missing = missingSourceField({
+          sourceName: "sourceName" in input ? input.sourceName : existing.sourceName,
+          sourceUrl: "sourceUrl" in input ? input.sourceUrl : existing.sourceUrl,
+        });
+        if (missing) throw ApiError.validation("Some fields are invalid.", { [missing]: SOURCE_PAIR_MESSAGES[missing] });
+      }
+    }
+    return base.update(id, input, actor);
   },
 };

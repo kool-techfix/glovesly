@@ -213,6 +213,10 @@ model NewsPost {
   authorId           String?
   author             User?         @relation(fields: [authorId], references: [id], onDelete: SetNull)
   tags               String[]      @default([])
+  /// Outlet that originally reported the story, e.g. "Daily Trust". Set with sourceUrl.
+  sourceName         String?
+  /// https link to the original report. Set with sourceName.
+  sourceUrl          String?
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
 

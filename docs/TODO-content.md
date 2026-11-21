@@ -11,7 +11,11 @@ Everything below is a placeholder. None of it is a company fact. Replace each it
   - [ ] Project years
   - [ ] Client for the Mobile and Fixed Surveillance System
   - [ ] Whether to show full names for FAAN, NCAT and GAT (abbreviations are used as supplied)
-- [ ] **News:** "Sample News Post One" to "Sample News Post Four". Real posts or the WordPress posts (old `/wp/lavarai`) are needed.
+- [x] **News:** three articles from `docs/content/glovesly-news-articles.md` are seeded (`prisma/data/news-seed.ts`), each linking to the outlet that first reported it. Two are published; the GAT article is a draft. The "Sample News Post" rows are removed. Still needed:
+  - [ ] Cover images for the three news articles (use Glovesly's own photos, not the outlets' images). Until then the cards show a flat accent block. The admin needs a cover image before it will publish, so the draft cannot be published without one.
+  - [ ] Confirm the cost wording and the publication date in the Punch article, then publish the Zulu/GAT article. The Punch headline says N2bn while the article says N2.2 billion.
+  - [ ] Link the GAT article to the Zulu Terminal Expansion project once relations are supported
+  - [ ] Check what happened after the January 2021 ALC/MRO announcement before adding any follow-up
 - [ ] **Team:** "Sample Person One" to "Sample Person Four" with the role "Sample role". Real names, roles, bios and photos are needed.
 - [x] **Partners:** five real international partners (Alpine Metal Tech UK Ltd, AMS Aircraft Recovery Limited, DAT-CON, STRUCTURUS, ADB SAFEGATE) are seeded with logos from `pnpm partners:upload`, in every environment. The old "Sample Partner" rows are removed by the seed.
 - [x] **Contact details** (supplied by the owner): `info@gloveslyproject.com`, +234 704 780 0065, 37 Yakubu Gowon Crescent, Abuja, Federal Capital Territory, Nigeria.

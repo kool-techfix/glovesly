@@ -39,7 +39,7 @@ export function ProjectCover({ project, sizes, className }: { project: ProjectDt
     return <MediaImage src={project.coverImageUrl} alt="" sizes={sizes} className={className} />;
   }
   return (
-    <div className={cn("media-frame project-fallback", className)} aria-hidden="true">
+    <div className={cn("media-frame media-fallback", className)} aria-hidden="true">
       <span>{sectorLabel(project.sector)}</span>
     </div>
   );
@@ -79,10 +79,15 @@ export function ProjectCard({ project }: { project: ProjectDto }) {
   );
 }
 
+/** Links to our own article page; the outlet is linked from inside the article. */
 export function NewsCard({ post }: { post: NewsPostDto }) {
   return (
     <article className="card group">
-      <MediaImage src={post.coverImageUrl} alt="" label={post.title.charAt(0)} sizes="(max-width: 720px) 100vw, 33vw" className="aspect-[16/10]" />
+      {post.coverImageUrl ? (
+        <MediaImage src={post.coverImageUrl} alt="" sizes="(max-width: 720px) 100vw, 33vw" className="aspect-[16/10]" />
+      ) : (
+        <div className="media-frame media-fallback aspect-[16/10]" aria-hidden="true" />
+      )}
       <div className="card-body">
         {post.publishedAt ? (
           <p className="card-kicker">
@@ -95,6 +100,7 @@ export function NewsCard({ post }: { post: NewsPostDto }) {
           </Link>
         </h3>
         {post.excerpt ? <p className="card-text">{post.excerpt}</p> : null}
+        {post.sourceName ? <p className="card-source">Source: {post.sourceName}</p> : null}
       </div>
     </article>
   );

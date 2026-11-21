@@ -267,6 +267,20 @@ export const moduleConfigs: Record<ModuleKey, ModuleConfig> = {
         folder: "news",
         wide: true,
       },
+      {
+        name: "sourceName",
+        label: "Source name",
+        kind: "text",
+        placeholder: "e.g. Daily Trust",
+        help: "The outlet that first reported the story. Fill in both source fields or neither.",
+      },
+      {
+        name: "sourceUrl",
+        label: "Source link",
+        kind: "url",
+        placeholder: "https://",
+        help: "Link to the original report. The article ends with \"Read the original report on …\".",
+      },
     ],
   },
 

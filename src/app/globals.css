@@ -992,6 +992,11 @@
   color: hsl(var(--muted-foreground));
   line-height: 1.65;
 }
+.card-source {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: hsl(var(--muted-foreground));
+}
 .card-meta {
   display: flex;
   flex-wrap: wrap;
@@ -1034,14 +1039,14 @@
   color: hsl(var(--primary));
 }
 
-/* Project with no photo yet: flat accent block with the sector label. */
-.project-fallback {
+/* Project or news post with no photo yet: flat accent block (projects add the sector label). */
+.media-fallback {
   display: grid;
   place-items: center;
   padding: 1.5rem;
   background: hsl(var(--accent));
 }
-.project-fallback span {
+.media-fallback span {
   font-family: var(--font-display);
   font-size: clamp(1.1rem, 2.2vw, 1.4rem);
   font-weight: 700;
@@ -1179,6 +1184,15 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
   gap: 1rem;
+}
+/* News body: a little wider than the About measure, about 70 characters a line. */
+.prose-measure.news-body {
+  --prose-measure: 37em;
+}
+.news-source {
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid hsl(var(--border));
 }
 .tag-list {
   display: flex;

@@ -8,8 +8,9 @@
  *   the fake defaults are refused when NODE_ENV=production.
  * - The four real services (owner copy, prisma/seed-services.ts), the five
  *   international partners (logos from prisma/data/partner-logos.json, written
- *   by `pnpm partners:upload`) and the six real projects
- *   (prisma/seed-projects.ts), in every environment.
+ *   by `pnpm partners:upload`), the six real projects
+ *   (prisma/seed-projects.ts) and three news articles
+ *   (prisma/data/news-seed.ts), in every environment.
  * - Clearly fake placeholder content for the other modules and the workspace
  *   settings, so pages and admin screens have something to show. Nothing there
  *   is a company fact; see docs/TODO-content.md. Skipped in production.
@@ -26,6 +27,7 @@ import bcrypt from "bcrypt";
 
 import { PrismaClient } from "../src/generated/prisma/client";
 import { isNigeriaState } from "../src/lib/nigeria-states";
+import { SEED_NEWS } from "./data/news-seed";
 import { SEED_PROJECTS } from "./seed-projects";
 import { RETIRED_SAMPLE_SERVICE_SLUGS, SEED_SERVICES } from "./seed-services";
 
@@ -197,32 +199,46 @@ async function seedProjects() {
   console.info(`  projects: ${created} created, ${SEED_PROJECTS.length - created} kept`);
 }
 
-async function seedNews(authorId: string | null) {
-  const rows = [
-    { slug: "sample-news-post-one", title: "Sample News Post One", status: "PUBLISHED" as const, daysAgo: 3 },
-    { slug: "sample-news-post-two", title: "Sample News Post Two", status: "PUBLISHED" as const, daysAgo: 10 },
-    { slug: "sample-news-post-three", title: "Sample News Post Three", status: "REVIEW" as const, daysAgo: 0 },
-    { slug: "sample-news-post-four", title: "Sample News Post Four", status: "DRAFT" as const, daysAgo: 0 },
-  ];
-  for (const [index, row] of rows.entries()) {
-    await prisma.newsPost.upsert({
-      where: { slug: row.slug },
-      update: {},
-      create: {
-        slug: row.slug,
-        title: row.title,
-        sortOrder: index,
-        status: row.status,
-        publishedAt:
-          row.status === "PUBLISHED" ? new Date(now.getTime() - row.daysAgo * 24 * 60 * 60 * 1000) : null,
-        excerpt: "Placeholder excerpt. Replace with a real news item.",
-        body: "Placeholder article body. Replace before launch.",
-        tags: ["sample"],
-        authorId,
+/**
+ * The three real news articles (prisma/data/news-seed.ts). Created only if the
+ * slug is missing; an existing row is never touched, because the owner edits
+ * these in the admin. Placeholder rows are removed, but only those whose slug
+ * starts with "sample-". No author is set, so no byline is shown.
+ */
+async function seedNews() {
+  const removed = await prisma.newsPost.deleteMany({ where: { slug: { startsWith: "sample-" } } });
+  if (removed.count) console.info(`  news: removed ${removed.count} placeholder rows (slug sample-*)`);
+
+  let created = 0;
+  for (const post of SEED_NEWS) {
+    const existing = await prisma.newsPost.findUnique({ where: { slug: post.slug }, select: { id: true } });
+    if (existing) {
+      console.info(`  kept existing: ${post.slug}`);
+      continue;
+    }
+    await prisma.newsPost.create({
+      data: {
+        slug: post.slug,
+        title: post.title,
+        sortOrder: post.sortOrder,
+        status: post.status,
+        // The report date, also on the draft, so publishing it later keeps that date.
+        publishedAt: new Date(`${post.publishedOn}T12:00:00+01:00`),
+        excerpt: post.excerpt,
+        body: post.paragraphs.join("\n\n"),
+        tags: post.tags,
+        sourceName: post.sourceName,
+        sourceUrl: post.sourceUrl,
+        // No cover yet; the admin's cover-image publish rule does not apply to the seed.
+        coverImageUrl: null,
+        coverImagePublicId: null,
+        authorId: null,
       },
     });
+    created += 1;
+    console.info(`  created: ${post.slug} (${post.status.toLowerCase()})`);
   }
-  console.info(`  news: ${rows.length} placeholders`);
+  console.info(`  news: ${created} created, ${SEED_NEWS.length - created} kept`);
 }
 
 async function seedTeam() {
@@ -356,17 +372,16 @@ async function main() {
   console.info("Seeding users…");
   await seedUsers();
 
-  console.info("Seeding services, partners and projects (owner content)…");
+  console.info("Seeding services, partners, projects and news (owner content)…");
   await seedServices();
   await seedPartners();
   await seedProjects();
+  await seedNews();
 
   if (isProduction) {
     console.info("NODE_ENV=production: skipping placeholder content.");
   } else {
     console.info("Seeding placeholder content…");
-    const admin = await prisma.user.findFirst({ where: { role: "ADMIN" }, orderBy: { createdAt: "asc" } });
-    await seedNews(admin?.id ?? null);
     await seedTeam();
     await seedWorkspace();
   }

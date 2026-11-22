@@ -1828,6 +1828,11 @@ textarea.form-input {
 a.logo-card:hover {
   border-color: hsl(var(--primary));
 }
+/* Seals and square marks: use most of the card height so they read at the
+   same visual weight as the wide wordmarks beside them. */
+.logo-card--compact {
+  padding-block: 0.4rem;
+}
 .logo-card-media {
   position: relative;
   width: 100%;

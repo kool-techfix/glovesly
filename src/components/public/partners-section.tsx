@@ -1,8 +1,7 @@
 import Image from "next/image";
 
 import { SectionHeading } from "@/components/site";
-import { home, partnerGroups } from "@/data/content";
-import { PARTNER_TYPES } from "@/lib/domain";
+import { home, partnerGroupOrder, partnerGroups } from "@/data/content";
 import { cn } from "@/lib/utils";
 import type { PartnerDto } from "@/Services/partner.service";
 
@@ -23,6 +22,13 @@ const MIN_ITEMS_PER_HALF = 8;
 /** Width ÷ height used when a logo's size is unknown (admin uploads). */
 const DEFAULT_LOGO_RATIO = 2.5;
 
+/**
+ * Below this ratio a logo is a compact mark (a seal or square badge). Scaled
+ * to the same height as a wordmark it would cover a fraction of the area, so
+ * it gets most of the card height instead (.logo-card--compact).
+ */
+const COMPACT_LOGO_RATIO = 1.3;
+
 export type LogoTone = "light" | "dark";
 
 /**
@@ -39,7 +45,7 @@ export function LogoCard({ partner, hidden = false, tone = "light" }: { partner:
   const { src, onDarkArtwork } = logoFor(partner, tone);
   const ratio = partner.logoWidth && partner.logoHeight ? partner.logoWidth / partner.logoHeight : DEFAULT_LOGO_RATIO;
   const style = { "--logo-ratio": ratio.toFixed(3) } as React.CSSProperties;
-  const className = cn("logo-card", onDarkArtwork && "logo-card--on-dark");
+  const className = cn("logo-card", ratio < COMPACT_LOGO_RATIO && "logo-card--compact", onDarkArtwork && "logo-card--on-dark");
 
   const content = src ? (
     <span className="logo-card-media">
@@ -103,7 +109,8 @@ function Marquee({ partners, label, tone }: { partners: PartnerDto[]; label: str
 }
 
 export function PartnersSection({ partners, tone = "light" }: { partners: PartnerDto[]; tone?: LogoTone }) {
-  const groups = PARTNER_TYPES.map((type) => ({
+  // Order comes from partnerGroupOrder (content.ts); empty rows are hidden.
+  const groups = partnerGroupOrder.map((type) => ({
     type,
     ...partnerGroups[type],
     partners: partners.filter((partner) => partner.type === type),

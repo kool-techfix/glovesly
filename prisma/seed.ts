@@ -7,9 +7,9 @@
  * - Two dev accounts (ADMIN and EDITOR). Override with the SEED_* variables;
  *   the fake defaults are refused when NODE_ENV=production.
  * - The four real services (owner copy, prisma/seed-services.ts), the five
- *   international partners (logos from prisma/data/partner-logos.json, written
- *   by `pnpm partners:upload`), the six real projects
- *   (prisma/seed-projects.ts) and three news articles
+ *   international partners and two government clients (logos from
+ *   prisma/data/partner-logos.json, written by `pnpm partners:upload`), the
+ *   six real projects (prisma/seed-projects.ts) and three news articles
  *   (prisma/data/news-seed.ts), in every environment.
  * - Clearly fake placeholder content for the other modules and the workspace
  *   settings, so pages and admin screens have something to show. Nothing there
@@ -267,13 +267,20 @@ async function seedTeam() {
 
 const PARTNER_LOGOS_FILE = join(import.meta.dirname, "data", "partner-logos.json");
 
-/** Real international partners (owner-supplied). Logos come from `pnpm partners:upload`. */
-const SEED_PARTNERS = [
-  { sortOrder: 10, slug: "alpine-metal-tech", name: "Alpine Metal Tech UK Ltd" },
-  { sortOrder: 20, slug: "ams-aircraft-recovery", name: "AMS Aircraft Recovery Limited" },
-  { sortOrder: 30, slug: "dat-con", name: "DAT-CON" },
-  { sortOrder: 40, slug: "structurus", name: "STRUCTURUS" },
-  { sortOrder: 50, slug: "adb-safegate", name: "ADB SAFEGATE" },
+/** Real partners and clients (owner-supplied). Logos come from `pnpm partners:upload`. */
+const SEED_PARTNERS: Array<{
+  sortOrder: number;
+  slug: string;
+  name: string;
+  type: "GOVERNMENT" | "INTERNATIONAL_PARTNER";
+}> = [
+  { sortOrder: 10, slug: "alpine-metal-tech", name: "Alpine Metal Tech UK Ltd", type: "INTERNATIONAL_PARTNER" },
+  { sortOrder: 20, slug: "ams-aircraft-recovery", name: "AMS Aircraft Recovery Limited", type: "INTERNATIONAL_PARTNER" },
+  { sortOrder: 30, slug: "dat-con", name: "DAT-CON", type: "INTERNATIONAL_PARTNER" },
+  { sortOrder: 40, slug: "structurus", name: "STRUCTURUS", type: "INTERNATIONAL_PARTNER" },
+  { sortOrder: 50, slug: "adb-safegate", name: "ADB SAFEGATE", type: "INTERNATIONAL_PARTNER" },
+  { sortOrder: 60, slug: "faan", name: "Federal Airports Authority of Nigeria", type: "GOVERNMENT" },
+  { sortOrder: 70, slug: "ncat", name: "Nigerian College of Aviation Technology, Zaria", type: "GOVERNMENT" },
 ];
 
 const RETIRED_SAMPLE_PARTNER_SLUGS = [
@@ -318,15 +325,18 @@ async function seedPartners() {
 
   let created = 0;
   for (const partner of SEED_PARTNERS) {
+    // Never overwrite an existing row: the owner edits partners in the admin.
     const existing = await prisma.partner.findUnique({ where: { slug: partner.slug }, select: { id: true } });
+    if (existing) {
+      console.info(`  kept existing: ${partner.slug}`);
+      continue;
+    }
     const logo = logos[partner.slug]!;
-    await prisma.partner.upsert({
-      where: { slug: partner.slug },
-      update: {},
-      create: {
+    await prisma.partner.create({
+      data: {
         slug: partner.slug,
         name: partner.name,
-        type: "INTERNATIONAL_PARTNER",
+        type: partner.type,
         sortOrder: partner.sortOrder,
         ...publishedFields("PUBLISHED"),
         logoUrl: logo.logoUrl,
@@ -338,9 +348,10 @@ async function seedPartners() {
         websiteUrl: null,
       },
     });
-    if (!existing) created += 1;
+    created += 1;
+    console.info(`  created: ${partner.slug} (${partner.type.toLowerCase()})`);
   }
-  console.info(`  partners: ${created} created, ${SEED_PARTNERS.length - created} already present (left unchanged)`);
+  console.info(`  partners: ${created} created, ${SEED_PARTNERS.length - created} kept`);
 }
 
 async function seedWorkspace() {

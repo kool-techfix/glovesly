@@ -372,17 +372,17 @@ export const contactForm = {
 };
 
 /**
- * One row per partner type in the Clients & Partners section. Types are
- * PROVISIONAL (see PartnerType); titles and descriptions are placeholders.
+ * Titles and descriptions for the Clients & Partners rows. An empty
+ * description renders no paragraph. Types are PROVISIONAL (see PartnerType).
  */
 export const partnerGroups: Record<
   PartnerType,
   { title: string; description: string }
 > = {
+  // TODO(content): description not supplied yet. Empty = no paragraph is rendered.
   GOVERNMENT: {
-    title: "Government",
-    description:
-      "Placeholder: one line about the government bodies the company works with.",
+    title: "Government clients",
+    description: "",
   },
   PRIVATE_CLIENT: {
     title: "Private clients",
@@ -400,3 +400,15 @@ export const partnerGroups: Record<
     description: "",
   },
 };
+
+/**
+ * Row order on the page, top to bottom. Set here on purpose, not taken from
+ * the enum or the database. A type that is left out is not shown; a row with
+ * no published partners is hidden.
+ */
+export const partnerGroupOrder: PartnerType[] = [
+  "GOVERNMENT",
+  "INTERNATIONAL_PARTNER",
+  "PRIVATE_CLIENT",
+  "TECHNOLOGY_PARTNER",
+];

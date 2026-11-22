@@ -38,5 +38,21 @@
     "logoOnDarkPublicId": "glovesly/partners/adb-safegate-on-dark",
     "logoWidth": 696,
     "logoHeight": 250
+  },
+  "faan": {
+    "logoUrl": "https://res.cloudinary.com/dikbulrav/image/upload/v1795337577/glovesly/partners/faan.png",
+    "logoPublicId": "glovesly/partners/faan",
+    "logoOnDarkUrl": null,
+    "logoOnDarkPublicId": null,
+    "logoWidth": 481,
+    "logoHeight": 223
+  },
+  "ncat": {
+    "logoUrl": "https://res.cloudinary.com/dikbulrav/image/upload/v1795337578/glovesly/partners/ncat.png",
+    "logoPublicId": "glovesly/partners/ncat",
+    "logoOnDarkUrl": null,
+    "logoOnDarkPublicId": null,
+    "logoWidth": 138,
+    "logoHeight": 156
   }
 }

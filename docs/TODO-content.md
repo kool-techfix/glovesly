@@ -17,7 +17,7 @@ Everything below is a placeholder. None of it is a company fact. Replace each it
   - [ ] Link the GAT article to the Zulu Terminal Expansion project once relations are supported
   - [ ] Check what happened after the January 2021 ALC/MRO announcement before adding any follow-up
 - [ ] **Team:** "Sample Person One" to "Sample Person Four" with the role "Sample role". Real names, roles, bios and photos are needed.
-- [x] **Partners:** five real international partners (Alpine Metal Tech UK Ltd, AMS Aircraft Recovery Limited, DAT-CON, STRUCTURUS, ADB SAFEGATE) are seeded with logos from `pnpm partners:upload`, in every environment. The old "Sample Partner" rows are removed by the seed.
+- [x] **Partners:** five real international partners (Alpine Metal Tech UK Ltd, AMS Aircraft Recovery Limited, DAT-CON, STRUCTURUS, ADB SAFEGATE) and two government clients (FAAN, NCAT) are seeded with logos from `pnpm partners:upload`, in every environment. The old "Sample Partner" rows are removed by the seed.
 - [x] **Contact details** (supplied by the owner): `info@gloveslyproject.com`, +234 704 780 0065, 37 Yakubu Gowon Crescent, Abuja, Federal Capital Territory, Nigeria.
 - [ ] **Workspace settings:**
   - office "Abuja office" (FCT): confirm whether it is the head office, the office name to show, and its coordinates (the map uses the FCT centre until then)
@@ -58,6 +58,9 @@ Everything in this file except `companySummary` (taken from the brief) is a plac
   - **Partner website URLs:** none supplied, so the logos are not links. Add them in the admin; each logo then opens the site in a new tab.
   - **International partners group description:** one line for `partnerGroups.INTERNATIONAL_PARTNER` in `src/data/content.ts`. Until then no description is shown.
   - **Better source files:** SVG for ADB SAFEGATE, AMS Aircraft Recovery and DAT-CON, and a horizontal DAT-CON logo. The AMS file is only 291×87 (and is a WebP saved as `.png`), so it is slightly soft on high-density screens; the square DAT-CON mark reads small in a horizontal strip.
+  - **Confirm FAAN and NCAT consent to their logos being shown** (the two government clients).
+  - **Government clients row description:** one line for `partnerGroups.GOVERNMENT` in `src/data/content.ts`. Until then no description is shown.
+  - **Larger or SVG logo files for FAAN and NCAT** (the supplied files are small).
 - [ ] **Message from the CEO** (`ceoMessage`): the text, name and title are from the owner. Still needed: a portrait of the CEO (at least 1200px, uploaded to Cloudinary) with alt text. The home page teaser can be removed by setting `showCeoTeaserOnHome` to `false`.
 - [ ] **About (`aboutPage`):** the copy (title, three paragraphs, vision, mission) is the owner's text from the current About page, used verbatim. Still needed:
   - **Hero photo:** the team photo with branded caps from the old About page. Landscape, at least 1920px wide, uploaded to Cloudinary, with alt text. Until then the hero is a solid accent background.

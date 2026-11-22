@@ -33,6 +33,9 @@ const LOGOS: { slug: string; light: string; dark: string | null }[] = [
   // SVGs preferred; the structurus-*.png files are only a fallback if an SVG upload fails.
   { slug: "structurus", light: "structurus-dark.svg", dark: "structurus-white.svg" },
   { slug: "adb-safegate", light: "adb-safegate-dark.png", dark: "adb-safegate-white.png" },
+  // Government clients. NCAT: the seal only; the longer lockup is not used.
+  { slug: "faan", light: "faan.png", dark: null },
+  { slug: "ncat", light: "ncat-seal.png", dark: null },
 ];
 
 const SVG_FALLBACKS: Record<string, string> = {
@@ -115,7 +118,10 @@ async function main() {
   }
 
   console.info(`Uploading ${needed.length} files to Cloudinary (${cloudName}), folder glovesly/partners…`);
-  const output: Record<string, PartnerLogoEntry> = {};
+  // Start from the existing file so no entry is ever dropped; uploaded slugs are replaced.
+  const output: Record<string, PartnerLogoEntry> = existsSync(OUTPUT)
+    ? (JSON.parse(readFileSync(OUTPUT, "utf8")) as Record<string, PartnerLogoEntry>)
+    : {};
   for (const logo of LOGOS) {
     const light = await uploadPreferSvg(logo.light, logo.slug);
     console.info(`  ✓ ${logo.slug}: ${light.public_id} (${light.width}×${light.height})`);

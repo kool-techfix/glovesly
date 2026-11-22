@@ -16,7 +16,12 @@ Everything below is a placeholder. None of it is a company fact. Replace each it
   - [ ] Confirm the cost wording and the publication date in the Punch article, then publish the Zulu/GAT article. The Punch headline says N2bn while the article says N2.2 billion.
   - [ ] Link the GAT article to the Zulu Terminal Expansion project once relations are supported
   - [ ] Check what happened after the January 2021 ALC/MRO announcement before adding any follow-up
-- [ ] **Team:** "Sample Person One" to "Sample Person Four" with the role "Sample role". Real names, roles, bios and photos are needed.
+- [x] **Team:** the twelve real members are seeded (`prisma/seed-team.ts`) with names and roles as supplied; the Director of Operations is featured, with the Director's message as the bio. The "Sample Person" rows are removed. Still needed:
+  - [ ] Team photos for all 12 members. Until then each shows a flat accent tile with initials. The admin needs a photo before it will publish a member, so these twelve were published by the seed; editing them in the admin is fine.
+  - [ ] Short bios for members other than the Director (optional). A member with a bio gets a clickable card that opens their profile.
+  - [ ] Check the two similar names: Abdullahi Ibrahim Yusuf (Accountant) and Abdullahi Ibrahim (Head of ICT) are different people
+  - [ ] Confirm each person agrees to be listed with their name and role on the public site
+  - [ ] Our team page intro (`pageIntros.team.description`; the title is "Our team" until then)
 - [x] **Partners:** five real international partners (Alpine Metal Tech UK Ltd, AMS Aircraft Recovery Limited, DAT-CON, STRUCTURUS, ADB SAFEGATE) and two government clients (FAAN, NCAT) are seeded with logos from `pnpm partners:upload`, in every environment. The old "Sample Partner" rows are removed by the seed.
 - [x] **Contact details** (supplied by the owner): `info@gloveslyproject.com`, +234 704 780 0065, 37 Yakubu Gowon Crescent, Abuja, Federal Capital Territory, Nigeria.
 - [ ] **Workspace settings:**
@@ -67,7 +72,7 @@ Everything in this file except `companySummary` (taken from the brief) is a plac
   - **Second photo:** the one shown beside the first paragraph on the old About page, at least 1200px wide, with alt text. Set it as `howWeWorkImage`; until then "How we work" is full-width text.
   - **Portfolio photo (`portfolioImage`):** shown beside the portfolio in "What we deliver" (square crop, to the right of the paragraph below the portfolio on wide screens). It currently uses the same photo as `howWeWorkImage`, so the two sections next to each other repeat it. Supply a different photo for one of them, at least 1000px square. Confirm what the photo shows so the alt text can be made specific; the `howWeWorkImage` alt text ("How we work image") also needs a real description.
   - **Portfolio list:** the seven items under "What we deliver" are taken from paragraph 3. Confirm the wording.
-- [ ] **Page intros:** the headline and introduction for the Projects, News, Our team and Contact pages. (Services uses the owner's copy.)
+- [ ] **Page intros:** the headline and introduction for the Projects, News and Contact pages (Our team: see Team above). (Services uses the owner's copy.)
 - [ ] **Clients and partners section:** a one-sentence introduction, plus a title and one-line description for each partner group (`partnerGroups`). The groups themselves (Government, Private clients, Technology partners) are provisional.
 - [ ] **Nigeria map section:** a one-sentence introduction. The stats beside the map and the office locations come from the admin Settings and are seeded placeholders.
 - [ ] **Call-to-action band:** a supporting sentence under "Have a project in mind?"

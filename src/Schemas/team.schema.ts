@@ -17,6 +17,8 @@ export const teamCreateSchema = z.object({
   photoUrl: cloudinaryUrl,
   photoPublicId: optionalPublicId,
   linkedinUrl: optionalUrl,
+  /** Shown in the featured (leadership) block at the top of /our-team. */
+  featured: z.boolean().default(false),
 });
 export type TeamCreateInput = z.infer<typeof teamCreateSchema>;
 

@@ -14,6 +14,7 @@ export type TeamMemberDto = ContentDtoBase & {
   photoUrl: string | null;
   photoPublicId: string | null;
   linkedinUrl: string | null;
+  featured: boolean;
 };
 
 export function toTeamMemberDto(record: TeamMemberRecord): TeamMemberDto {
@@ -25,6 +26,7 @@ export function toTeamMemberDto(record: TeamMemberRecord): TeamMemberDto {
     photoUrl: record.photoUrl,
     photoPublicId: record.photoPublicId,
     linkedinUrl: record.linkedinUrl,
+    featured: record.featured,
   };
 }
 

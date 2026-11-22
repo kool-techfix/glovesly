@@ -36,7 +36,13 @@ export function excerpt(text: string | null | undefined, max = 160): string {
   return clean.length > max ? `${clean.slice(0, max - 1).trimEnd()}…` : clean;
 }
 
+/** Honorifics left out of initials, e.g. "Engr. Ahmad I. Sayaya" → "AS". */
+const NAME_TITLES = new Set(["dr", "engr", "prof", "mr", "mrs", "ms", "miss", "arc", "barr", "alhaji", "alh", "hajiya", "chief", "sir"]);
+
 export function initials(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
+  const parts = name
+    .trim()
+    .split(/\s+/)
+    .filter((part) => part && !NAME_TITLES.has(part.replace(/\.$/, "").toLowerCase()));
   return ((parts[0]?.[0] ?? "") + (parts.length > 1 ? (parts[parts.length - 1]?.[0] ?? "") : "")).toUpperCase() || "?";
 }

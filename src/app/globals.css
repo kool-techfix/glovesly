@@ -1074,37 +1074,313 @@
   color: hsl(var(--primary));
 }
 
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
-  gap: 2rem;
-}
-.team-card {
+/* Our team ------------------------------------------------------------
+   ICAADA's TeamGrid / TeamMemberCard / TeamMemberModal, Glovesly tokens. */
+
+/* Photo, or a flat accent tile with the member's initials. */
+.team-photo {
   position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  background: hsl(var(--secondary));
 }
-.team-bio summary {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  margin-top: 0.5rem;
-  border-radius: 4px;
+.team-photo--initials {
+  display: grid;
+  place-items: center;
+  background: hsl(var(--accent));
+}
+.team-photo-initials {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 7vw, 3.5rem);
   font-weight: 700;
-  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  color: #fff;
+}
+
+/* Featured (leadership) member */
+.team-featured-list {
+  display: grid;
+  gap: 4.5rem;
+}
+.team-featured {
+  display: grid;
+  grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+.team-featured-photo {
+  width: 100%;
+}
+.team-featured-photo .team-photo-initials {
+  font-size: clamp(4.5rem, 12vw, 7.5rem);
+}
+.team-featured-copy {
+  margin: 0;
+}
+.prose-measure.team-featured-message {
+  --prose-measure: 37em;
+  margin: 0;
+  font-size: 1.125rem;
+  text-align: left;
+}
+.team-featured-cite {
+  max-width: 37em;
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+  border-top: 2px solid hsl(var(--primary));
+}
+.team-featured-name {
+  font-size: clamp(1.4rem, 2.6vw, 1.75rem);
+  line-height: 1.15;
+}
+.team-featured-role {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: hsl(var(--primary));
+}
+@media (max-width: 860px) {
+  .team-featured {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .team-featured-photo {
+    max-width: 24rem;
+  }
+}
+
+/* Grid: 1 column, 2 from 640px, 3 from 1024px, 4 from 1280px. */
+.team-directory-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.75rem 1.25rem;
+}
+@media (min-width: 640px) {
+  .team-directory-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .team-directory-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1280px) {
+  .team-directory-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Card. Static unless the member has a bio (.is-interactive). */
+.team-member-card {
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-media);
+  background: hsl(var(--card));
+}
+.team-member-card > .team-photo {
+  border-radius: 0; /* the card rounds and clips it */
+}
+.team-member-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.15rem 1.25rem 1.35rem;
+}
+.team-member-name {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.25;
+  color: hsl(var(--foreground));
+}
+.team-member-position {
+  margin-top: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  line-height: 1.45;
+  text-transform: uppercase;
+  color: hsl(var(--primary));
+}
+.team-member-trigger {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: inherit;
   cursor: pointer;
 }
-.team-social {
-  display: inline-grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-top: 0.25rem;
+/* The trigger covers the whole card, so the card is one click target. */
+.team-member-trigger::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.team-member-button {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: hsl(var(--primary));
+  transition: gap 0.2s ease;
+}
+.team-member-card.is-interactive {
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.team-member-card.is-interactive:hover {
+  transform: translateY(-3px);
+  border-color: hsl(var(--primary) / 0.45);
+  box-shadow: 0 10px 24px -18px hsl(var(--foreground) / 0.45);
+}
+.team-member-card.is-interactive:hover .team-member-button {
+  gap: 0.6rem;
+}
+.team-member-card.is-interactive:focus-within {
+  border-color: hsl(var(--primary));
+}
+
+/* Profile modal (native <dialog>). */
+.team-modal {
+  width: min(980px, calc(100% - 2rem));
+  max-width: 980px;
+  max-height: min(760px, calc(100svh - 2rem));
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
   border-radius: 0;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+.team-modal::backdrop {
+  background: rgb(0 0 0 / 0.55);
+}
+.team-modal-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid hsl(var(--border));
+  border-radius: 0;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+.team-modal-close:hover {
+  border-color: hsl(var(--primary));
+  color: hsl(var(--primary));
+}
+.team-modal-layout {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.8fr) minmax(0, 1.2fr);
+  max-height: min(760px, calc(100svh - 2rem));
+}
+.team-modal-sidebar {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  border-right: 1px solid hsl(var(--border));
+  background: hsl(var(--secondary));
+}
+.team-modal-photo {
+  border-radius: 0;
+}
+.team-modal-sidebar-info {
+  padding: 1.25rem;
+  border-top: 1px solid hsl(var(--border));
+  background: hsl(var(--background));
+}
+.team-modal-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+.team-modal-contact-link svg {
+  color: hsl(var(--primary));
+}
+.team-modal-contact-link:hover {
+  color: hsl(var(--primary));
+}
+.team-modal-body {
+  max-height: min(760px, calc(100svh - 2rem));
+  overflow-y: auto;
+  padding: clamp(2rem, 5vw, 3.5rem);
+}
+.team-modal-name {
+  margin-right: 3rem;
+  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+  line-height: 1.05;
+}
+.team-modal-position {
+  margin: 0.6rem 0 1.75rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: hsl(var(--primary));
+}
+.team-modal-bio {
+  display: grid;
+  gap: 1rem;
+  max-width: 65ch;
+  font-size: 0.95rem;
+  line-height: 1.75;
   color: hsl(var(--muted-foreground));
 }
-.team-social:hover {
-  background: hsl(var(--secondary));
-  color: hsl(var(--primary));
+@media (max-width: 700px) {
+  .team-modal {
+    width: calc(100% - 1rem);
+    max-height: calc(100svh - 1rem);
+  }
+  .team-modal-layout {
+    display: block;
+    max-height: calc(100svh - 1rem);
+    overflow-y: auto;
+  }
+  .team-modal-sidebar {
+    border-right: 0;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  .team-modal-photo {
+    max-height: 50svh;
+  }
+  .team-modal-body {
+    max-height: none;
+    overflow: visible;
+    padding: 2rem 1.25rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .team-member-card.is-interactive,
+  .team-member-button {
+    transition: none;
+  }
+  .team-member-card.is-interactive:hover {
+    transform: none;
+  }
 }
 
 /* Detail pages ---------------------------------------------------- */

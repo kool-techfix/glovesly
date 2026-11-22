@@ -237,6 +237,8 @@ model TeamMember {
   photoUrl      String?
   photoPublicId String?
   linkedinUrl   String?
+  /// Leadership member shown in the featured block at the top of /our-team.
+  featured      Boolean       @default(false)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 

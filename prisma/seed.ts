@@ -9,8 +9,9 @@
  * - The four real services (owner copy, prisma/seed-services.ts), the five
  *   international partners and two government clients (logos from
  *   prisma/data/partner-logos.json, written by `pnpm partners:upload`), the
- *   six real projects (prisma/seed-projects.ts) and three news articles
- *   (prisma/data/news-seed.ts), in every environment.
+ *   six real projects (prisma/seed-projects.ts), three news articles
+ *   (prisma/data/news-seed.ts) and the twelve team members
+ *   (prisma/seed-team.ts), in every environment.
  * - Clearly fake placeholder content for the other modules and the workspace
  *   settings, so pages and admin screens have something to show. Nothing there
  *   is a company fact; see docs/TODO-content.md. Skipped in production.
@@ -29,6 +30,7 @@ import { PrismaClient } from "../src/generated/prisma/client";
 import { isNigeriaState } from "../src/lib/nigeria-states";
 import { SEED_NEWS } from "./data/news-seed";
 import { SEED_PROJECTS } from "./seed-projects";
+import { SEED_TEAM } from "./seed-team";
 import { RETIRED_SAMPLE_SERVICE_SLUGS, SEED_SERVICES } from "./seed-services";
 
 const BCRYPT_ROUNDS = 12;
@@ -241,28 +243,41 @@ async function seedNews() {
   console.info(`  news: ${created} created, ${SEED_NEWS.length - created} kept`);
 }
 
+/**
+ * The twelve real team members (prisma/seed-team.ts). Created only if the slug
+ * is missing; an existing row is never touched, because the owner edits these
+ * in the admin. Placeholder rows are removed, but only those whose slug starts
+ * with "sample-". No photos: the admin's photo publish rule does not apply here.
+ */
 async function seedTeam() {
-  const rows = [
-    { slug: "sample-person-one", name: "Sample Person One", role: "Sample role", status: "PUBLISHED" as const },
-    { slug: "sample-person-two", name: "Sample Person Two", role: "Sample role", status: "PUBLISHED" as const },
-    { slug: "sample-person-three", name: "Sample Person Three", role: "Sample role", status: "PUBLISHED" as const },
-    { slug: "sample-person-four", name: "Sample Person Four", role: "Sample role", status: "DRAFT" as const },
-  ];
-  for (const [index, row] of rows.entries()) {
-    await prisma.teamMember.upsert({
-      where: { slug: row.slug },
-      update: {},
-      create: {
-        slug: row.slug,
-        name: row.name,
-        role: row.role,
-        sortOrder: index,
-        ...publishedFields(row.status),
-        bio: "Placeholder biography. Replace with the team member's approved bio.",
+  const removed = await prisma.teamMember.deleteMany({ where: { slug: { startsWith: "sample-" } } });
+  if (removed.count) console.info(`  team: removed ${removed.count} placeholder rows (slug sample-*)`);
+
+  let created = 0;
+  for (const member of SEED_TEAM) {
+    const existing = await prisma.teamMember.findUnique({ where: { slug: member.slug }, select: { id: true } });
+    if (existing) {
+      console.info(`  kept existing: ${member.slug}`);
+      continue;
+    }
+    await prisma.teamMember.create({
+      data: {
+        slug: member.slug,
+        name: member.name,
+        role: member.role,
+        sortOrder: member.sortOrder,
+        ...publishedFields("PUBLISHED"),
+        featured: member.featured,
+        bio: member.bio,
+        photoUrl: null,
+        photoPublicId: null,
+        linkedinUrl: null,
       },
     });
+    created += 1;
+    console.info(`  created: ${member.slug}`);
   }
-  console.info(`  team: ${rows.length} placeholders`);
+  console.info(`  team: ${created} created, ${SEED_TEAM.length - created} kept`);
 }
 
 const PARTNER_LOGOS_FILE = join(import.meta.dirname, "data", "partner-logos.json");
@@ -383,17 +398,17 @@ async function main() {
   console.info("Seeding users…");
   await seedUsers();
 
-  console.info("Seeding services, partners, projects and news (owner content)…");
+  console.info("Seeding services, partners, projects, news and team (owner content)…");
   await seedServices();
   await seedPartners();
   await seedProjects();
   await seedNews();
+  await seedTeam();
 
   if (isProduction) {
     console.info("NODE_ENV=production: skipping placeholder content.");
   } else {
     console.info("Seeding placeholder content…");
-    await seedTeam();
     await seedWorkspace();
   }
 

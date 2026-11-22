@@ -333,10 +333,11 @@ export const pageIntros = {
     title: "News and updates",
     description: "Placeholder: a sentence introducing the news page.",
   },
+  // TODO(content): page intro not supplied yet. Empty = no description is rendered.
   team: {
     eyebrow: "Our team",
-    title: "The people behind our work",
-    description: "Placeholder: a sentence introducing the team.",
+    title: "Our team",
+    description: "",
   },
   contact: {
     eyebrow: "Contact",
@@ -357,6 +358,12 @@ export const servicesClosing: ClosingBandContent = {
   title: "Need a solution for your project?",
   primaryCta: { href: "/contact", label: ctaLabel },
   secondaryCta: { href: "/projects", label: "View projects" },
+};
+
+export const teamClosing: ClosingBandContent = {
+  title: "Let's work together",
+  primaryCta: { href: "/contact", label: ctaLabel },
+  secondaryCta: { href: "/services", label: "Our services" },
 };
 
 export const ctaBand = {

@@ -382,14 +382,11 @@ async function seedWorkspace() {
       address: "37 Yakubu Gowon Crescent,\nAbuja, Federal Capital Territory, Nigeria",
       // Not yet confirmed as the head office; no coordinates supplied (the map uses the FCT centroid).
       officeLocations: [{ name: "Abuja office", state: "Federal Capital Territory", latitude: null, longitude: null, isHeadOffice: false }],
-      stats: [
-        { label: "Sample stat one", value: "00" },
-        { label: "Sample stat two", value: "00" },
-        { label: "Sample stat three", value: "00" },
-      ],
+      // No figures supplied yet; the map band shows no stats until the owner adds them.
+      stats: [],
     },
   });
-  console.info("  workspace settings: contact details, placeholder stats");
+  console.info("  workspace settings: contact details");
 }
 
 // ---------------------------------------------------------------------------

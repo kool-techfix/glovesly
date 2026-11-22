@@ -1,11 +1,10 @@
-import { ArrowLeft, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { MediaImage } from "@/components/public/media-image";
 import { Paragraphs } from "@/components/public/prose";
-import { Eyebrow } from "@/components/site";
+import { PageHero } from "@/components/site";
 import { excerpt, formatLongDate } from "@/lib/display";
 import { newsService } from "@/Services/news.service";
 
@@ -38,24 +37,27 @@ export default async function NewsDetailPage({ params }: Props) {
 
   return (
     <article>
-      <header className="page-hero">
-        <div className="container-narrow relative z-10">
-          <Link href="/news" className="link-arrow focus-ring" data-testid="link-news-back">
-            <ArrowLeft aria-hidden="true" size={16} /> All news
-          </Link>
-          <Eyebrow className="mt-8">
-            {post.publishedAt ? <time dateTime={post.publishedAt}>{formatLongDate(post.publishedAt)}</time> : "News"}
-          </Eyebrow>
-          <h1 className="display page-hero-title">{post.title}</h1>
-          {post.excerpt ? <p className="lede page-hero-description">{post.excerpt}</p> : null}
-          {post.author ? <p className="mt-6 text-sm text-muted-foreground">By {post.author.name}</p> : null}
-        </div>
-      </header>
+      <PageHero
+        variant="article"
+        breadcrumbs={[{ label: "News", href: "/news" }, { label: post.title }]}
+        eyebrow={post.tags.length ? post.tags.join(" · ") : undefined}
+        title={post.title}
+        facts={[
+          {
+            label: "Published",
+            value: post.publishedAt ? <time dateTime={post.publishedAt}>{formatLongDate(post.publishedAt)}</time> : null,
+          },
+          { label: "Source", value: post.sourceName ? `Source: ${post.sourceName}` : null },
+        ]}
+      />
       <div className="section-pad">
         <div className="container-narrow">
           {post.coverImageUrl ? (
-            <MediaImage src={post.coverImageUrl} alt="" sizes="(max-width: 860px) 100vw, 800px" priority className="aspect-[16/9] mb-10" />
+            <figure className="mb-10">
+              <MediaImage src={post.coverImageUrl} alt="" sizes="(max-width: 860px) 100vw, 820px" priority className="aspect-[16/9]" />
+            </figure>
           ) : null}
+          {post.excerpt ? <p className="lede prose-measure news-body mb-8">{post.excerpt}</p> : null}
           {/* Plain paragraphs split on blank lines; no markdown is interpreted. */}
           <Paragraphs text={post.body} className="prose-measure news-body" />
           {post.tags.length ? (

@@ -23,7 +23,7 @@ export default async function TeamPage() {
 
   return (
     <>
-      <PageHero eyebrow={intro.eyebrow} title={intro.title} description={intro.description || undefined} />
+      <PageHero variant="compact" eyebrow={intro.eyebrow} title={intro.title} description={intro.description || undefined} />
 
       {featured.length ? (
         <div className="section-pad">

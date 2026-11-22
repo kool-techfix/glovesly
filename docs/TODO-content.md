@@ -27,7 +27,7 @@ Everything below is a placeholder. None of it is a company fact. Replace each it
 - [ ] **Workspace settings:**
   - office "Abuja office" (FCT): confirm whether it is the head office, the office name to show, and its coordinates (the map uses the FCT centre until then)
   - any other offices
-  - three "Sample stat" figures shown as "00"
+  - the stats beside the map: none yet (the seeded "Sample stat" / "00" figures were removed, so no stats show). Add real figures in the admin Settings
 
 ## Decisions pending
 
@@ -72,11 +72,16 @@ Everything in this file except `companySummary` (taken from the brief) is a plac
   - **Second photo:** the one shown beside the first paragraph on the old About page, at least 1200px wide, with alt text. Set it as `howWeWorkImage`; until then "How we work" is full-width text.
   - **Portfolio photo (`portfolioImage`):** shown beside the portfolio in "What we deliver" (square crop, to the right of the paragraph below the portfolio on wide screens). It currently uses the same photo as `howWeWorkImage`, so the two sections next to each other repeat it. Supply a different photo for one of them, at least 1000px square. Confirm what the photo shows so the alt text can be made specific; the `howWeWorkImage` alt text ("How we work image") also needs a real description.
   - **Portfolio list:** the seven items under "What we deliver" are taken from paragraph 3. Confirm the wording.
-- [ ] **Page intros:** the headline and introduction for the Projects, News and Contact pages (Our team: see Team above). (Services uses the owner's copy.)
-- [ ] **Clients and partners section:** a one-sentence introduction, plus a title and one-line description for each partner group (`partnerGroups`). The groups themselves (Government, Private clients, Technology partners) are provisional.
-- [ ] **Nigeria map section:** a one-sentence introduction. The stats beside the map and the office locations come from the admin Settings and are seeded placeholders.
-- [ ] **Call-to-action band:** a supporting sentence under "Have a project in mind?"
-- [ ] **Contact page:** an introduction, including how quickly the team replies.
+- [ ] **Page intros:** Projects uses the title "Our projects" and a computed line ("6 completed projects"); Contact uses "Contact us" with no introduction. A page description for search results is still needed for Projects and Contact (they use the site default until then). (Services uses the owner's copy; Our team: see Team above.)
+- [ ] **News hero description:** "Updates and press coverage about Glovesly Pro-Project." is a working line. Owner to confirm or replace (`pageIntros.news.description`).
+- [ ] **Hero photos:** About (team photo), project cover images, service images, all at least 1920px wide. Until then each hero shows a flat accent tile.
+- [ ] **Home page section introductions** (`home` in `src/data/content.ts`): one sentence each for Sectors, Our services, Selected projects, Clients and partners, and Where we work. None is shown until supplied (the placeholder lines were removed from the page).
+- [ ] **Sector descriptions** (`sectors`): one or two sentences for each of the four sectors on the home page. Only the number and title show until then.
+- [ ] **Hero slide alt text** (`heroSlides`): describe each photo. The images are treated as decorative (empty alt) until then, since each slide's title carries its meaning.
+- [ ] **Clients and partners section:** a one-line description for each partner group (`partnerGroups`); none is shown until supplied. The Private clients and Technology partners groups are provisional and hidden while empty.
+- [ ] **Nigeria map section:** the stats beside the map and the office locations come from the admin Settings (stats are empty until real figures are added).
+- [ ] **Call-to-action band:** a supporting sentence under "Have a project in mind?" (hidden until supplied).
+- [ ] **Contact page:** optional introduction, including how quickly the team replies (none shown until supplied).
 
 ## Before launch
 

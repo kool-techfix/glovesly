@@ -1,6 +1,4 @@
-import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { MediaImage } from "@/components/public/media-image";
@@ -38,66 +36,36 @@ export default async function ProjectDetailPage({ params }: Props) {
   const project = await projectService.getPublishedBySlug((await params).slug);
   if (!project) notFound();
 
-  // Only facts that are set; Year stays hidden until the owner adds it.
-  const facts = (
-    [
-      ["Client", project.client],
-      ["Location", project.locationLabel || project.state],
-      ["Sector", sectorLabel(project.sector)],
-      ["Status", projectStatusLabel(project.projectStatus)],
-      ["Year", project.year],
-    ] as Array<[string, string | number | null]>
-  ).filter(([, value]) => value !== null && value !== "");
+  // Empty facts are hidden by PageHero; Year only appears once it is set.
+  const facts = [
+    { label: "Client", value: project.client },
+    { label: "Location", value: project.locationLabel || project.state },
+    { label: "Sector", value: sectorLabel(project.sector) },
+    { label: "Status", value: projectStatusLabel(project.projectStatus) },
+    { label: "Year", value: project.year === null ? null : String(project.year) },
+  ];
   const hasBody = toParagraphs(project.body).length > 0;
-
-  const factList = (
-    <dl className={cn("fact-list", hasBody ? "mt-5" : "fact-list--row mt-5")}>
-      {facts.map(([label, value]) => (
-        <div key={label}>
-          <dt>{label}</dt>
-          <dd>{value}</dd>
-        </div>
-      ))}
-    </dl>
-  );
+  const hasGallery = project.galleryUrls.length > 0;
 
   return (
     <>
-      {/* No cover yet: a flat accent hero (the same fallback as the cards). */}
       <PageHero
+        variant="photo"
+        breadcrumbs={[{ label: "Projects", href: "/projects" }, { label: project.title }]}
         eyebrow={sectorLabel(project.sector)}
         title={project.title}
         description={project.summary || undefined}
-        tone="accent"
         image={project.coverImageUrl ? { src: project.coverImageUrl, alt: "" } : null}
-      >
-        <Link href="/projects" className="link-arrow focus-ring" data-testid="link-project-back">
-          <ArrowLeft aria-hidden="true" size={16} /> All projects
-        </Link>
-      </PageHero>
-      <section className="section-pad">
+        facts={facts}
+      />
+      <section className={hasBody || hasGallery ? "section-pad" : "hero-after-spacer"}>
         {hasBody ? (
-          <div className="container-wide detail-grid">
-            <Paragraphs text={project.body} />
-            <aside className="detail-aside" aria-labelledby="project-facts">
-              <h2 id="project-facts" className="display detail-aside-title">
-                Project details
-              </h2>
-              {factList}
-            </aside>
-          </div>
-        ) : (
           <div className="container-wide">
-            <section className="detail-aside detail-aside--wide" aria-labelledby="project-facts">
-              <h2 id="project-facts" className="display detail-aside-title">
-                Project details
-              </h2>
-              {factList}
-            </section>
+            <Paragraphs text={project.body} className="prose-measure" />
           </div>
-        )}
+        ) : null}
         {project.galleryUrls.length ? (
-          <div className="container-wide mt-16">
+          <div className={cn("container-wide", hasBody && "mt-16")}>
             <h2 className="display text-2xl">Gallery</h2>
             <ul className="gallery-grid mt-6">
               {project.galleryUrls.map((url, index) => (

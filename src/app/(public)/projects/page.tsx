@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { ProjectCard } from "@/components/public/cards";
 import { CtaBand, EmptyNote } from "@/components/public/sections";
@@ -16,7 +15,7 @@ import { projectService } from "@/Services/project.service";
 
 export const metadata: Metadata = {
   title: "Projects",
-  description: pageIntros.projects.description,
+  // No page description supplied yet: the site default from the root layout is used.
 };
 
 /** Filter labels and their ?sector= values. */
@@ -51,50 +50,46 @@ export default async function ProjectsPage({ searchParams }: Props) {
     })).filter((filter) => filter.count > 0),
   ];
 
+  // "6 completed projects"; if any are ongoing, just "8 projects".
+  const allCompleted = projects.every((project) => project.projectStatus === "COMPLETED");
+  const countLine = projects.length
+    ? `${projects.length} ${allCompleted ? "completed " : ""}${projects.length === 1 ? "project" : "projects"}`
+    : undefined;
+
   return (
     <>
-      <PageHero eyebrow={pageIntros.projects.eyebrow} title={pageIntros.projects.title} description={pageIntros.projects.description} />
+      <PageHero
+        variant="compact"
+        eyebrow={pageIntros.projects.eyebrow}
+        title={pageIntros.projects.title}
+        description={countLine}
+        tabsLabel="Filter projects by sector"
+        tabs={
+          filters.length > 2
+            ? filters.map((filter) => ({
+                label: filter.label,
+                href: filter.href,
+                active: filter.current,
+                testId: `link-projects-filter-${filter.key}`,
+              }))
+            : undefined
+        }
+      />
       <section className="section-pad">
         <div className="container-wide">
           <h2 className="sr-only">{sector ? `${SECTOR_FILTERS[sector].label} projects` : "All projects"}</h2>
           {projects.length ? (
-            <>
-              {filters.length > 2 ? (
-                <nav aria-label="Filter projects by sector">
-                  <ul className="filter-row">
-                    {filters.map((filter) => (
-                      <li key={filter.key}>
-                        <Link
-                          href={filter.href}
-                          scroll={false}
-                          className="filter-button focus-ring"
-                          aria-current={filter.current ? "page" : undefined}
-                          data-testid={`link-projects-filter-${filter.key}`}
-                        >
-                          {filter.label}
-                          <span className="filter-count">
-                            <span className="sr-only">(</span>
-                            {filter.count}
-                            <span className="sr-only">{filter.count === 1 ? " project)" : " projects)"}</span>
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </nav>
-              ) : null}
-              {visible.length ? (
-                <ul className="card-grid mt-10">
-                  {visible.map((project) => (
-                    <li key={project.id}>
-                      <ProjectCard project={project} />
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <EmptyNote className="mt-10">No published projects in this sector yet.</EmptyNote>
-              )}
-            </>
+            visible.length ? (
+              <ul className="card-grid">
+                {visible.map((project) => (
+                  <li key={project.id}>
+                    <ProjectCard project={project} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <EmptyNote>No published projects in this sector yet.</EmptyNote>
+            )
           ) : (
             <EmptyNote>Projects will appear here once they are published.</EmptyNote>
           )}

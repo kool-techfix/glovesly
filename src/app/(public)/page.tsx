@@ -69,7 +69,7 @@ export default async function HomePage() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3 className="card-title mt-6">{sector.title}</h3>
-                <p className="card-text mt-3">{sector.description}</p>
+                {sector.description ? <p className="card-text mt-3">{sector.description}</p> : null}
               </li>
             ))}
           </ul>

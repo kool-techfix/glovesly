@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { LogoImage } from "@/components/brand-logo";
 import { Logo } from "@/components/public/logo";
+import { heroSlides } from "@/data/content";
 import { ButtonLink, Eyebrow, PageHero, SectionHeading } from "@/components/site";
 
 // TEMPORARY design-system preview. Remove before launch (docs/TODO-content.md).
@@ -34,21 +35,61 @@ function Specimen({ label, children, dark = false }: { label: string; children: 
   );
 }
 
+const SAMPLE_IMAGE = heroSlides.find((slide) => slide.image.src)?.image.src ?? null;
+const sampleImage = SAMPLE_IMAGE ? { src: SAMPLE_IMAGE, alt: "" } : null;
+const sampleFacts = [
+  { label: "Fact one", value: "Value" },
+  { label: "Fact two", value: "Value" },
+  { label: "Fact three", value: "Value" },
+];
+const sampleCrumbs = [{ label: "Section", href: "/design" }, { label: "Current page" }];
+const sampleTabs = [
+  { label: "First", href: "/design", active: true },
+  { label: "Second", href: "/design#second" },
+  { label: "Third", href: "/design#third" },
+];
+
+const HERO_SAMPLES: Array<{ key: string; node: React.ReactNode }> = [
+  { key: "photo · with image + facts", node: <PageHero as="h2" variant="photo" breadcrumbs={sampleCrumbs} eyebrow="Eyebrow" title="Photo hero" image={sampleImage} facts={sampleFacts} actions={[{ label: "Action", href: "/design", testId: "link-design-photo-action" }]} /> },
+  { key: "photo · no image (flat tile)", node: <PageHero as="h2" variant="photo" eyebrow="Eyebrow" title="Photo hero without an image" facts={sampleFacts.slice(0, 2)} /> },
+  { key: "solid · primary with tabs", node: <PageHero as="h2" variant="solid" eyebrow="Eyebrow" title="Solid hero" description="One line of supporting text." tabs={sampleTabs} tabsLabel="Sample tabs" /> },
+  { key: "solid · accent", node: <PageHero as="h2" variant="solid" tone="accent" eyebrow="Eyebrow" title="Solid accent hero" tabs={sampleTabs} tabsLabel="Sample tabs (accent)" /> },
+  { key: "split · with image", node: <PageHero as="h2" variant="split" breadcrumbs={sampleCrumbs} eyebrow="01" title="Split hero" description="One line of supporting text." facts={sampleFacts.slice(0, 1)} image={sampleImage} /> },
+  { key: "split · no image (flat tile)", node: <PageHero as="h2" variant="split" breadcrumbs={sampleCrumbs} eyebrow="02" title="Split hero without an image" facts={sampleFacts.slice(0, 1)} /> },
+  { key: "compact · with tabs", node: <PageHero as="h2" variant="compact" eyebrow="Eyebrow" title="Compact hero" description="One line of supporting text." tabs={sampleTabs} tabsLabel="Sample filter" /> },
+  { key: "article", node: <PageHero as="h2" variant="article" breadcrumbs={sampleCrumbs} eyebrow="Tag one · Tag two" title="Article hero" facts={[{ label: "Date", value: "1 January 2026" }, { label: "Source", value: "Source: Outlet" }]} /> },
+];
+
 export default function DesignPage() {
   return (
     <main>
       <PageHero
+        variant="compact"
         eyebrow="Design system"
         title="Glovesly design foundation"
-        description="Temporary preview of the final buttons, navigation states and logo placements. ICAADA's patterns with the blue primary."
-      >
-        <ButtonLink href="/design" testId="link-design-hero-primary">
-          Primary action
-        </ButtonLink>
-        <ButtonLink href="/design" variant="secondary" testId="link-design-hero-secondary">
-          Secondary action
-        </ButtonLink>
-      </PageHero>
+        description="Temporary preview of the final buttons, navigation states, hero variants and logo placements. ICAADA's patterns with the blue primary."
+        actions={[
+          { label: "Primary action", href: "/design", testId: "link-design-hero-primary" },
+          { label: "Secondary action", href: "/design", variant: "secondary", testId: "link-design-hero-secondary" },
+        ]}
+      />
+
+      {/* Hero variants ------------------------------------------------- */}
+      <section className="section-pad" aria-labelledby="design-heroes">
+        <div className="container-wide">
+          <SectionHeading
+            eyebrow="Page hero"
+            title={<span id="design-heroes">Hero variants</span>}
+            description="Every PageHero variant, with and without an image. Headings are h2 here so this page keeps one h1. Sample text only."
+          />
+        </div>
+      </section>
+      {HERO_SAMPLES.map((sample) => (
+        <div key={sample.key} className="design-hero-sample">
+          <p className="container-wide design-hero-label">{sample.key}</p>
+          {sample.node}
+        </div>
+      ))}
 
       {/* Logo ---------------------------------------------------------- */}
       <section className="section-pad">

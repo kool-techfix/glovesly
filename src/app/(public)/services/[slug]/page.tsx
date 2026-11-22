@@ -50,16 +50,14 @@ export default async function ServiceDetailPage({ params }: Props) {
   return (
     <>
       <PageHero
-        eyebrow="Our services"
+        variant="split"
+        breadcrumbs={[{ label: "Services", href: "/services" }, { label: service.title }]}
+        eyebrow={String(position + 1).padStart(2, "0")}
         title={service.title}
         description={service.summary || undefined}
-        tone="accent"
+        facts={[{ label: "Capabilities", value: String(service.capabilities.length) }]}
         image={service.imageUrl ? { src: service.imageUrl, alt: "" } : null}
-      >
-        <Link href="/services" className="link-arrow focus-ring" data-testid="link-service-back">
-          <ArrowLeft aria-hidden="true" size={16} /> All services
-        </Link>
-      </PageHero>
+      />
 
       {hasBody ? (
         <section className="section-pad" aria-label={`About ${service.title}`}>

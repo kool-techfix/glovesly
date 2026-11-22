@@ -42,7 +42,7 @@ export function CtaBand({ area }: { area: string }) {
           <h2 id={`cta-${area}`} className="display cta-band-title">
             {ctaBand.title}
           </h2>
-          <p className="cta-band-text">{ctaBand.description}</p>
+          {ctaBand.description ? <p className="cta-band-text">{ctaBand.description}</p> : null}
         </div>
         <ButtonLink href={ctaBand.cta.href} variant="secondary" onDark testId={`link-${area}-cta-band`}>
           {ctaBand.cta.label}

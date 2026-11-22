@@ -43,7 +43,7 @@ export function NigeriaMapSection({
           <h2 id="map-title" className="display section-heading-title text-white">
             {home.map.title}
           </h2>
-          <p className="lede map-band-lede">{home.map.description}</p>
+          {home.map.description ? <p className="lede map-band-lede">{home.map.description}</p> : null}
         </div>
 
         {settings.stats.length ? (

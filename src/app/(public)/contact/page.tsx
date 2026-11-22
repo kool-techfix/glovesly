@@ -1,4 +1,4 @@
-import { ArrowUpRight, Building2, Mail, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Building2 } from "lucide-react";
 import type { Metadata } from "next";
 
 import { ContactForm } from "@/components/public/contact-form";
@@ -11,82 +11,79 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Contact",
-  description: pageIntros.contact.description,
+  // No page description supplied yet: the site default from the root layout is used.
 };
 
 export default async function ContactPage() {
   const settings = await settingsService.getPublic();
 
+  // Every line comes from WorkspaceSettings; empty ones are hidden by PageHero.
+  const facts = [
+    {
+      label: "Email",
+      value: settings.contactEmail ? (
+        <a href={`mailto:${settings.contactEmail}`} className="focus-ring" data-testid="link-contact-email">
+          {settings.contactEmail}
+        </a>
+      ) : null,
+    },
+    {
+      label: "Phone",
+      value: settings.phone ? (
+        <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="focus-ring" data-testid="link-contact-phone">
+          {settings.phone}
+        </a>
+      ) : null,
+    },
+    {
+      label: "Address",
+      value: settings.address ? (
+        <>
+          <span className="whitespace-pre-line">{settings.address}</span>
+          <br />
+          <a
+            href={directionsUrl(settings.address)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hero-directions focus-ring"
+            data-testid="link-contact-directions"
+          >
+            Get directions
+            <ArrowUpRight aria-hidden="true" size={16} />
+            <span className="sr-only"> (opens Google Maps in a new tab)</span>
+          </a>
+        </>
+      ) : null,
+    },
+  ];
+
   return (
     <>
-      <PageHero eyebrow={pageIntros.contact.eyebrow} title={pageIntros.contact.title} description={pageIntros.contact.description} />
-      <section className="section-pad">
-        <div className="container-wide contact-layout">
-          <ContactForm title={contactForm.title} successMessage={contactForm.success} />
+      <PageHero variant="split" eyebrow={pageIntros.contact.eyebrow} title={pageIntros.contact.title} facts={facts}>
+        <ContactForm title={contactForm.title} successMessage={contactForm.success} />
+      </PageHero>
 
-          <aside className="detail-aside" aria-labelledby="contact-details">
-            <h2 id="contact-details" className="display text-xl">
-              Contact details
+      <section className="after-contact-hero pb-16" aria-labelledby={settings.officeLocations.length ? "contact-offices" : undefined}>
+        {settings.officeLocations.length ? (
+          <div className="container-wide">
+            <h2 id="contact-offices" className="display text-2xl">
+              Offices
             </h2>
             <ul className="contact-list mt-5">
-              {settings.contactEmail ? (
-                <li>
-                  <Mail aria-hidden="true" size={18} />
-                  <a href={`mailto:${settings.contactEmail}`} className="focus-ring" data-testid="link-contact-email">
-                    {settings.contactEmail}
-                  </a>
-                </li>
-              ) : null}
-              {settings.phone ? (
-                <li>
-                  <Phone aria-hidden="true" size={18} />
-                  <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="focus-ring" data-testid="link-contact-phone">
-                    {settings.phone}
-                  </a>
-                </li>
-              ) : null}
-              {settings.address ? (
-                <li>
-                  <MapPin aria-hidden="true" size={18} />
+              {settings.officeLocations.map((office) => (
+                <li key={`${office.name}-${office.state}`}>
+                  <Building2 aria-hidden="true" size={18} />
                   <span>
-                    <span className="whitespace-pre-line">{settings.address}</span>
+                    <strong>{office.name}</strong>
+                    {office.isHeadOffice ? " (head office)" : ""}
                     <br />
-                    <a
-                      href={directionsUrl(settings.address)}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="link-arrow focus-ring mt-2"
-                      data-testid="link-contact-directions"
-                    >
-                      Get directions
-                      <ArrowUpRight aria-hidden="true" size={16} />
-                      <span className="sr-only"> (opens Google Maps in a new tab)</span>
-                    </a>
+                    {office.state}
                   </span>
                 </li>
-              ) : null}
+              ))}
             </ul>
-
-            {settings.officeLocations.length ? (
-              <>
-                <h3 className="display mt-10 text-lg">Offices</h3>
-                <ul className="contact-list mt-4">
-                  {settings.officeLocations.map((office) => (
-                    <li key={`${office.name}-${office.state}`}>
-                      <Building2 aria-hidden="true" size={18} />
-                      <span>
-                        <strong>{office.name}</strong>
-                        {office.isHeadOffice ? " (head office)" : ""}
-                        <br />
-                        {office.state}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : null}
-          </aside>
-        </div>
+          </div>
+        ) : null}
       </section>
     </>
   );

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import { CeoMessageSection } from "@/components/public/ceo-message";
 import { ClosingBand } from "@/components/public/sections";
-import { ButtonLink, Eyebrow, PageHero } from "@/components/site";
+import { Eyebrow, PageHero } from "@/components/site";
 import { aboutMetaDescription, aboutPage } from "@/data/content";
 import { cn } from "@/lib/utils";
 
@@ -19,11 +19,17 @@ export default function AboutPage() {
 
   return (
     <>
-      <PageHero eyebrow={hero.eyebrow} title={hero.title} tone="accent" image={hero.image}>
-        <ButtonLink href={hero.cta.href} testId="link-about-team">
-          {hero.cta.label}
-        </ButtonLink>
-      </PageHero>
+      <PageHero
+        variant="photo"
+        eyebrow={hero.eyebrow}
+        title={hero.title}
+        image={hero.image}
+        actions={[{ label: hero.cta.label, href: hero.cta.href, testId: "link-about-team" }]}
+        facts={[
+          { label: "Founded", value: aboutPage.founded },
+          { label: "Business lines", value: aboutPage.businessLines },
+        ]}
+      />
 
       {/* Who we are */}
       <section className="section-pad" aria-labelledby="about-who-title">

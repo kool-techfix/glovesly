@@ -33,7 +33,7 @@ export const footerNav: NavItem[] = [
 
 export const ctaLabel = "Let's talk";
 
-/** The four sectors named in the brief. Descriptions are placeholders. */
+/** The four sectors named in the brief. TODO(content): descriptions not supplied; empty = hidden. */
 export const sectors: Array<{
   key: ProjectSector;
   title: string;
@@ -43,25 +43,25 @@ export const sectors: Array<{
     key: "AVIATION",
     title: "Aviation infrastructure",
     description:
-      "Placeholder: one or two sentences from the owner about the company's aviation infrastructure work.",
+      "",
   },
   {
     key: "CONSTRUCTION",
     title: "Construction",
     description:
-      "Placeholder: one or two sentences from the owner about the company's construction work.",
+      "",
   },
   {
     key: "SECURITY",
     title: "Security solutions",
     description:
-      "Placeholder: one or two sentences from the owner about the company's security solutions.",
+      "",
   },
   {
     key: "ENERGY",
     title: "Energy solutions",
     description:
-      "Placeholder: one or two sentences from the owner about the company's energy solutions.",
+      "",
   },
 ];
 
@@ -103,7 +103,7 @@ export const heroSlides: HeroSlide[] = [
     text: "Providing solutions around the globe in aviation infrastructure, construction, security and energy.",
     image: {
       src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263678/glovesly/heroSlides/3d-rendering-building-construction-blue-prints-1920x1200_tsod7i.jpg",
-      alt: "Placeholder: describe the hero photo once it is supplied.",
+      alt: "",
     },
     primaryCta: { label: "Our services", href: "/services" },
     secondaryCta: { label: "Contact us", href: "/contact" },
@@ -116,7 +116,7 @@ export const heroSlides: HeroSlide[] = [
     serviceSlug: "aviation",
     image: {
       src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263678/glovesly/heroSlides/3d-crane-against-sunset-sky_vur1qy.jpg",
-      alt: "Placeholder: describe the aviation infrastructure photo once it is supplied.",
+      alt: "",
     },
     primaryCta: { label: "About this service", href: "/services/aviation" },
     secondaryCta: { label: "View projects", href: "/projects" },
@@ -129,7 +129,7 @@ export const heroSlides: HeroSlide[] = [
     serviceSlug: "construction",
     image: {
       src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795283007/glovesly/heroSlides/mobile-crane-road-tower-crane-construction-site_rsm0yi.jpg",
-      alt: "Placeholder: describe the construction photo once it is supplied.",
+      alt: "",
     },
     primaryCta: { label: "About this service", href: "/services/construction" },
     secondaryCta: { label: "View projects", href: "/projects" },
@@ -142,7 +142,7 @@ export const heroSlides: HeroSlide[] = [
     serviceSlug: "security-solutions",
     image: {
       src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263679/glovesly/heroSlides/builder-safety-helmet-roof-construction-worker-standing-sunset-city-generative-ai_k9vmzt.jpg",
-      alt: "Placeholder: describe the security solutions photo once it is supplied.",
+      alt: "",
     },
     primaryCta: {
       label: "About this service",
@@ -158,7 +158,7 @@ export const heroSlides: HeroSlide[] = [
     serviceSlug: "energy-solutions",
     image: {
       src: "https://res.cloudinary.com/dikbulrav/image/upload/v1795263683/glovesly/heroSlides/builders-top-view-house-construction-plan-copy-1-1920x1200-1_fflyng.jpg",
-      alt: "Placeholder: describe the energy solutions photo once it is supplied.",
+      alt: "",
     },
     primaryCta: {
       label: "About this service",
@@ -168,34 +168,38 @@ export const heroSlides: HeroSlide[] = [
   },
 ];
 
+/*
+ * Home page section intros. TODO(content): none supplied yet. An empty
+ * description renders no paragraph (no filler); see docs/TODO-content.md.
+ */
 export const home = {
   sectors: {
     eyebrow: "Sectors",
     title: "Four sectors, one partner",
     description:
-      "Placeholder: a short introduction to how the four sectors fit together.",
+      "",
   },
   services: {
     eyebrow: "What we do",
     title: "Our services",
-    description: "Placeholder: a sentence introducing the services.",
+    description: "",
   },
   projects: {
     eyebrow: "Our work",
     title: "Selected projects",
-    description: "Placeholder: a sentence introducing the projects.",
+    description: "",
   },
   partners: {
     eyebrow: "Clients and partners",
     title: "Who we work with",
     description:
-      "Placeholder: one sentence about the organisations the company works with.",
+      "",
   },
   map: {
     eyebrow: "Across Nigeria",
     title: "Where we work",
     description:
-      "Placeholder: one sentence about the company's reach across Nigeria.",
+      "",
   },
   news: {
     eyebrow: "News",
@@ -222,6 +226,8 @@ export type AboutPage = {
   meta: { title: string };
   /** Year stated in paragraphs[0]. */
   founded: string;
+  /** Shown in the About hero's fact bar. */
+  businessLines: string;
   /** [0] who we are, [1] how we work, [2] what we deliver. */
   paragraphs: [string, string, string];
   sections: { whoWeAre: string; howWeWork: string; whatWeDeliver: string };
@@ -245,6 +251,7 @@ export const aboutPage: AboutPage = {
   },
   meta: { title: "About us" },
   founded: "2016",
+  businessLines: "Aviation · Construction · Security · Energy",
   paragraphs: [
     "GLOVESLY Pro-Project was founded in 2016 with the aim of filling the vacuum in Aviation industry, civil construction and also provide Security solutions using modern Surveillance Equipment. The challenging and growing requirements in the Aviation industry, new technologies and new demands for security and modernization constantly emerge, this means expansion, renovation and new construction of airports and airport facilities. Such a dynamic industry requires a construction company with deep aviation expertise, which is why so many in the industry turn to Glovesly. Our aviation construction services are delivered with an approach that combines design, engineering and precision in one streamlined process that prioritizes safety over all.",
     "Glovesly Pro-Project Ltd found success working with public and private clients in the aviation sector by repeatedly executing projects of all sizes and delivery methods. As a valued stakeholder invested in sharing visions for the future, our collaborative approach to airside and landside projects serves as a key differentiator with airport authorities, and fixed-base operators. The expertise and creativity our team provides helps drive decisions to elevate the overall passenger experience, passenger safety and the facilities’ lifecycle, all while prioritizing design to ensure construction deliverables are achieved to the client’s desirable levels without impacting day-to-day operations. For these reasons and more, Glovesly Pro-Project Ltd has earned a reputation as one of the top Aviation contractors in the country today.",
@@ -322,16 +329,15 @@ export const pageIntros = {
     title: "We provide solutions around the globe.",
     description: "Our Journey, Your Path to Satisfaction",
   },
+  // The hero description is computed from the published projects ("6 completed projects").
   projects: {
     eyebrow: "Projects",
-    title: "Placeholder: projects page headline",
-    description:
-      "Placeholder: an introduction to the company's projects across Nigeria.",
+    title: "Our projects",
   },
+  // TODO(content): owner to confirm the description line.
   news: {
-    eyebrow: "News",
-    title: "News and updates",
-    description: "Placeholder: a sentence introducing the news page.",
+    title: "News",
+    description: "Updates and press coverage about Glovesly Pro-Project.",
   },
   // TODO(content): page intro not supplied yet. Empty = no description is rendered.
   team: {
@@ -340,10 +346,8 @@ export const pageIntros = {
     description: "",
   },
   contact: {
-    eyebrow: "Contact",
-    title: ctaLabel,
-    description:
-      "Placeholder: a sentence inviting enquiries and saying how quickly the team replies.",
+    eyebrow: ctaLabel,
+    title: "Contact us",
   },
 };
 
@@ -368,7 +372,7 @@ export const teamClosing: ClosingBandContent = {
 
 export const ctaBand = {
   title: "Have a project in mind?",
-  description: "Placeholder: one sentence inviting visitors to get in touch.",
+  description: "",
   cta: { href: "/contact", label: ctaLabel },
 };
 
@@ -394,12 +398,12 @@ export const partnerGroups: Record<
   PRIVATE_CLIENT: {
     title: "Private clients",
     description:
-      "Placeholder: one line about the company's private-sector clients.",
+      "",
   },
   TECHNOLOGY_PARTNER: {
     title: "Technology partners",
     description:
-      "Placeholder: one line about the company's technology partners.",
+      "",
   },
   // TODO(content): description not supplied yet. Empty = no paragraph is rendered.
   INTERNATIONAL_PARTNER: {

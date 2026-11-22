@@ -24,7 +24,19 @@ export default async function ServicesPage() {
 
   return (
     <>
-      <PageHero eyebrow={intro.eyebrow} title={intro.title} description={intro.description} tone="accent" />
+      <PageHero
+        variant="solid"
+        tone="accent"
+        eyebrow={intro.eyebrow}
+        title={intro.title}
+        description={intro.description}
+        tabsLabel="Our services"
+        tabs={services.map((service) => ({
+          label: service.title,
+          href: `#${service.slug}`,
+          testId: `link-services-tab-${service.slug}`,
+        }))}
+      />
 
       {services.length ? (
         services.map((service, index) => {
@@ -32,7 +44,8 @@ export default async function ServicesPage() {
           return (
             <section
               key={service.id}
-              className={cn("section-pad", index % 2 === 1 && "section-band")}
+              id={service.slug}
+              className={cn("section-pad scroll-anchor", index % 2 === 1 && "section-band")}
               aria-labelledby={titleId}
             >
               <div className={cn("container-wide service-row", index % 2 === 1 && "is-reversed")}>

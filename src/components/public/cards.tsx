@@ -30,7 +30,7 @@ export function ServiceCard({ service }: { service: ServiceDto }) {
 }
 
 /**
- * A project's cover, or a flat accent block with the sector label while the
+ * A project's cover, or a flat navy block with the sector label while the
  * project has no photo. Decorative: the title and sector are in the card text.
  */
 export function ProjectCover({ project, sizes, className }: { project: ProjectDto; sizes: string; className?: string }) {

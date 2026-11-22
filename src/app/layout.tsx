@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { LOADER_HEAD_SCRIPT, LOADER_INERT_SCRIPT, PageLoader } from "@/components/page-loader";
+
 import "./globals.css";
 
 // PLACEHOLDER FONTS: Inter (body) and Plus Jakarta Sans (display) are temporary
@@ -32,8 +34,20 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${fontSans.variable} ${fontDisplay.variable}`}>
-      <body>{children}</body>
+    // suppressHydrationWarning: the head script adds loader classes and the hero
+    // image sets data-hero-ready on <html> before React hydrates.
+    <html lang="en" className={`${fontSans.variable} ${fontDisplay.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: LOADER_HEAD_SCRIPT }} />
+        <noscript>
+          <style>{`.page-loader{display:none!important}.hero-image{opacity:1!important}`}</style>
+        </noscript>
+      </head>
+      <body>
+        <PageLoader />
+        <div id="page-root">{children}</div>
+        <script dangerouslySetInnerHTML={{ __html: LOADER_INERT_SCRIPT }} />
+      </body>
     </html>
   );
 }

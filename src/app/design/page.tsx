@@ -15,9 +15,13 @@ export const metadata: Metadata = {
 };
 
 const COLOUR_TOKENS = [
-  { name: "--primary", note: "#1e73be", className: "bg-primary" },
-  { name: "--primary-hover", note: "≈ #1a62a3", className: "bg-primary-hover" },
-  { name: "--accent", note: "≈ #463DE1 (unconfirmed)", className: "bg-accent" },
+  { name: "--primary", note: "#1E73BE", className: "bg-primary" },
+  { name: "--primary-hover", note: "#175C97", className: "bg-primary-hover" },
+  { name: "--navy", note: "#0B2A4A, dark bands", className: "bg-navy" },
+  { name: "--navy-soft", note: "#1A4570, shapes on navy", className: "bg-navy-soft" },
+  { name: "--accent", note: "#F5A400 amber, small marks only", className: "bg-accent" },
+  { name: "--accent-ink", note: "#8A5300, warm text on light", className: "bg-accent-ink" },
+  { name: "--on-dark-link", note: "#7FBBEA, links on navy", className: "bg-on-dark-link" },
   { name: "--background", note: "#FFFFFF", className: "bg-background" },
   { name: "--secondary", note: "#F8F8F8", className: "bg-secondary" },
   { name: "--foreground", note: "near-black", className: "bg-foreground" },

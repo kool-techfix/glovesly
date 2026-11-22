@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { HeroImage } from "@/components/hero-image";
 import { cn } from "@/lib/utils";
 
 /* Hook-free building blocks shared by public pages. Safe in Server Components. */
@@ -65,11 +65,11 @@ export function ButtonLink({
 /* ------------------------------------------------------------------
    PageHero: one component, five variants (see globals.css "Page hero").
    Server Component. Flat colours only; photos sit under a flat
-   rgba(0,0,0,0.48) shade. A missing image becomes a flat accent tile.
+   rgba(0,0,0,0.48) shade. A missing image becomes a flat navy tile.
    ------------------------------------------------------------------ */
 
 export type HeroVariant = "photo" | "solid" | "split" | "compact" | "article";
-export type HeroImage = { src: string; alt: string };
+export type HeroImageData = { src: string; alt: string };
 export type HeroCrumb = { label: string; href?: string };
 export type HeroFact = { label: string; value: React.ReactNode };
 export type HeroTab = { label: string; href: string; active?: boolean; testId?: string };
@@ -80,8 +80,8 @@ type PageHeroProps = {
   eyebrow?: React.ReactNode;
   title: React.ReactNode;
   description?: React.ReactNode;
-  /** photo / split. Null or missing → flat accent tile. */
-  image?: HeroImage | null;
+  /** photo / split. Null or missing → flat navy tile. */
+  image?: HeroImageData | null;
   /** Omit on the About page and on /. The last item is the current page. */
   breadcrumbs?: HeroCrumb[];
   actions?: HeroAction[];
@@ -145,13 +145,13 @@ function HeroTabs({ tabs, label, style }: { tabs: HeroTab[]; label: string; styl
   );
 }
 
-/** Photo under the flat shade, or a flat accent tile. */
-function HeroMedia({ image, className }: { image?: HeroImage | null; className?: string }) {
+/** Photo under the flat shade, or a flat navy tile. */
+function HeroMedia({ image, className, sizes = "100vw" }: { image?: HeroImageData | null; className?: string; sizes?: string }) {
   return (
     <div className={cn("hero-media", !image && "hero-media--tile", className)} aria-hidden={image ? undefined : true}>
       {image ? (
         <>
-          <Image src={image.src} alt={image.alt} fill sizes="100vw" preload className="hero-media-image" />
+          <HeroImage src={image.src} alt={image.alt} sizes={sizes} priority signalReady className="hero-media-image" />
           <span className="hero-shade" />
         </>
       ) : null}
@@ -279,7 +279,7 @@ export function PageHero({
     }
     return (
       <section className={cn("hero hero--split", tone === "accent" && "hero--accent", className)}>
-        <HeroMedia image={image} className="hero-split-media" />
+        <HeroMedia image={image} className="hero-split-media" sizes="(min-width: 1024px) 50vw, 100vw" />
         <div className="hero-split-body">
           <div className="hero-split-inner">{panel}</div>
         </div>

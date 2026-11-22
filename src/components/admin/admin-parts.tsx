@@ -56,7 +56,7 @@ export const MESSAGE_STATUS_LABELS: Record<MessageStatus, string> = {
 
 const BADGE_TONE: Record<string, string> = {
   DRAFT: "neutral",
-  REVIEW: "warning",
+  REVIEW: "review",
   PUBLISHED: "success",
   ARCHIVED: "muted",
   NEW: "info",
@@ -72,7 +72,7 @@ export function Badge({
   children,
   className,
 }: {
-  tone?: "neutral" | "info" | "success" | "warning" | "danger" | "muted";
+  tone?: "neutral" | "info" | "success" | "warning" | "review" | "danger" | "muted";
   children: React.ReactNode;
   className?: string;
 }) {

@@ -24,6 +24,9 @@
 
   --admin-success: #2f6b45;
   --admin-success-tint: #e5f2e9;
+  /* Review status only: the brand amber with navy text. */
+  --admin-review: #f5a400;
+  --admin-review-ink: #0b2a4a;
   --admin-warning: #8a5a12;
   --admin-warning-tint: #fbf0dc;
   --admin-danger: #b42318;
@@ -606,6 +609,11 @@ a.adm-stat:hover {
 .adm-badge--warning {
   background: var(--admin-warning-tint);
   color: var(--admin-warning);
+}
+.adm-badge--review,
+.adm-header-pill--review {
+  background: var(--admin-review);
+  color: var(--admin-review-ink);
 }
 .adm-badge--danger {
   background: var(--admin-danger-tint);

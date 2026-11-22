@@ -77,7 +77,7 @@ export type HeroSlide = {
   text: string;
   /** Service slides: the text is that service's summary, the primary CTA its page. */
   serviceSlug?: string;
-  /** `src: null` = no photo yet. The slide shows a solid accent background until one is supplied. */
+  /** `src: null` = no photo yet. The slide shows a solid navy background until one is supplied. */
   image: { src: string | null; alt: string };
   primaryCta: { label: string; href: string };
   secondaryCta: { label: string; href: string };

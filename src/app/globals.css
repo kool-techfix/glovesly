@@ -7,13 +7,18 @@
    colours in @theme inline below. Hex equivalents in comments.
    ------------------------------------------------------------------ */
 :root {
-  --primary: 208 73% 43%; /* #1e73be */
-  --primary-hover: 208 73% 37%; /* ≈ #1a62a3, ~10% darker */
+  --primary: 208 73% 43%; /* #1E73BE */
+  --primary-hover: 207.7 73.6% 34.1%; /* #175C97 */
   --primary-foreground: 0 0% 100%;
 
-  /* Unconfirmed: indigo sampled from the current Services band. Change here only. */
-  --accent: 243 73% 56%; /* ≈ #463DE1 */
-  --accent-foreground: 0 0% 100%;
+  /* Navy: dark bands (map, closing bands, footer, solid heroes, image fallbacks). White text. */
+  --navy: 210.5 74.1% 16.7%; /* #0B2A4A */
+  --navy-soft: 210 62% 27%; /* #1A4570, inactive shapes on navy */
+  /* Amber: small things only (eyebrows on navy, map highlights, active dots, loader marker). */
+  --accent: 40.2 100% 48%; /* #F5A400 */
+  --accent-foreground: 210.5 74.1% 16.7%; /* navy text on an amber fill */
+  --accent-ink: 36 100% 27%; /* #8A5300, warm text on light backgrounds */
+  --on-dark-link: 206.4 71.8% 70.8%; /* #7FBBEA, links on navy */
 
   --background: 0 0% 100%; /* #FFFFFF */
   --foreground: 220 20% 10%; /* ≈ #14181F, near-black */
@@ -46,6 +51,10 @@
   --color-primary-foreground: hsl(var(--primary-foreground));
   --color-accent: hsl(var(--accent));
   --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-accent-ink: hsl(var(--accent-ink));
+  --color-navy: hsl(var(--navy));
+  --color-navy-soft: hsl(var(--navy-soft));
+  --color-on-dark-link: hsl(var(--on-dark-link));
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
   --color-muted: hsl(var(--muted));
@@ -152,8 +161,12 @@
   background: currentColor;
 }
 
+/* Eyebrows on navy are amber (7:1). Over photos and on blue panels they stay white. */
 .eyebrow-on-dark {
-  color: hsl(0 0% 100% / 0.85);
+  color: hsl(var(--accent));
+}
+.hero-carousel .eyebrow-on-dark {
+  color: #fff;
 }
 
 .lede {
@@ -348,7 +361,7 @@
    Page hero (PageHero in src/components/site.tsx)
    Variants: photo, solid, split (+ contact layout), compact, article.
    Flat colours only. Photos sit under a flat rgba(0,0,0,0.48) shade; a
-   missing image is a flat accent tile. Top padding clears the 80px header.
+   missing image is a flat navy tile. Top padding clears the 80px header.
    ------------------------------------------------------------------ */
 .hero {
   position: relative;
@@ -415,7 +428,7 @@
   color: hsl(var(--muted-foreground));
 }
 
-/* Text on blue, indigo and photos is white (full opacity, for contrast). */
+/* Text on blue, navy and photos is white (full opacity, for contrast). */
 .hero--photo,
 .hero--solid,
 .hero--split {
@@ -436,13 +449,13 @@
   color: #fff;
 }
 
-/* Photo, or the flat accent tile when there is none. */
+/* Photo, or the flat navy tile when there is none. */
 .hero-media {
   position: relative;
   overflow: hidden;
 }
 .hero-media--tile {
-  background: hsl(var(--accent));
+  background: hsl(var(--navy));
 }
 .hero-media-image {
   object-fit: cover;
@@ -460,7 +473,7 @@
   min-height: clamp(440px, 60svh, 640px);
   padding-block: calc(80px + 3.5rem) 4rem;
   overflow: hidden;
-  background: hsl(var(--accent));
+  background: hsl(var(--navy));
 }
 .hero--photo.has-facts {
   padding-bottom: 6.5rem; /* room for the overlapping fact bar */
@@ -523,10 +536,13 @@
 /* solid ------------------------------------------------------------- */
 .hero--solid {
   padding-block: calc(80px + 4rem) 3.5rem;
-  background: hsl(var(--primary));
+  background: hsl(var(--navy));
+}
+.hero--solid .eyebrow {
+  color: hsl(var(--accent));
 }
 .hero--accent {
-  background: hsl(var(--accent));
+  background: hsl(var(--navy));
 }
 .hero-tabs ul {
   display: flex;
@@ -560,10 +576,10 @@
 }
 .hero-tabs--square .hero-tab[aria-current="page"] {
   background: #fff;
-  color: hsl(var(--primary));
+  color: hsl(var(--navy));
 }
 .hero--accent .hero-tabs--square .hero-tab[aria-current="page"] {
-  color: hsl(var(--accent));
+  color: hsl(var(--navy));
 }
 
 /* split ------------------------------------------------------------- */
@@ -645,7 +661,7 @@
   color: #fff;
 }
 .hero--contact.hero--accent .hero-split-panel {
-  background: hsl(var(--accent));
+  background: hsl(var(--navy));
 }
 .hero--contact .hero-split-panel .eyebrow,
 .hero--contact .hero-split-panel .hero-description {
@@ -668,7 +684,7 @@
     color: #fff;
   }
   .hero--contact.hero--accent {
-    background: hsl(var(--accent));
+    background: hsl(var(--navy));
   }
   .hero-contact-grid {
     display: grid;
@@ -794,6 +810,16 @@
   .hero-breadcrumbs a {
     transition: none;
   }
+}
+
+/* Primary (blue) buttons on navy bands get a thin white outline. */
+.closing-band .button-primary,
+.cta-band .button-primary,
+.hero--solid .button-primary,
+.map-band .button-primary,
+.partners-section--dark .button-primary,
+.site-footer .button-primary {
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.2);
 }
 
 /* In-page anchor targets clear the fixed 80px header. */
@@ -1045,8 +1071,10 @@
 
 /* Footer ---------------------------------------------------------- */
 .site-footer {
-  background: hsl(220 30% 12%);
-  color: hsl(0 0% 100% / 0.78);
+  background: hsl(var(--navy));
+  color: hsl(0 0% 100% / 0.85);
+  /* A hairline where a navy band above (CTA, closing band) meets the navy footer. */
+  border-top: 1px solid hsl(0 0% 100% / 0.12);
   padding-top: 4.5rem;
 }
 .site-footer-grid {
@@ -1065,7 +1093,7 @@
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: #fff;
+  color: hsl(var(--accent));
 }
 .site-footer-links {
   display: grid;
@@ -1076,7 +1104,7 @@
   align-items: center;
   min-height: 40px;
   border-radius: 4px;
-  color: hsl(0 0% 100% / 0.78);
+  color: hsl(var(--on-dark-link));
   transition: color 0.2s ease;
 }
 .site-footer-link:hover {
@@ -1095,7 +1123,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: hsl(0 0% 100% / 0.7);
+  color: hsl(var(--accent));
 }
 .site-footer-label::before {
   content: "";
@@ -1127,7 +1155,7 @@
   isolation: isolate;
   display: grid;
   min-height: max(560px, 100svh);
-  background: hsl(var(--accent));
+  background: hsl(var(--navy));
   color: #fff;
 }
 .hero-slides {
@@ -1168,7 +1196,7 @@
 .hero-slide-fallback {
   position: absolute;
   inset: 0;
-  background: hsl(var(--accent));
+  background: hsl(var(--navy));
 }
 .hero-carousel .hero-title {
   margin-top: 1.25rem;
@@ -1229,17 +1257,18 @@
   width: 100%;
   height: 3px;
   overflow: hidden;
-  background: hsl(0 0% 100% / 0.38);
+  /* 25% white: the amber progress reads at 3.2:1 against it on navy. */
+  background: hsl(0 0% 100% / 0.25);
   transition: background-color 0.2s ease;
 }
 .hero-page:hover .hero-page-track {
-  background: hsl(0 0% 100% / 0.6);
+  background: hsl(0 0% 100% / 0.45);
 }
 .hero-page-fill {
   position: absolute;
   inset: 0 auto 0 0;
   width: 0;
-  background: #fff;
+  background: hsl(var(--accent));
   animation: hero-progress var(--hero-interval, 6500ms) linear forwards;
 }
 @keyframes hero-progress {
@@ -1461,12 +1490,12 @@
   color: hsl(var(--primary));
 }
 
-/* Project or news post with no photo yet: flat accent block (projects add the sector label). */
+/* Project or news post with no photo yet: flat navy block (projects add the sector label). */
 .media-fallback {
   display: grid;
   place-items: center;
   padding: 1.5rem;
-  background: hsl(var(--accent));
+  background: hsl(var(--navy));
 }
 .media-fallback span {
   font-family: var(--font-display);
@@ -1499,7 +1528,7 @@
 /* Our team ------------------------------------------------------------
    ICAADA's TeamGrid / TeamMemberCard / TeamMemberModal, Glovesly tokens. */
 
-/* Photo, or a flat accent tile with the member's initials. */
+/* Photo, or a flat navy tile with the member's initials. */
 .team-photo {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -1510,7 +1539,7 @@
 .team-photo--initials {
   display: grid;
   place-items: center;
-  background: hsl(var(--accent));
+  background: hsl(var(--navy));
 }
 .team-photo-initials {
   font-family: var(--font-display);
@@ -2015,7 +2044,7 @@
 }
 .closing-band {
   padding-block: 5rem;
-  background: hsl(var(--accent));
+  background: hsl(var(--navy));
   color: #fff;
 }
 .closing-band-inner {
@@ -2046,7 +2075,7 @@
   overflow: hidden;
   border-radius: var(--radius-media);
   aspect-ratio: 4 / 3;
-  background: hsl(var(--accent));
+  background: hsl(var(--navy));
 }
 .service-row {
   display: grid;
@@ -2293,7 +2322,7 @@
 /* CTA band -------------------------------------------------------- */
 .cta-band {
   padding-block: 4.5rem;
-  background: hsl(var(--primary));
+  background: hsl(var(--navy));
   color: #fff;
 }
 .cta-band-inner {
@@ -2551,11 +2580,11 @@ a.logo-card:hover {
 
 /* Clients & Partners on a dark band (tone="dark"). */
 .partners-section--dark {
-  background: hsl(var(--foreground));
+  background: hsl(var(--navy));
   color: #fff;
 }
 .partners-section--dark .eyebrow {
-  color: hsl(0 0% 100% / 0.85);
+  color: hsl(var(--accent));
 }
 .partners-section--dark .section-heading-title,
 .partners-section--dark .card-title {
@@ -2592,12 +2621,11 @@ a.logo-card:hover {
    Nigeria map band
    ================================================================== */
 .map-band {
-  /* Flat accent band. Follows --accent, so changing the accent recolours the map. */
-  --map-band: var(--accent);
-  --map-state: 0 0% 100% / 0.14;
-  --map-state-hover: 0 0% 100% / 0.3;
-  /* Project states: a pale solid tint of the accent, clearly lighter than empty states. */
-  --map-project: color-mix(in oklab, hsl(var(--accent)) 22%, white);
+  /* Flat navy band; states without projects navy-soft, states with projects amber. */
+  --map-band: var(--navy);
+  --map-state: var(--navy-soft);
+  --map-state-hover: 210 52% 38%; /* #2E5E92, a lighter solid navy */
+  --map-project: hsl(var(--accent));
   padding-block: 6.5rem;
   background: hsl(var(--map-band));
   color: hsl(0 0% 100% / 0.85);
@@ -2706,12 +2734,12 @@ a.logo-card:hover {
 
 .map-office-dot {
   fill: #fff;
-  stroke: hsl(var(--primary));
+  stroke: hsl(var(--navy));
   stroke-width: 3;
 }
 .map-office-dot.is-head {
-  fill: hsl(var(--primary));
-  stroke: #fff;
+  fill: #fff;
+  stroke: hsl(var(--navy));
 }
 .map-office-pulse {
   fill: hsl(0 0% 100% / 0.45);
@@ -2849,8 +2877,8 @@ a.logo-card:hover {
   border: 3px solid hsl(var(--primary));
 }
 .map-legend-dot.is-head {
-  background: hsl(var(--primary));
-  border-color: #fff;
+  background: #fff;
+  border-color: hsl(var(--navy));
 }
 .map-legend-swatch {
   width: 1.1rem;
@@ -2909,7 +2937,7 @@ a.logo-card:hover {
   padding: 1.5rem;
 }
 .design-specimen-dark .design-specimen-stage {
-  background: hsl(220 30% 12%);
+  background: hsl(var(--navy));
 }
 .design-specimen figcaption {
   padding: 0.65rem 1rem;
@@ -2925,4 +2953,171 @@ a.logo-card:hover {
 .design-static {
   display: inline-grid !important;
   border: 1px solid hsl(var(--border));
+}
+
+/* ==================================================================
+   Hero images: fade in over the navy background once loaded
+   ================================================================== */
+.hero-image {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+/* data-loaded is set by the <head> script (before hydration); is-loaded by React. */
+.hero-image[data-loaded],
+.hero-image.is-loaded {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-image {
+    transition: none;
+  }
+}
+
+/* ==================================================================
+   Runway page loader (src/components/page-loader.tsx)
+   First page of a session only. Flat colours, no spinner, no gradient.
+   ================================================================== */
+html.no-loader .page-loader {
+  display: none;
+}
+/* While it is up: no scrolling, and the .reveal animations wait for it. */
+html.loader-active {
+  overflow: hidden;
+}
+html.loader-active .reveal {
+  animation-play-state: paused;
+}
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+.page-loader-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 50.5%; /* the halves overlap by a hair so no seam shows */
+  background: #fff;
+  transition: transform 0.75s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.page-loader-panel--top {
+  top: 0;
+}
+.page-loader-panel--bottom {
+  bottom: 0;
+}
+.page-loader-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 1.5rem;
+  transition: opacity 0.25s ease;
+}
+.page-loader-logo {
+  width: 44px;
+  height: 44px;
+}
+.page-loader-runway {
+  display: flex;
+  gap: 6px;
+}
+.page-loader-dash {
+  width: 14px;
+  height: 4px;
+  background: #d9dee5;
+  /* Each dash lights amber in turn, then turns blue as the next one lights. */
+  animation: runway-dash 280ms steps(1, end) calc(var(--i) * 140ms) forwards;
+}
+/* The 15th dash holds amber until the page is ready; the 16th waits. */
+.page-loader-dash:nth-child(15) {
+  animation-name: runway-dash-hold;
+}
+.page-loader-dash:nth-child(16) {
+  animation: none;
+}
+@keyframes runway-dash {
+  0% {
+    background: hsl(var(--accent));
+  }
+  50%,
+  100% {
+    background: hsl(var(--primary));
+  }
+}
+@keyframes runway-dash-hold {
+  0%,
+  100% {
+    background: hsl(var(--accent));
+  }
+}
+/* Ready: snap to full. */
+.page-loader:not(.is-loading) .page-loader-dash {
+  animation: none;
+  background: hsl(var(--primary));
+}
+.page-loader.is-fading .page-loader-content,
+.page-loader.is-opening .page-loader-content {
+  opacity: 0;
+}
+.page-loader.is-opening .page-loader-panel--top {
+  transform: translateY(-100%);
+}
+.page-loader.is-opening .page-loader-panel--bottom {
+  transform: translateY(100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  /* No running dashes and no sliding: a 200ms fade of the whole overlay. */
+  .page-loader-dash,
+  .page-loader-dash:nth-child(15) {
+    animation: none;
+  }
+  .page-loader-panel {
+    transition: none;
+  }
+  .page-loader {
+    transition: opacity 0.2s ease;
+  }
+  .page-loader.is-fading {
+    opacity: 0;
+  }
+}
+
+/* ==================================================================
+   Route skeletons (loading.tsx): flat grey blocks with a slow pulse
+   ================================================================== */
+.skeleton {
+  display: block;
+  border-radius: 0;
+  background: #e6eaf0;
+  animation: skeleton-pulse 1.6s ease-in-out infinite alternate;
+}
+.skeleton-card {
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-media);
+  overflow: hidden;
+  background: hsl(var(--card));
+}
+.skeleton-line {
+  height: 0.9rem;
+}
+@keyframes skeleton-pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.55;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton {
+    animation: none;
+  }
+}
+/* The split-hero skeleton keeps the hero's box but on the light page colour. */
+.hero--skeleton {
+  background: hsl(var(--secondary));
 }

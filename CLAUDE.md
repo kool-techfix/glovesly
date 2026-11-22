@@ -47,16 +47,20 @@ Light theme only. Define as HSL custom properties on `:root` and bridge with `@t
 
 | Token | Value | Role |
 |---|---|---|
-| `--primary` / `--ring` | `#1e73be` | Buttons, active nav underline, links, focus ring, eyebrows |
-| `--primary-hover` | darker shade of `#1e73be` (about 10% darker) | Hover and pressed |
-| `--accent` | about `#463DE1` (indigo, from the current Services band) | Secondary accent, map and band backgrounds. **Unconfirmed; keep it easy to change** |
+| `--primary` / `--ring` | `#1E73BE` | Buttons, active nav underline, links, focus ring, eyebrows on light backgrounds |
+| `--primary-hover` | `#175C97` | Hover and pressed |
+| `--navy` | `#0B2A4A` | Dark bands: map section, closing/CTA bands, footer, solid hero, carousel and image fallbacks. White text |
+| `--navy-soft` | `#1A4570` | Inactive shapes on navy (map states without projects) |
+| `--accent` | `#F5A400` (amber) | Small things only: eyebrows and markers on navy, map project states, active dots and underlines, loader marker, small tags. Never large fills; text on amber is navy |
+| `--accent-ink` | `#8A5300` | Warm text on light backgrounds (never amber text on white or `#F8F8F8`) |
+| `--on-dark-link` | `#7FBBEA` | Links on navy |
 | `--background` | `#FFFFFF` | Page |
 | `--secondary` | `#F8F8F8` | Section bands |
 | `--foreground` | near-black | Body text |
 | `--muted-foreground` | `#505858` | Secondary text |
 | `--border` | light grey | Hairlines |
 
-Fonts are not decided yet. Use `next/font/google` behind CSS variables (`--app-font-sans`, `--app-font-display`) so they can be swapped in one place. Admin styles live under `.admin-*` / `.adm-*` with their own `--admin-*` variables, same blue primary.
+Fonts are not decided yet. Use `next/font/google` behind CSS variables (`--app-font-sans`, `--app-font-display`) so they can be swapped in one place. Admin styles live under `.admin-*` / `.adm-*` with their own `--admin-*` variables, same blue primary and a neutral palette; amber is used only for "review" status chips.
 
 ## Conventions (from ARCHITECTURE.md §5.1 and §8)
 

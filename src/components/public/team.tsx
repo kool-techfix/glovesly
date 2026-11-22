@@ -18,7 +18,7 @@ import type { TeamMemberDto } from "@/Services/team.service";
  * plain article: no button, no hover lift, no "view" affordance.
  */
 
-/** Square photo, or a flat accent tile with the member's initials (titles such as "Dr." dropped). */
+/** Square photo, or a flat navy tile with the member's initials (titles such as "Dr." dropped). */
 export function MemberPhoto({
   member,
   sizes,

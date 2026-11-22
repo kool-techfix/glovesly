@@ -1,10 +1,10 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
-import Image from "next/image";
-import { useId, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react";
 import { flushSync } from "react-dom";
 
+import { HeroImage, markHeroReady } from "@/components/hero-image";
 import { ButtonLink, Eyebrow } from "@/components/site";
 import type { HeroSlide } from "@/data/content";
 import { cn } from "@/lib/utils";
@@ -53,6 +53,12 @@ export function HeroCarousel({ slides, label = "Highlights" }: HeroCarouselProps
 
   const slideRefs = useRef<Array<HTMLDivElement | null>>([]);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
+
+  // No photo on the first slide: nothing to wait for, so the page loader can go.
+  const firstHasImage = Boolean(slides[0]?.image.src);
+  useEffect(() => {
+    if (!firstHasImage) markHeroReady();
+  }, [firstHasImage]);
 
   const total = slides.length;
   const multiple = total > 1;
@@ -126,26 +132,29 @@ export function HeroCarousel({ slides, label = "Highlights" }: HeroCarouselProps
               <div className="hero-slide-media" aria-hidden={slide.image.src ? undefined : true}>
                 {slide.image.src ? (
                   <>
-                    <Image
+                    <HeroImage
                       src={slide.image.src}
                       alt={slide.image.alt}
-                      fill
                       sizes="100vw"
+                      priority={i === 0}
+                      signalReady={i === 0}
                       className="hero-slide-image"
-                      {...(i === 0 ? { preload: true } : { loading: "lazy" as const })}
                     />
                     <span className="hero-slide-shade" />
                   </>
                 ) : (
-                  // TODO(content): no photo yet. Solid accent until a Cloudinary image is supplied.
+                  // TODO(content): no photo yet. Flat navy until a Cloudinary image is supplied.
                   <span className="hero-slide-fallback" />
                 )}
               </div>
+              {/* The first slide's text rises in with .reveal (held while the page loader is up). */}
               <div className="container-wide hero-slide-content">
-                <Eyebrow onDark>{slide.eyebrow}</Eyebrow>
-                <Heading className="display hero-title">{slide.title}</Heading>
-                {slide.text ? <p className="hero-text">{slide.text}</p> : null}
-                <div className="hero-actions">
+                <Eyebrow onDark className={cn(i === 0 && "reveal")}>
+                  {slide.eyebrow}
+                </Eyebrow>
+                <Heading className={cn("display hero-title", i === 0 && "reveal reveal-delay-1")}>{slide.title}</Heading>
+                {slide.text ? <p className={cn("hero-text", i === 0 && "reveal reveal-delay-2")}>{slide.text}</p> : null}
+                <div className={cn("hero-actions", i === 0 && "reveal reveal-delay-3")}>
                   <ButtonLink href={slide.primaryCta.href} testId={`link-hero-primary-${i + 1}`}>
                     {slide.primaryCta.label}
                   </ButtonLink>

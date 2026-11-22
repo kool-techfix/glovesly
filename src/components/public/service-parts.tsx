@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 /* Pieces shared by /services and /services/[slug]. Hook-free, safe in Server Components. */
 
 /**
- * A service photo, or a flat accent block while the service has no image.
+ * A service photo, or a flat navy block while the service has no image.
  * Decorative in both cases: the service title sits right next to it.
  */
 export function ServiceMedia({

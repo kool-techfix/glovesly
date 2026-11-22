@@ -179,7 +179,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
 
           <div className="adm-header-badges">
             {summary.reviewQueue > 0 ? (
-              <Link href="/admin" className="adm-header-pill" data-testid="link-admin-review-queue">
+              <Link href="/admin" className="adm-header-pill adm-header-pill--review" data-testid="link-admin-review-queue">
                 {summary.reviewQueue} waiting for review
               </Link>
             ) : null}

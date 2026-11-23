@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CloudinaryImage as Image } from "@/components/cloudinary-image";
 
 import { SectionHeading } from "@/components/site";
 import { home, partnerGroupOrder, partnerGroups } from "@/data/content";

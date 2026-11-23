@@ -30,6 +30,7 @@ Rebuild of gloveslyproject.com (WordPress with a predeveloped theme, currently s
 - **Logo:** the real Glovesly logo image (`public/brand/`) is used in the header, footer, admin and favicon. Do not draw a CSS brand mark like ICAADA's "IC" square.
 - **Buttons and navigation follow ICAADA exactly** (BRAND.md sections 4 and 5), with the blue primary in place of the red accent. Square corners, no radius on buttons, the nav CTA or the brand mark. Primary button: filled primary, white text, trailing `ArrowRight`, lifts 2px on hover, darker primary on hover, minimum 48px tall. Secondary button: primary-text outline (charcoal in ICAADA) that fills on hover, white outline variant on dark or hero backgrounds. Header: fixed, 80px, white at 96% opacity with a 10px backdrop blur. Nav links: small bold text (about 0.76 to 0.82rem), muted grey, with an underline in the primary colour on the active link and `aria-current="page"`. Nav CTA: filled primary with a trailing arrow icon, hover uses the darker primary. Mobile menu uses the `Menu` / `X` icons. Do not reproduce the old Glovesly pill-shaped nav or rounded "Let's Talk!" button.
 - **Modules:** `Service`, `Project`, `NewsPost`, `TeamMember`, `Partner` are the content modules. There is no Event, Voice, Program, Volunteer or Newsletter module.
+- **Photo shade:** hero photos sit under a flat `rgba(0,0,0,0.55)` shade, not ICAADA's 0.48 (BRAND.md §2), so small white text stays at least 4.5:1 even over a very bright photo (4.74:1 over pure white).
 - **New public sections:** a Clients & Partners carousel section and a Nigeria map section (static SVG, no map tiles or API keys).
 - **Project location:** each `Project` has a `state` (a string validated against the list in `src/lib/nigeria-states.ts`: 36 states plus FCT) and optional latitude and longitude.
 - **Workspace settings** also hold the office locations and the stats shown beside the map.
@@ -81,6 +82,7 @@ Fonts are not decided yet. Use `next/font/google` behind CSS variables (`--app-f
 
 - Work in small steps and commit after each one with a clear message.
 - After each step run `pnpm exec tsc --noEmit` and `pnpm lint`. Run `pnpm build` after steps that change routes, config or the schema.
+- `pnpm dev` and `pnpm build` share `.next`: stop the dev server before building and start it again afterwards. If the dev server returns unexpected 404s or `.next/dev/types` errors, stop it and run `pnpm dev:clean` (clears `.next/dev` and `.next/cache`, then starts it).
 - If a pnpm fetch fails with `ECONNRESET`, retry. Do not change the registry or the pnpm version.
 - Ask before adding a dependency that is not listed here.
 - Secrets live in `.env` (git-ignored). Keep `.env.example` current.

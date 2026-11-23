@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { CloudinaryImage as Image } from "@/components/cloudinary-image";
 import { useEffect, useState } from "react";
 
 import { LOGO_RATIO, LOGO_SRC } from "@/components/brand-logo";

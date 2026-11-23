@@ -60,6 +60,28 @@ export function HeroCarousel({ slides, label = "Highlights" }: HeroCarouselProps
     if (!firstHasImage) markHeroReady();
   }, [firstHasImage]);
 
+  /*
+   * Which slides may load their photo. Inactive slides sit in the same place
+   * as the first (just transparent), so native lazy loading would fetch every
+   * photo at once and compete with the first slide's LCP image. Instead: the
+   * first slide now, the next one once the page has loaded, and on every
+   * change the new slide plus the one after it, so a photo is always ready
+   * before its slide appears.
+   */
+  const [wanted, setWanted] = useState<ReadonlySet<number>>(() => new Set([0]));
+  const want = (...indexes: number[]) =>
+    setWanted((current) => (indexes.every((i) => current.has(i)) ? current : new Set([...current, ...indexes])));
+  useEffect(() => {
+    if (slides.length < 2) return;
+    const next = () => want(1 % slides.length);
+    if (document.readyState === "complete") {
+      const timer = window.setTimeout(next, 0);
+      return () => window.clearTimeout(timer);
+    }
+    window.addEventListener("load", next, { once: true });
+    return () => window.removeEventListener("load", next);
+  }, [slides.length]);
+
   const total = slides.length;
   const multiple = total > 1;
   const autoplayAllowed = multiple && !reducedMotion && !userPaused;
@@ -72,7 +94,10 @@ export function HeroCarousel({ slides, label = "Highlights" }: HeroCarouselProps
   /** Change slide. When focus would be stranded in a now-inert slide, move it to the new one. */
   const goTo = (next: number, focus: "tab" | "slide" | null = null) => {
     const target = ((next % total) + total) % total;
-    flushSync(() => setIndex(target));
+    flushSync(() => {
+      setIndex(target);
+      want(target, (target + 1) % total);
+    });
     if (focus === "tab") tabRefs.current[target]?.focus();
     if (focus === "slide") slideRefs.current[target]?.querySelector<HTMLElement>("a, button")?.focus();
   };
@@ -131,6 +156,7 @@ export function HeroCarousel({ slides, label = "Highlights" }: HeroCarouselProps
             >
               <div className="hero-slide-media" aria-hidden={slide.image.src ? undefined : true}>
                 {slide.image.src ? (
+                  wanted.has(i) ? (
                   <>
                     <HeroImage
                       src={slide.image.src}
@@ -142,6 +168,7 @@ export function HeroCarousel({ slides, label = "Highlights" }: HeroCarouselProps
                     />
                     <span className="hero-slide-shade" />
                   </>
+                  ) : null
                 ) : (
                   // TODO(content): no photo yet. Flat navy until a Cloudinary image is supplied.
                   <span className="hero-slide-fallback" />

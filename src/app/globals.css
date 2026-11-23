@@ -360,7 +360,7 @@
 /* ------------------------------------------------------------------
    Page hero (PageHero in src/components/site.tsx)
    Variants: photo, solid, split (+ contact layout), compact, article.
-   Flat colours only. Photos sit under a flat rgba(0,0,0,0.48) shade; a
+   Flat colours only. Photos sit under a flat rgba(0,0,0,0.55) shade (4.74:1 for white text even over a white photo); a
    missing image is a flat navy tile. Top padding clears the 80px header.
    ------------------------------------------------------------------ */
 .hero {
@@ -463,7 +463,7 @@
 .hero-shade {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.48);
+  background: rgba(0, 0, 0, 0.55); /* white text ≥ 4.7:1 even over a white photo */
 }
 
 /* photo ------------------------------------------------------------- */
@@ -1194,7 +1194,7 @@
 .hero-slide-shade {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.48);
+  background: rgba(0, 0, 0, 0.55); /* white text ≥ 4.7:1 even over a white photo */
 }
 /* TODO(content): shown until the slide has a photo. */
 .hero-slide-fallback {
@@ -2936,6 +2936,8 @@ a.logo-card:hover {
    Hero images: fade in over the navy background once loaded
    ================================================================== */
 .hero-image {
+  /* Full-viewport hero photos never count for Largest Contentful Paint in
+     Chrome (treated as a background), with or without this fade. */
   opacity: 0;
   transition: opacity 0.5s ease;
 }

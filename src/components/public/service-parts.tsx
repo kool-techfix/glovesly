@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CloudinaryImage as Image } from "@/components/cloudinary-image";
 
 import { cn } from "@/lib/utils";
 

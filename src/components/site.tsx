@@ -65,7 +65,7 @@ export function ButtonLink({
 /* ------------------------------------------------------------------
    PageHero: one component, five variants (see globals.css "Page hero").
    Server Component. Flat colours only; photos sit under a flat
-   rgba(0,0,0,0.48) shade. A missing image becomes a flat navy tile.
+   rgba(0,0,0,0.55) shade. A missing image becomes a flat navy tile.
    ------------------------------------------------------------------ */
 
 export type HeroVariant = "photo" | "solid" | "split" | "compact" | "article";

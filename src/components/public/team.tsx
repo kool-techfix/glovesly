@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, Linkedin, X } from "lucide-react";
-import Image from "next/image";
+import { CloudinaryImage as Image } from "@/components/cloudinary-image";
 import { useEffect, useRef, useState } from "react";
 
 import { initials, toParagraphs } from "@/lib/display";

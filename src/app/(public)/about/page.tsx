@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { CloudinaryImage as Image } from "@/components/cloudinary-image";
 
 import { CeoMessageSection } from "@/components/public/ceo-message";
 import { ClosingBand } from "@/components/public/sections";

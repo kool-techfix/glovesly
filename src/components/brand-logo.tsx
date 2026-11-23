@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CloudinaryImage as Image } from "@/components/cloudinary-image";
 
 import { cn } from "@/lib/utils";
 
@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  * it can sit on a white tile. Hook-free: usable in Server and Client Components.
  */
 
-export const LOGO_SRC = "/brand/glovesly-logo.png";
+export const LOGO_SRC = "https://res.cloudinary.com/dikbulrav/image/upload/v1795449458/glovesly/Glossy_Globe_Orbit_Logo_obvwli.png";
 /** Intrinsic width ÷ height of the logo file. */
 export const LOGO_RATIO = 1299 / 1211;
 export const LOGO_ALT = "Glovesly Pro-Project";

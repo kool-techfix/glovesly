@@ -83,6 +83,13 @@ Everything in this file except `companySummary` (taken from the brief) is a plac
 - [ ] **Call-to-action band:** a supporting sentence under "Have a project in mind?" (hidden until supplied).
 - [ ] **Contact page:** optional introduction, including how quickly the team replies (none shown until supplied).
 
+- [ ] **Careers** (`careersPage` in `src/data/content.ts`):
+  - **Photography:** the careers hero (landscape, at least 1920px wide), the section "More than a workplace" image (at least 1200px), the four "People behind the projects" photos (Team collaboration; Engineering and technical operations; Project execution; Professional development and teamwork), and service images (also used on the Careers page). Real Glovesly photos only, no stock. Until then each shows a flat navy tile (the gallery tiles show their captions).
+  - **Recruitment email address:** set it in admin Settings ("Recruitment email"). Until then application alerts go to the contact email.
+  - **Privacy policy page text:** there is no /privacy page, so the application consent line is plain text. Add the page and link the consent line to it.
+  - **Confirm the intro copy with the client:** the two paragraphs under "More than a workplace. A place to grow." were newly written from the About copy (founded 2016, the four business lines, safety and quality, the vision wording). See docs/CONTENT-REVIEW.md.
+  - **Retention period for CVs:** decide how long applications and CVs are kept, then delete older ones in the admin (Applications → Delete removes the CV from storage too).
+
 ## Before launch
 
 - [ ] **Old WordPress URLs:** check each one against the WordPress export (`next.config.ts`). The redirects are in place but unverified:

@@ -3121,3 +3121,649 @@ html.loader-active .reveal {
 .hero--skeleton {
   background: hsl(var(--secondary));
 }
+
+/* ==================================================================
+   Careers (/careers, /careers/[slug], /careers/apply)
+   Flat colours, square corners, existing tokens only.
+   ================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.careers-page) {
+    scroll-behavior: smooth;
+  }
+}
+.careers-section-title {
+  max-width: 22ch;
+  font-size: clamp(1.9rem, 4vw, 3rem);
+}
+.careers-section-title--lead {
+  font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+}
+
+/* B. Editorial split */
+.careers-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+@media (max-width: 900px) {
+  .careers-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.careers-photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  background: hsl(var(--navy));
+}
+.careers-photo-fallback {
+  position: absolute;
+  inset: 0;
+}
+
+/* C. Gallery: 2 × 2 editorial grid (1 column on phones) */
+.careers-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+@media (max-width: 640px) {
+  .careers-gallery {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.careers-tile {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  aspect-ratio: 3 / 2;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  background: hsl(var(--navy));
+}
+.careers-tile-caption {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding: 1rem 1.25rem;
+  background: rgba(0, 0, 0, 0.55);
+  font-weight: 700;
+  color: #fff;
+}
+.careers-tile-caption.is-solid {
+  align-self: stretch;
+  display: flex;
+  align-items: flex-end;
+  background: hsl(var(--navy));
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  line-height: 1.25;
+}
+.careers-tile-caption.is-solid::before {
+  content: "";
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  width: 1.5rem;
+  height: 2px;
+  background: hsl(var(--accent));
+}
+
+/* D. Opportunities */
+.careers-opportunities {
+  border-top: 1px solid hsl(var(--border));
+}
+.vacancy-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
+  gap: 1rem;
+  align-items: end;
+  padding: 1.25rem;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--secondary));
+}
+@media (max-width: 900px) {
+  .vacancy-filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.vacancy-filter {
+  display: grid;
+  gap: 0.35rem;
+}
+.vacancy-filter-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+.vacancy-select {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 0.85rem;
+  border: 1px solid hsl(var(--input));
+  border-radius: 0;
+  background: hsl(var(--background));
+  font: inherit;
+}
+.vacancy-clear {
+  min-height: 48px;
+  padding: 0 1.1rem;
+  border: 1px solid hsl(var(--foreground));
+  border-radius: 0;
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+.vacancy-clear:disabled {
+  border-color: hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+}
+.vacancy-count {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+}
+.vacancy-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.vacancy-card {
+  position: relative;
+  display: grid;
+  gap: 0.6rem;
+  padding: 1.6rem 1.75rem;
+  border: 1px solid hsl(var(--border));
+  border-left: 3px solid hsl(var(--primary));
+  border-radius: 0;
+  background: hsl(var(--card));
+  transition: border-color 0.2s ease;
+}
+.vacancy-card:hover {
+  border-color: hsl(var(--primary));
+}
+.vacancy-card:focus-within {
+  border-color: hsl(var(--primary));
+}
+.vacancy-card-kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: hsl(var(--primary));
+}
+.vacancy-card-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+/* The title link covers the whole card. */
+.vacancy-card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.vacancy-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.25rem;
+  font-size: 0.9rem;
+  color: hsl(var(--muted-foreground));
+}
+.vacancy-card-meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.vacancy-card-summary {
+  max-width: 70ch;
+  line-height: 1.65;
+}
+.vacancy-card-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  transition:
+    gap 0.2s ease,
+    color 0.2s ease;
+}
+.vacancy-card:hover .vacancy-card-more,
+.vacancy-card:focus-within .vacancy-card-more {
+  gap: 0.7rem;
+  color: hsl(var(--primary));
+}
+.vacancy-empty {
+  display: grid;
+  justify-items: start;
+  gap: 1.5rem;
+  padding: clamp(1.75rem, 4vw, 3rem);
+  border: 1px solid hsl(var(--border));
+  border-top: 3px solid hsl(var(--primary));
+  background: hsl(var(--secondary));
+}
+.vacancy-empty-text {
+  max-width: 52ch;
+  font-size: clamp(1.1rem, 2vw, 1.3rem);
+  line-height: 1.55;
+}
+.vacancy-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* E. Find your place in our business */
+.careers-business {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+@media (max-width: 1100px) {
+  .careers-business {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 640px) {
+  .careers-business {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.business-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-media);
+  background: hsl(var(--card));
+}
+.business-card-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: hsl(var(--navy));
+}
+.business-card-media img {
+  transition: transform 0.4s ease;
+}
+.business-card:hover .business-card-media img,
+.business-card:focus-within .business-card-media img {
+  transform: scale(1.03);
+}
+.business-card-fallback {
+  position: absolute;
+  inset: 0;
+}
+.business-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.25rem 1.35rem 1.4rem;
+}
+.business-card-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.business-card-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: hsl(var(--muted-foreground));
+}
+.business-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 48px;
+  margin-top: auto;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: hsl(var(--primary));
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.2s ease;
+}
+.business-card-link:hover {
+  text-decoration-color: currentColor;
+}
+
+/* /careers/[slug] */
+.vacancy-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+@media (max-width: 960px) {
+  .vacancy-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.vacancy-content {
+  display: grid;
+  gap: 3rem;
+}
+.vacancy-heading {
+  font-size: clamp(1.4rem, 2.6vw, 1.85rem);
+}
+.vacancy-list-items {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 70ch;
+  margin-top: 1.25rem;
+}
+.vacancy-list-items li {
+  position: relative;
+  padding-left: 1.5rem;
+  line-height: 1.65;
+}
+.vacancy-list-items li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 0.55rem;
+  height: 0.55rem;
+  background: hsl(var(--primary));
+}
+.vacancy-summary {
+  position: sticky;
+  top: 104px;
+  padding: 1.75rem;
+  border-top: 3px solid hsl(var(--primary));
+  background: hsl(var(--secondary));
+}
+@media (max-width: 960px) {
+  .vacancy-summary {
+    position: static;
+  }
+}
+.vacancy-summary-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.vacancy-summary-facts {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 1.25rem;
+}
+.vacancy-summary-facts dt {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: hsl(var(--muted-foreground));
+}
+.vacancy-summary-facts dd {
+  margin-top: 0.2rem;
+  font-weight: 600;
+}
+.vacancy-summary-apply {
+  width: 100%;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* Application form */
+.application-form {
+  display: grid;
+  gap: 1.5rem;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+@media (max-width: 640px) {
+  .form-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.form-field--wide {
+  grid-column: 1 / -1;
+}
+.application-form .form-input {
+  border-radius: 0;
+}
+.application-form .form-input[aria-invalid="true"] {
+  border-color: hsl(var(--destructive));
+}
+.form-input--readonly {
+  background: hsl(var(--secondary));
+  color: hsl(var(--muted-foreground));
+}
+.form-select {
+  appearance: auto;
+}
+.form-textarea {
+  min-height: 9rem;
+}
+.form-note,
+.form-hint {
+  font-size: 0.85rem;
+  color: hsl(var(--muted-foreground));
+}
+.form-counter.is-near {
+  color: hsl(var(--accent-ink));
+  font-weight: 600;
+}
+.form-required {
+  color: hsl(var(--destructive));
+}
+.form-optional {
+  font-weight: 400;
+  color: hsl(var(--muted-foreground));
+}
+.form-error-summary {
+  padding: 1.25rem 1.5rem;
+  border: 2px solid hsl(var(--destructive));
+  border-radius: 0;
+  background: hsl(var(--background));
+  outline: none;
+}
+.form-error-summary:focus-visible {
+  outline: 3px solid hsl(var(--ring) / 0.42);
+  outline-offset: 3px;
+}
+.form-error-summary-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+.form-error-summary ul {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+}
+.form-error-summary a {
+  font-weight: 600;
+  color: hsl(var(--destructive));
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.form-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+.form-checkbox {
+  flex: none;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-top: 0.1rem;
+  accent-color: hsl(var(--primary));
+}
+.form-check-label {
+  line-height: 1.55;
+}
+.form-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.form-alert {
+  padding: 1rem 1.25rem;
+  border-left: 3px solid hsl(var(--destructive));
+  background: hsl(var(--destructive) / 0.08);
+  color: hsl(var(--foreground));
+  font-weight: 600;
+}
+.form-alert-hint {
+  margin-top: 0.35rem;
+  font-weight: 400;
+}
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.form-actions .button-primary[aria-disabled="true"] {
+  cursor: progress;
+}
+
+/* CV drop zone: the real file input is visually hidden; its label is the button. */
+.cv-drop {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem;
+  border: 2px dashed hsl(var(--input));
+  border-radius: 0;
+  background: hsl(var(--background));
+}
+.cv-drop.is-dragging {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary) / 0.06);
+}
+.cv-drop.has-file {
+  border-style: solid;
+}
+.cv-drop.is-invalid {
+  border-color: hsl(var(--destructive));
+}
+.cv-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+.cv-prompt,
+.cv-file {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  min-width: 0;
+  color: hsl(var(--muted-foreground));
+}
+.cv-file {
+  color: hsl(var(--foreground));
+}
+.cv-file-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+.cv-file-size {
+  font-size: 0.85rem;
+  color: hsl(var(--muted-foreground));
+}
+.cv-choose,
+.cv-remove {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 48px;
+  padding: 0 1.1rem;
+  border: 1px solid hsl(var(--foreground));
+  border-radius: 0;
+  background: transparent;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.cv-remove {
+  border-color: hsl(var(--border));
+}
+.cv-choose:hover,
+.cv-remove:hover {
+  border-color: hsl(var(--primary));
+  color: hsl(var(--primary));
+}
+/* Keyboard focus on the hidden input shows on its label. */
+.cv-input:focus-visible ~ .cv-choose {
+  outline: 3px solid hsl(var(--ring) / 0.42);
+  outline-offset: 3px;
+}
+.upload-progress {
+  display: grid;
+  gap: 0.4rem;
+}
+.upload-progress-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.upload-progress-track {
+  height: 6px;
+  overflow: hidden;
+  background: hsl(var(--border));
+}
+.upload-progress-fill {
+  display: block;
+  height: 100%;
+  background: hsl(var(--primary));
+  transition: width 0.2s linear;
+}
+.application-success {
+  display: grid;
+  justify-items: start;
+  gap: 1rem;
+  padding: clamp(1.75rem, 4vw, 2.5rem);
+  border: 1px solid hsl(var(--border));
+  border-top: 3px solid hsl(var(--primary));
+  background: hsl(var(--background));
+}
+.application-success-icon {
+  color: hsl(var(--primary));
+}
+.application-success-title {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  outline: none;
+}
+.application-success-text {
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vacancy-card,
+  .vacancy-card-more,
+  .business-card-media img,
+  .business-card-link,
+  .upload-progress-fill {
+    transition: none;
+  }
+  .business-card:hover .business-card-media img,
+  .business-card:focus-within .business-card-media img {
+    transform: none;
+  }
+}

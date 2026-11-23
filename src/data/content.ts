@@ -28,6 +28,7 @@ export const mainNav: NavItem[] = [
 export const footerNav: NavItem[] = [
   ...mainNav.slice(1, 5),
   { href: "/our-team", label: "Our team", key: "our-team" },
+  { href: "/careers", label: "Careers", key: "careers" },
   mainNav[5]!,
 ];
 
@@ -423,3 +424,84 @@ export const partnerGroupOrder: PartnerType[] = [
   "PRIVATE_CLIENT",
   "TECHNOLOGY_PARTNER",
 ];
+
+/* ------------------------------------------------------------------
+   Careers (/careers, /careers/[slug], /careers/apply)
+   Sources are listed in docs/CONTENT-REVIEW.md. No benefits, salaries,
+   culture claims, testimonials or recruitment processes: none supplied.
+   TODO(content): photos for the hero, section B and the four gallery
+   tiles (empty = flat navy tile with the caption).
+   ------------------------------------------------------------------ */
+
+export type CareersGalleryItem = { caption: string; image: ContentImage };
+
+export const careersPage = {
+  meta: {
+    title: "Careers",
+    description:
+      "Careers at Glovesly Pro-Project: open positions in aviation, construction, security solutions and energy solutions, and how to send us your CV.",
+  },
+  // Supplied by the owner.
+  hero: {
+    eyebrow: "Careers at Glovesly",
+    title: "Build your career. Be part of something greater.",
+    text: "At Glovesly, we believe that exceptional projects are built by exceptional people. Join a team driven by technical expertise, collaboration and a commitment to delivering meaningful solutions.",
+    image: null as ContentImage,
+    primaryCta: { label: "Explore opportunities", href: "#opportunities" },
+    secondaryCta: { label: "Discover our culture", href: "#life-at-glovesly" },
+  },
+  // Heading supplied by the owner; paragraphs newly written from the About copy and the services only.
+  intro: {
+    title: "More than a workplace. A place to grow.",
+    paragraphs: [
+      "Glovesly Pro-Project was founded in 2016. Our work now spans aviation, construction, security solutions and energy solutions, and across all of it safety and the quality of what we deliver come first.",
+      "Our vision is to be a high value player in all our business concerns, by ensuring a total quality service as well as the safety of personnel, equipment and environment. That work is done by people, and we value technical expertise, teamwork and the professional development of everyone who builds our projects.",
+    ],
+    image: null as ContentImage,
+  },
+  // Heading and captions supplied by the owner.
+  life: {
+    id: "life-at-glovesly",
+    title: "People behind the projects.",
+    gallery: [
+      { caption: "Team collaboration", image: null },
+      { caption: "Engineering and technical operations", image: null },
+      { caption: "Project execution", image: null },
+      { caption: "Professional development and teamwork", image: null },
+    ] as CareersGalleryItem[],
+  },
+  opportunities: {
+    id: "opportunities",
+    title: "Explore career opportunities.",
+    // Supplied by the owner.
+    empty: "There's no open position at the moment, but we're always interested in connecting with talented individuals.",
+    noMatches: "No roles match your filters.",
+    submitCv: { label: "Submit your CV", href: "/careers/apply" },
+  },
+  business: {
+    title: "Find your place in our business.",
+  },
+  // Supplied by the owner.
+  closing: {
+    title: "Your next opportunity could start here.",
+    text: "Whether you're an experienced professional or looking to take the next step in your career, we'd love to hear from you.",
+    cta: { label: "Submit your CV", href: "/careers/apply" },
+  },
+  vacancy: {
+    /** Default "How to apply" text when a vacancy has no applicationNote. */
+    howToApply: "Complete the form below and attach your CV.",
+  },
+  apply: {
+    meta: {
+      title: "Send us your CV",
+      description: "Send Glovesly Pro-Project your CV for future consideration.",
+    },
+    eyebrow: "Careers",
+    title: "Send us your CV",
+    intro: "Send us your CV for future consideration.",
+  },
+  form: {
+    consent: "I agree to Glovesly Pro-Project Limited processing my application and personal data for recruitment purposes.",
+    successTitle: "Application received",
+  },
+};

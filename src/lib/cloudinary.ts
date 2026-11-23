@@ -103,3 +103,88 @@ export function isCloudinaryUrl(value: string): boolean {
     url.pathname.startsWith(`/${cloudName}/`)
   );
 }
+
+/* ------------------------------------------------------------------
+   Private files (job application CVs)
+   Uploaded server-side as resource_type "raw" with type "authenticated",
+   so they are never publicly readable. Staff get a short-lived signed
+   download link. Credentials never leave the server.
+   ------------------------------------------------------------------ */
+
+export const PRIVATE_CV_FOLDER = `${UPLOAD_ROOT_FOLDER}/applications`;
+export const CV_LINK_TTL_SECONDS = 10 * 60;
+
+function apiBase(resourceType: "raw") {
+  return `https://api.cloudinary.com/v1_1/${getEnv().CLOUDINARY_CLOUD_NAME}/${resourceType}`;
+}
+
+/** Signed body for a Cloudinary admin/upload call: params + api_key + signature. */
+function signedFields(params: Record<string, string | number>) {
+  const env = getEnv();
+  const signature = signParams(params, env.CLOUDINARY_API_SECRET);
+  return {
+    ...Object.fromEntries(Object.entries(params).map(([key, value]) => [key, String(value)])),
+    api_key: env.CLOUDINARY_API_KEY,
+    signature,
+  };
+}
+
+/**
+ * Uploads a private file. `publicId` is random and includes the extension
+ * (raw files keep it). Returns the stored public ID.
+ */
+export async function uploadPrivateRaw(options: {
+  bytes: Uint8Array;
+  filename: string;
+  mime: string;
+  publicId: string;
+}): Promise<{ publicId: string; bytes: number }> {
+  const fields = signedFields({
+    folder: PRIVATE_CV_FOLDER,
+    public_id: options.publicId,
+    timestamp: Math.floor(Date.now() / 1000),
+    type: "authenticated",
+  });
+  const form = new FormData();
+  for (const [key, value] of Object.entries(fields)) form.append(key, value);
+  form.append("file", new Blob([new Uint8Array(options.bytes)], { type: options.mime }), options.filename);
+
+  const response = await fetch(`${apiBase("raw")}/upload`, { method: "POST", body: form });
+  const body = (await response.json().catch(() => ({}))) as { public_id?: string; bytes?: number; error?: { message?: string } };
+  if (!response.ok || !body.public_id) {
+    throw new Error(`Cloudinary private upload failed (${response.status}): ${body.error?.message ?? "no public_id"}`);
+  }
+  return { publicId: body.public_id, bytes: body.bytes ?? options.bytes.length };
+}
+
+/**
+ * Short-lived signed download link for a private raw file (Cloudinary's
+ * private download API). Valid for CV_LINK_TTL_SECONDS. Never store or
+ * expose it publicly.
+ */
+export function privateRawDownloadUrl(publicId: string, ttlSeconds = CV_LINK_TTL_SECONDS): string {
+  const timestamp = Math.floor(Date.now() / 1000);
+  const fields = signedFields({
+    attachment: "true",
+    expires_at: timestamp + ttlSeconds,
+    public_id: publicId,
+    timestamp,
+    type: "authenticated",
+  });
+  return `${apiBase("raw")}/download?${new URLSearchParams(fields).toString()}`;
+}
+
+/** Deletes a private raw file. Resolves even if it was already gone. */
+export async function destroyPrivateRaw(publicId: string): Promise<void> {
+  const fields = signedFields({
+    invalidate: "true",
+    public_id: publicId,
+    timestamp: Math.floor(Date.now() / 1000),
+    type: "authenticated",
+  });
+  const response = await fetch(`${apiBase("raw")}/destroy`, { method: "POST", body: new URLSearchParams(fields) });
+  const body = (await response.json().catch(() => ({}))) as { result?: string; error?: { message?: string } };
+  if (!response.ok || (body.result !== "ok" && body.result !== "not found")) {
+    throw new Error(`Cloudinary delete failed (${response.status}): ${body.error?.message ?? body.result ?? "unknown"}`);
+  }
+}

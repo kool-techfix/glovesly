@@ -39,6 +39,11 @@ export const settingsUpdateSchema = z
       .union([z.literal(""), emailSchema])
       .nullish()
       .transform((value) => (value ? value : null)),
+    /** Job application alerts; falls back to contactEmail when empty. */
+    recruitmentEmail: z
+      .union([z.literal(""), emailSchema])
+      .nullish()
+      .transform((value) => (value ? value : null)),
     phone: optionalText(40, "Phone"),
     address: optionalText(300, "Address"),
     officeLocations: officeLocationsSchema,

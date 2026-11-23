@@ -14,6 +14,7 @@ export const workspaceSettingsRepository = {
 
   upsert(data: {
     contactEmail?: string | null;
+    recruitmentEmail?: string | null;
     phone?: string | null;
     address?: string | null;
     officeLocations?: unknown[];

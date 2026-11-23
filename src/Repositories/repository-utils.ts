@@ -142,4 +142,6 @@ export type EnumMirrorChecks = [
   Assert<Same<Domain.ProjectStatus, PrismaEnums.ProjectStatus>>,
   Assert<Same<Domain.PartnerType, PrismaEnums.PartnerType>>,
   Assert<Same<Domain.MessageStatus, PrismaEnums.MessageStatus>>,
+  Assert<Same<Domain.EmploymentType, PrismaEnums.EmploymentType>>,
+  Assert<Same<Domain.ApplicationStatus, PrismaEnums.ApplicationStatus>>,
 ];

@@ -9,7 +9,7 @@ import { revalidatePath, revalidateTag, unstable_cache } from "next/cache";
  * cacheTag here; callers keep the same interface.
  */
 
-export type ContentModule = "services" | "projects" | "news" | "team" | "partners";
+export type ContentModule = "services" | "projects" | "news" | "team" | "partners" | "vacancies";
 
 export const CACHE_BACKSTOP_SECONDS = 3600;
 
@@ -23,6 +23,7 @@ export const publicPaths: Record<
   news: { pages: ["/", "/news"], detail: (slug) => `/news/${slug}` },
   team: { pages: ["/our-team", "/about"] },
   partners: { pages: ["/", "/about"] },
+  vacancies: { pages: ["/careers", "/careers/apply"], detail: (slug) => `/careers/${slug}` },
 };
 
 export function contentTag(module: ContentModule) {

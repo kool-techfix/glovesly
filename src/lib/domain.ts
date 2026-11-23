@@ -53,6 +53,24 @@ export const PARTNER_TYPE_LABELS: Record<PartnerType, string> = {
 export const MESSAGE_STATUSES = ["NEW", "READ", "ARCHIVED"] as const;
 export type MessageStatus = (typeof MESSAGE_STATUSES)[number];
 
+export const EMPLOYMENT_TYPES = ["FULL_TIME", "PART_TIME", "CONTRACT", "INTERNSHIP"] as const;
+export type EmploymentType = (typeof EMPLOYMENT_TYPES)[number];
+export const EMPLOYMENT_TYPE_LABELS: Record<EmploymentType, string> = {
+  FULL_TIME: "Full time",
+  PART_TIME: "Part time",
+  CONTRACT: "Contract",
+  INTERNSHIP: "Internship",
+};
+
+export const APPLICATION_STATUSES = ["NEW", "REVIEWED", "SHORTLISTED", "ARCHIVED"] as const;
+export type ApplicationStatus = (typeof APPLICATION_STATUSES)[number];
+export const APPLICATION_STATUS_LABELS: Record<ApplicationStatus, string> = {
+  NEW: "New",
+  REVIEWED: "Reviewed",
+  SHORTLISTED: "Shortlisted",
+  ARCHIVED: "Archived",
+};
+
 /** Upload folders and resource types accepted by POST /api/admin/media/sign-upload. */
 export const UPLOAD_FOLDERS = ["services", "projects", "news", "team", "partners", "misc"] as const;
 export type UploadFolder = (typeof UPLOAD_FOLDERS)[number];

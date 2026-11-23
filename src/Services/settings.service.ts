@@ -17,6 +17,8 @@ import { activityService } from "@/Services/activity.service";
 
 export type WorkspaceSettingsDto = {
   contactEmail: string | null;
+  /** Job application alerts (falls back to contactEmail). */
+  recruitmentEmail: string | null;
   phone: string | null;
   address: string | null;
   officeLocations: OfficeLocation[];
@@ -33,6 +35,7 @@ function parseList<T>(schema: ZodType<T[], ZodTypeDef, unknown>, value: unknown)
 function toSettingsDto(record: WorkspaceSettingsRecord | null): WorkspaceSettingsDto {
   return {
     contactEmail: record?.contactEmail ?? null,
+    recruitmentEmail: record?.recruitmentEmail ?? null,
     phone: record?.phone ?? null,
     address: record?.address ?? null,
     officeLocations: parseList(officeLocationsSchema, record?.officeLocations),

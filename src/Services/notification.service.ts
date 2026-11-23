@@ -1,5 +1,7 @@
 import { queueEmail } from "@/lib/email/mailer";
 import {
+  applicationAlertEmail,
+  applicationReceivedEmail,
   appUrl,
   contactMessageAlertEmail,
   inviteEmail,
@@ -50,5 +52,30 @@ export const notificationService = {
       inboxLink: appUrl(`/admin/messages?id=${encodeURIComponent(message.id)}`),
     });
     queueEmail({ to, replyTo: message.email, tag: "contact-alert", ...email });
+  },
+
+  /** Acknowledgement to the applicant. */
+  sendApplicationReceived(to: string, input: { fullName: string; positionLabel: string }) {
+    queueEmail({ to, tag: "application-received", ...applicationReceivedEmail(input) });
+  },
+
+  /** Staff alert; replying answers the applicant. */
+  sendApplicationAlert(
+    to: string,
+    application: {
+      id: string;
+      fullName: string;
+      email: string;
+      phone: string;
+      positionLabel: string;
+      message: string | null;
+      cvFilename: string;
+    },
+  ) {
+    const email = applicationAlertEmail({
+      ...application,
+      adminLink: appUrl(`/admin/applications?id=${encodeURIComponent(application.id)}`),
+    });
+    queueEmail({ to, replyTo: application.email, tag: "application-alert", ...email });
   },
 };

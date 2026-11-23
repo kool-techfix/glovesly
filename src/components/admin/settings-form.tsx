@@ -28,6 +28,7 @@ export function SettingsForm() {
   const { workspace, setWorkspace, isAdmin } = useAdmin();
   const readOnly = !isAdmin;
   const [contactEmail, setContactEmail] = useState(workspace.contactEmail ?? "");
+  const [recruitmentEmail, setRecruitmentEmail] = useState(workspace.recruitmentEmail ?? "");
   const [phone, setPhone] = useState(workspace.phone ?? "");
   const [address, setAddress] = useState(workspace.address ?? "");
   const [offices, setOffices] = useState<OfficeRow[]>(() =>
@@ -69,6 +70,7 @@ export function SettingsForm() {
         method: "PATCH",
         body: {
           contactEmail: contactEmail.trim(),
+          recruitmentEmail: recruitmentEmail.trim(),
           phone,
           address,
           officeLocations: offices.map((office) => ({
@@ -136,6 +138,30 @@ export function SettingsForm() {
                 ) : (
                   <p id="settings-email-help" className="adm-field-help">
                     Shown on the site. Contact form alerts are sent here.
+                  </p>
+                )}
+              </div>
+              <div className="adm-field">
+                <label htmlFor="settings-recruitment-email" className="adm-label">
+                  Recruitment email
+                </label>
+                <input
+                  id="settings-recruitment-email"
+                  type="email"
+                  className="adm-input"
+                  value={recruitmentEmail}
+                  onChange={(event) => setRecruitmentEmail(event.target.value)}
+                  aria-describedby={err("recruitmentEmail") ? "settings-recruitment-email-error" : "settings-recruitment-email-help"}
+                  aria-invalid={err("recruitmentEmail") ? true : undefined}
+                  data-testid="input-settings-recruitment-email"
+                />
+                {err("recruitmentEmail") ? (
+                  <p id="settings-recruitment-email-error" className="adm-field-error">
+                    {err("recruitmentEmail")}
+                  </p>
+                ) : (
+                  <p id="settings-recruitment-email-help" className="adm-field-help">
+                    Not shown on the site. Job application alerts go here; if empty, they go to the contact email.
                   </p>
                 )}
               </div>

@@ -2,7 +2,9 @@ import { z } from "zod";
 
 import { isCloudinaryUrl } from "@/lib/cloudinary";
 import {
+  APPLICATION_STATUSES,
   CONTENT_STATUSES,
+  EMPLOYMENT_TYPES,
   MESSAGE_STATUSES,
   PARTNER_TYPES,
   PASSWORD_TOKEN_PURPOSES,
@@ -10,7 +12,9 @@ import {
   PROJECT_STATUSES,
   USER_ROLES,
   USER_STATUSES,
+  type ApplicationStatus,
   type ContentStatus,
+  type EmploymentType,
   type MessageStatus,
   type PartnerType,
   type PasswordTokenPurpose,
@@ -28,7 +32,9 @@ import { SLUG_MAX_LENGTH, SLUG_PATTERN } from "@/lib/slug";
  */
 
 export {
+  APPLICATION_STATUSES,
   CONTENT_STATUSES,
+  EMPLOYMENT_TYPES,
   MESSAGE_STATUSES,
   PARTNER_TYPES,
   PASSWORD_TOKEN_PURPOSES,
@@ -38,7 +44,9 @@ export {
   USER_STATUSES,
 };
 export type {
+  ApplicationStatus,
   ContentStatus,
+  EmploymentType,
   MessageStatus,
   PartnerType,
   PasswordTokenPurpose,
@@ -55,6 +63,8 @@ export const projectSectorSchema = z.enum(PROJECT_SECTORS);
 export const projectStatusSchema = z.enum(PROJECT_STATUSES);
 export const partnerTypeSchema = z.enum(PARTNER_TYPES);
 export const messageStatusSchema = z.enum(MESSAGE_STATUSES);
+export const employmentTypeSchema = z.enum(EMPLOYMENT_TYPES);
+export const applicationStatusSchema = z.enum(APPLICATION_STATUSES);
 
 // ---------------------------------------------------------------------------
 // Field helpers

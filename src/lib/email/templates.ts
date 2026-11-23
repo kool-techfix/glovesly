@@ -173,3 +173,72 @@ export function contactMessageAlertEmail(input: {
   ]);
   return { subject, html, text };
 }
+
+/** Acknowledgement to a job applicant. No promises about timelines or outcomes. */
+export function applicationReceivedEmail(input: { fullName: string; positionLabel: string }): RenderedEmail {
+  const heading = "We received your application";
+  const subject = `We received your application for ${input.positionLabel}`;
+  const html = layout({
+    preheader: `We received your application for ${input.positionLabel}.`,
+    heading,
+    bodyHtml: [
+      paragraph(`Dear ${escapeHtml(input.fullName)},`),
+      paragraph(`We received your application for <strong>${escapeHtml(input.positionLabel)}</strong>.`),
+      paragraph("Thank you for your interest in Glovesly Pro-Project Limited."),
+    ].join("\n"),
+  });
+  const text = textLayout(heading, [
+    `Dear ${input.fullName},`,
+    "",
+    `We received your application for ${input.positionLabel}.`,
+    "",
+    "Thank you for your interest in Glovesly Pro-Project Limited.",
+  ]);
+  return { subject, html, text };
+}
+
+/** Staff alert for a new job application. The CV itself is only in the admin. */
+export function applicationAlertEmail(input: {
+  fullName: string;
+  email: string;
+  phone: string;
+  positionLabel: string;
+  message: string | null;
+  cvFilename: string;
+  adminLink: string;
+}): RenderedEmail {
+  const heading = "New job application";
+  const subject = `New application: ${input.positionLabel} (${input.fullName})`;
+  const rows: Array<[string, string]> = [
+    ["Position", input.positionLabel],
+    ["Name", input.fullName],
+    ["Email", input.email],
+    ["Phone", input.phone],
+    ["CV", input.cvFilename],
+  ];
+  const table = rows
+    .map(
+      ([label, value]) =>
+        `<tr><td style="padding:4px 12px 4px 0;color:${BRAND.muted};font-size:14px;">${label}</td><td style="padding:4px 0;font-size:14px;color:${BRAND.foreground};">${escapeHtml(value)}</td></tr>`,
+    )
+    .join("");
+  const html = layout({
+    preheader: `${input.fullName} applied for ${input.positionLabel}.`,
+    heading,
+    bodyHtml: [
+      `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 0 16px;">${table}</table>`,
+      input.message
+        ? `<div style="padding:16px;border-left:3px solid ${BRAND.primary};background:${BRAND.band};font-size:15px;line-height:1.6;color:${BRAND.foreground};white-space:pre-wrap;">${escapeHtml(input.message)}</div>`
+        : "",
+      button("Open the application", input.adminLink),
+      paragraph("The CV can be downloaded from the admin. Reply to this email to answer the applicant directly."),
+    ].join("\n"),
+  });
+  const text = textLayout(heading, [
+    ...rows.map(([label, value]) => `${label}: ${value}`),
+    ...(input.message ? ["", input.message] : []),
+    "",
+    `Application: ${input.adminLink}`,
+  ]);
+  return { subject, html, text };
+}

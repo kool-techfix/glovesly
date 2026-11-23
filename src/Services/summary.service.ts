@@ -6,7 +6,9 @@ import { newsService } from "@/Services/news.service";
 import { partnerService } from "@/Services/partner.service";
 import { projectService } from "@/Services/project.service";
 import { serviceService } from "@/Services/service.service";
+import { jobApplicationService } from "@/Services/job-application.service";
 import { teamService } from "@/Services/team.service";
+import { vacancyService } from "@/Services/vacancy.service";
 
 export type AdminSummaryDto = {
   /** Status counts per content module. */
@@ -15,6 +17,8 @@ export type AdminSummaryDto = {
   reviewQueue: number;
   /** Contact messages still NEW. */
   unreadMessages: number;
+  /** Job applications still NEW. */
+  newApplications: number;
   /** Projects with an empty or unknown state (flagged in the admin). */
   projectsWithoutState: number;
 };
@@ -25,22 +29,24 @@ const services = {
   news: newsService,
   team: teamService,
   partners: partnerService,
+  vacancies: vacancyService,
 } satisfies Record<ContentModule, { countByStatus(): Promise<StatusCounts> }>;
 
 /** Header badges and dashboard counts. */
 export const summaryService = {
   async get(): Promise<AdminSummaryDto> {
     const keys = Object.keys(services) as ContentModule[];
-    const [counts, unreadMessages, projectsWithoutState] = await Promise.all([
+    const [counts, unreadMessages, projectsWithoutState, newApplications] = await Promise.all([
       Promise.all(keys.map((key) => services[key].countByStatus())),
       contactService.countUnread(),
       countProjectsWithoutValidState(),
+      jobApplicationService.countNew(),
     ]);
     const modules = Object.fromEntries(keys.map((key, i) => [key, counts[i]])) as Record<
       ContentModule,
       StatusCounts
     >;
     const reviewQueue = counts.reduce((sum, c) => sum + c.REVIEW, 0);
-    return { modules, reviewQueue, unreadMessages, projectsWithoutState };
+    return { modules, reviewQueue, unreadMessages, newApplications, projectsWithoutState };
   },
 };

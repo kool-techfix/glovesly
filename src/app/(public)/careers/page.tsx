@@ -10,6 +10,7 @@ import { careersPage } from "@/data/content";
 import { excerpt } from "@/lib/display";
 import { serviceService } from "@/Services/service.service";
 import { vacancyService } from "@/Services/vacancy.service";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 
 export const revalidate = 600;
 
@@ -50,7 +51,7 @@ export default async function CareersPage() {
       {/* B. More than a workplace */}
       <section className="section-pad" aria-labelledby="careers-intro-title">
         <div className="container-wide careers-split">
-          <div className="reveal">
+          <ScrollReveal >
             <h2 id="careers-intro-title" className="display careers-section-title">
               {intro.title}
             </h2>
@@ -59,44 +60,44 @@ export default async function CareersPage() {
                 <p key={paragraph.slice(0, 24)}>{paragraph}</p>
               ))}
             </div>
-          </div>
-          <div className="careers-photo reveal reveal-delay-1">
+          </ScrollReveal>
+          <ScrollReveal className="careers-photo" delay={0.1}>
             {intro.image ? (
               <CloudinaryImage src={intro.image.src} alt={intro.image.alt} fill sizes="(max-width: 900px) 100vw, 45vw" className="object-cover" />
             ) : (
               <span className="media-fallback careers-photo-fallback" aria-hidden="true" />
             )}
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* C. People behind the projects */}
       <section id={life.id} className="section-pad section-band scroll-anchor" aria-labelledby="careers-life-title">
         <div className="container-wide">
-          <h2 id="careers-life-title" className="display careers-section-title reveal">
+          <ScrollReveal as="h2" id="careers-life-title" className="display careers-section-title">
             {life.title}
-          </h2>
-          <ul className="careers-gallery mt-10">
-            {life.gallery.map((tile, index) => (
-              <li key={tile.caption} className={`careers-gallery-item reveal reveal-delay-${Math.min(index, 3)}`}>
+          </ScrollReveal>
+          <StaggerContainer as="ul" className="careers-gallery mt-10">
+            {life.gallery.map((tile) => (
+              <StaggerItem as="li" key={tile.caption} className="careers-gallery-item">
                 <figure className="careers-tile">
                   {tile.image ? (
                     <CloudinaryImage src={tile.image.src} alt={tile.image.alt} fill sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw" className="object-cover" />
                   ) : null}
                   <figcaption className={tile.image ? "careers-tile-caption" : "careers-tile-caption is-solid"}>{tile.caption}</figcaption>
                 </figure>
-              </li>
+              </StaggerItem>
             ))}
-          </ul>
+          </StaggerContainer>
         </div>
       </section>
 
       {/* D. Opportunities */}
       <section id={opportunities.id} className="section-pad scroll-anchor careers-opportunities" aria-labelledby="careers-opportunities-title">
         <div className="container-wide">
-          <h2 id="careers-opportunities-title" className="display careers-section-title careers-section-title--lead">
+          <ScrollReveal as="h2" id="careers-opportunities-title" className="display careers-section-title careers-section-title--lead">
             {opportunities.title}
-          </h2>
+          </ScrollReveal>
           <div className="mt-10">
             <Suspense fallback={<VacancyBoardStatic vacancies={vacancies} copy={boardCopy} />}>
               <VacancyBoard vacancies={vacancies} copy={boardCopy} />
@@ -109,12 +110,12 @@ export default async function CareersPage() {
       {services.length ? (
         <section className="section-pad section-band" aria-labelledby="careers-business-title">
           <div className="container-wide">
-            <h2 id="careers-business-title" className="display careers-section-title reveal">
+            <ScrollReveal as="h2" id="careers-business-title" className="display careers-section-title">
               {business.title}
-            </h2>
-            <ul className="careers-business mt-10">
+            </ScrollReveal>
+            <StaggerContainer as="ul" className="careers-business mt-10">
               {services.map((service) => (
-                <li key={service.id}>
+                <StaggerItem as="li" key={service.id}>
                   <article className="business-card">
                     <div className="business-card-media">
                       {service.imageUrl ? (
@@ -137,26 +138,28 @@ export default async function CareersPage() {
                       </Link>
                     </div>
                   </article>
-                </li>
+                </StaggerItem>
               ))}
-            </ul>
+            </StaggerContainer>
           </div>
         </section>
       ) : null}
 
       {/* F. Closing band */}
       <section className="cta-band careers-closing" aria-labelledby="careers-closing-title">
-        <div className="container-wide cta-band-inner">
-          <div>
+        <StaggerContainer className="container-wide cta-band-inner" stagger={0.15}>
+          <StaggerItem>
             <h2 id="careers-closing-title" className="display cta-band-title">
               {closing.title}
             </h2>
             <p className="cta-band-text">{closing.text}</p>
-          </div>
-          <ButtonLink href={closing.cta.href} testId="link-careers-submit-cv">
-            {closing.cta.label}
-          </ButtonLink>
-        </div>
+          </StaggerItem>
+          <StaggerItem>
+            <ButtonLink href={closing.cta.href} testId="link-careers-submit-cv">
+              {closing.cta.label}
+            </ButtonLink>
+          </StaggerItem>
+        </StaggerContainer>
       </section>
     </div>
   );

@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { Eyebrow, SectionHeading } from "@/components/site";
 import { ceoMessage } from "@/data/content";
 import { cn } from "@/lib/utils";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 
 /* "Message from the CEO". Hook-free, safe in Server Components. */
 
@@ -28,12 +29,12 @@ export function CeoMessageSection({ band = true }: { band?: boolean }) {
             <SectionHeading eyebrow={ceoMessage.eyebrow} title={ceoMessage.title} />
           </div>
           {photo ? (
-            <div className="ceo-photo">
+            <ScrollReveal className="ceo-photo" variant="scale-in">
               <Image src={photo.src} alt={photo.alt} fill sizes="(max-width: 860px) 100vw, 40vw" />
-            </div>
+            </ScrollReveal>
           ) : null}
         </div>
-        <figure className="ceo-figure">
+        <ScrollReveal as="figure" className="ceo-figure" delay={0.1}>
           <span className="ceo-mark" aria-hidden="true">
             “
           </span>
@@ -43,7 +44,7 @@ export function CeoMessageSection({ band = true }: { band?: boolean }) {
             ))}
           </blockquote>
           <Signature />
-        </figure>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -53,20 +54,24 @@ export function CeoMessageSection({ band = true }: { band?: boolean }) {
 export function CeoTeaser() {
   return (
     <section className="ceo-teaser" aria-labelledby="ceo-teaser-title">
-      <div className="container-wide ceo-teaser-inner">
-        <Eyebrow>
-          <span id="ceo-teaser-title">{ceoMessage.title}</span>
-        </Eyebrow>
-        <figure className="ceo-teaser-figure">
+      <StaggerContainer className="container-wide ceo-teaser-inner" stagger={0.15}>
+        <StaggerItem>
+          <Eyebrow>
+            <span id="ceo-teaser-title">{ceoMessage.title}</span>
+          </Eyebrow>
+        </StaggerItem>
+        <StaggerItem as="figure" className="ceo-teaser-figure">
           <blockquote className="display ceo-teaser-quote">
             <p>“{ceoMessage.excerpt}”</p>
           </blockquote>
           <Signature />
-        </figure>
-        <Link href={`/about#${ceoMessage.id}`} className="link-arrow focus-ring" data-testid="link-home-ceo-message">
-          Read the full message <ArrowRight aria-hidden="true" size={16} />
-        </Link>
-      </div>
+        </StaggerItem>
+        <StaggerItem>
+          <Link href={`/about#${ceoMessage.id}`} className="link-arrow focus-ring" data-testid="link-home-ceo-message">
+            Read the full message <ArrowRight aria-hidden="true" size={16} />
+          </Link>
+        </StaggerItem>
+      </StaggerContainer>
     </section>
   );
 }

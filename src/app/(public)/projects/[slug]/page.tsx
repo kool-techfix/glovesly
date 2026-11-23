@@ -8,6 +8,7 @@ import { PageHero } from "@/components/site";
 import { excerpt, projectStatusLabel, sectorLabel, toParagraphs } from "@/lib/display";
 import { cn } from "@/lib/utils";
 import { projectService } from "@/Services/project.service";
+import { StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 
 export const revalidate = 3600;
 
@@ -67,18 +68,18 @@ export default async function ProjectDetailPage({ params }: Props) {
         {project.galleryUrls.length ? (
           <div className={cn("container-wide", hasBody && "mt-16")}>
             <h2 className="display text-2xl">Gallery</h2>
-            <ul className="gallery-grid mt-6">
+            <StaggerContainer as="ul" className="gallery-grid mt-6" stagger={0.1}>
               {project.galleryUrls.map((url, index) => (
-                <li key={url}>
+                <StaggerItem as="li" key={url}>
                   <MediaImage
                     src={url}
                     alt={`${project.title}, photo ${index + 1}`}
                     sizes="(max-width: 720px) 100vw, 33vw"
                     className="aspect-[4/3]"
                   />
-                </li>
+                </StaggerItem>
               ))}
-            </ul>
+            </StaggerContainer>
           </div>
         ) : null}
       </section>

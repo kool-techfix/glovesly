@@ -40,7 +40,7 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: LOADER_HEAD_SCRIPT }} />
         <noscript>
-          <style>{`.page-loader{display:none!important}.hero-image{opacity:1!important}`}</style>
+          <style>{`.page-loader{display:none!important}.hero-image{opacity:1!important}[data-reveal]{opacity:1!important;transform:none!important;filter:none!important}`}</style>
         </noscript>
       </head>
       <body>

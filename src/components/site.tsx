@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { HeroImage } from "@/components/hero-image";
+import { StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 import { cn } from "@/lib/utils";
 
 /* Hook-free building blocks shared by public pages. Safe in Server Components. */
@@ -348,13 +349,22 @@ export function SectionHeading({
   as: Heading = "h2",
   className,
 }: SectionHeadingProps) {
+  // Reveals on scroll: eyebrow and heading first, then the description.
   return (
-    <div className={cn("section-heading", className)} data-align={align}>
-      {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-      <Heading className="display section-heading-title">{title}</Heading>
-      {description ? (
-        <p className="lede section-heading-description">{description}</p>
+    <StaggerContainer className={cn("section-heading", className)} data-align={align} stagger={0.14}>
+      {eyebrow ? (
+        <StaggerItem>
+          <Eyebrow>{eyebrow}</Eyebrow>
+        </StaggerItem>
       ) : null}
-    </div>
+      <StaggerItem as={Heading} className="display section-heading-title">
+        {title}
+      </StaggerItem>
+      {description ? (
+        <StaggerItem as="p" className="lede section-heading-description">
+          {description}
+        </StaggerItem>
+      ) : null}
+    </StaggerContainer>
   );
 }

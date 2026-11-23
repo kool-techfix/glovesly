@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/site";
 import { home, partnerGroupOrder, partnerGroups } from "@/data/content";
 import { cn } from "@/lib/utils";
 import type { PartnerDto } from "@/Services/partner.service";
+import { StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 
 /*
  * Clients & Partners: one row per partner type, each with a CSS-only marquee.
@@ -127,17 +128,17 @@ export function PartnersSection({ partners, tone = "light" }: { partners: Partne
         <div id="partners-title">
           <SectionHeading eyebrow={home.partners.eyebrow} title={home.partners.title} description={home.partners.description} />
         </div>
-        <div className="partner-rows mt-12">
+        <StaggerContainer className="partner-rows mt-12" stagger={0.15}>
           {groups.map((group) => (
-            <div key={group.type} className="partner-row">
+            <StaggerItem key={group.type} className="partner-row">
               <div className="partner-row-copy">
                 <h3 className="card-title">{group.title}</h3>
                 {group.description ? <p className="card-text mt-2">{group.description}</p> : null}
               </div>
               <Marquee partners={group.partners} label={group.title} tone={tone} />
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerContainer>
       </div>
     </section>
   );

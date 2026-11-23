@@ -5,6 +5,7 @@ import { CloudinaryImage } from "@/components/cloudinary-image";
 import { formatLongDate } from "@/lib/display";
 import { cn } from "@/lib/utils";
 import type { NewsPostDto } from "@/Services/news.service";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 
 /*
  * Text-first news. A post shows an image only when one of Glovesly's own
@@ -55,7 +56,7 @@ export function NewsRow({ post, headingLevel = "h3" }: { post: NewsPostDto; head
 /** The latest article, larger. Two columns (text, image) with an image; one wide text block without. */
 export function NewsFeature({ post }: { post: NewsPostDto }) {
   return (
-    <article className={cn("news-feature", post.coverImageUrl && "has-image")} data-testid={`feature-news-${post.slug}`}>
+    <ScrollReveal as="article" className={cn("news-feature", post.coverImageUrl && "has-image")} data-testid={`feature-news-${post.slug}`}>
       <div className="news-feature-text">
         <p className="eyebrow">Latest</p>
         <Meta post={post} />
@@ -74,19 +75,19 @@ export function NewsFeature({ post }: { post: NewsPostDto }) {
           <CloudinaryImage src={post.coverImageUrl} alt="" fill sizes="(max-width: 900px) 100vw, 45vw" preload className="object-cover" />
         </div>
       ) : null}
-    </article>
+    </ScrollReveal>
   );
 }
 
 /** A list of rows separated by hairlines. */
 export function NewsRows({ posts, headingLevel }: { posts: NewsPostDto[]; headingLevel?: "h2" | "h3" }) {
   return (
-    <ul className="news-rows">
+    <StaggerContainer as="ul" className="news-rows">
       {posts.map((post) => (
-        <li key={post.id}>
+        <StaggerItem as="li" key={post.id}>
           <NewsRow post={post} headingLevel={headingLevel} />
-        </li>
+        </StaggerItem>
       ))}
-    </ul>
+    </StaggerContainer>
   );
 }

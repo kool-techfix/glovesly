@@ -50,6 +50,9 @@ export function HeroImage({
       {...(priority ? { preload: true } : { loading: "lazy" as const })}
       className={cn("hero-image", loaded && "is-loaded", className)}
       data-hero-image={signalReady ? "" : undefined}
+      // The <head> script may add data-loaded before hydration (so the photo can
+      // fade in without waiting for React); that attribute is expected.
+      suppressHydrationWarning
       onLoad={() => {
         setLoaded(true);
         if (signalReady) markHeroReady();

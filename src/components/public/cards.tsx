@@ -13,7 +13,7 @@ import type { ServiceDto } from "@/Services/service.service";
 export function ServiceCard({ service }: { service: ServiceDto }) {
   return (
     <article className="card group">
-      <MediaImage src={service.imageUrl} alt="" label={service.title.charAt(0)} sizes="(max-width: 720px) 100vw, 33vw" className="aspect-[4/3]" />
+      <MediaImage src={service.imageUrl} alt="" label={service.title.charAt(0)} sizes="(max-width: 720px) 100vw, 33vw" className="aspect-4/3" />
       <div className="card-body">
         <h3 className="card-title">
           <Link href={`/services/${service.slug}`} className="card-link focus-ring" data-testid={`link-services-card-${service.slug}`}>
@@ -48,7 +48,7 @@ export function ProjectCard({ project }: { project: ProjectDto }) {
   const location = project.locationLabel || project.state;
   return (
     <article className="card group">
-      <ProjectCover project={project} sizes="(max-width: 720px) 100vw, 33vw" className="aspect-[4/3]" />
+      <ProjectCover project={project} sizes="(max-width: 720px) 100vw, 33vw" className="aspect-4/3" />
       <div className="card-body">
         <p className="card-kicker">{sectorLabel(project.sector)}</p>
         <h3 className="card-title">
@@ -113,9 +113,9 @@ export function NewsCard({ post }: { post: NewsPostDto }) {
   return (
     <article className="card group">
       {post.coverImageUrl ? (
-        <MediaImage src={post.coverImageUrl} alt="" sizes="(max-width: 720px) 100vw, 33vw" className="aspect-[16/10]" />
+        <MediaImage src={post.coverImageUrl} alt="" sizes="(max-width: 720px) 100vw, 33vw" className="aspect-16/10" />
       ) : (
-        <div className="media-frame media-fallback aspect-[16/10]" aria-hidden="true" />
+        <div className="media-frame media-fallback aspect-16/10" aria-hidden="true" />
       )}
       <div className="card-body">
         {post.publishedAt ? (

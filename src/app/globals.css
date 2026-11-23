@@ -2065,7 +2065,8 @@
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
   grid-template-areas: "media text";
 }
-.service-row-media {
+.service-row-media,
+.service-row-media-slot {
   grid-area: media;
 }
 .service-row-text {
@@ -3891,4 +3892,15 @@ html.loader-active .reveal {
   .news-feature-title {
     transition: none;
   }
+}
+
+/* ==================================================================
+   Motion (src/components/motion/)
+   ================================================================== */
+/* The zoom/drift layer for a hero photo: fills the slide's media frame,
+   which clips it (overflow: hidden), so the scaled photo never shows edges. */
+.hero-image-motion {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
 }

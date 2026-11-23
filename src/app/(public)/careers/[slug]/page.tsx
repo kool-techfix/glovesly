@@ -10,6 +10,7 @@ import { excerpt, formatLongDate, toParagraphs } from "@/lib/display";
 import { EMPLOYMENT_TYPE_LABELS, type EmploymentType } from "@/lib/domain";
 import { getEnv } from "@/lib/env";
 import { vacancyService, type PublicVacancyDto } from "@/Services/vacancy.service";
+import { ScrollReveal } from "@/components/motion/reveal";
 
 export const revalidate = 600;
 
@@ -89,7 +90,7 @@ export default async function VacancyPage({ params }: Props) {
 
       <section className="section-pad" aria-label="About this role">
         <div className="container-wide vacancy-layout">
-          <div className="vacancy-content">
+          <ScrollReveal className="vacancy-content" variant="fade-up">
             {toParagraphs(vacancy.overview).length ? (
               <section aria-labelledby="vacancy-overview">
                 <h2 id="vacancy-overview" className="display vacancy-heading">
@@ -128,9 +129,9 @@ export default async function VacancyPage({ params }: Props) {
               </h2>
               <Paragraphs text={vacancy.applicationNote || careersPage.vacancy.howToApply} className="prose-measure mt-5" />
             </section>
-          </div>
+          </ScrollReveal>
 
-          <aside className="vacancy-summary" aria-labelledby="vacancy-summary-title">
+          <ScrollReveal as="aside" className="vacancy-summary" aria-labelledby="vacancy-summary-title" variant="slide-right" delay={0.1}>
             <h2 id="vacancy-summary-title" className="vacancy-summary-title">
               Role summary
             </h2>
@@ -154,7 +155,7 @@ export default async function VacancyPage({ params }: Props) {
               <span>Apply now</span>
               <ArrowDown aria-hidden="true" className="button-icon" />
             </a>
-          </aside>
+          </ScrollReveal>
         </div>
       </section>
 

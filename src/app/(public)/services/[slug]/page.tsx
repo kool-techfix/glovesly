@@ -12,6 +12,7 @@ import { servicesClosing } from "@/data/content";
 import { excerpt, toParagraphs } from "@/lib/display";
 import { projectService } from "@/Services/project.service";
 import { serviceService, type ServiceDto } from "@/Services/service.service";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 
 export const revalidate = 3600;
 
@@ -62,9 +63,11 @@ export default async function ServiceDetailPage({ params }: Props) {
       {hasBody ? (
         <section className="section-pad" aria-label={`About ${service.title}`}>
           <div className="container-wide detail-grid">
-            <Paragraphs text={service.body} className="prose-measure reveal" />
+            <ScrollReveal>
+              <Paragraphs text={service.body} className="prose-measure" />
+            </ScrollReveal>
             {service.capabilities.length ? (
-              <aside className="detail-aside reveal reveal-delay-1" aria-labelledby="service-capabilities">
+              <ScrollReveal as="aside" className="detail-aside" aria-labelledby="service-capabilities" delay={0.1}>
                 <h2 id="service-capabilities" className="display detail-aside-title">
                   Capabilities
                 </h2>
@@ -76,17 +79,17 @@ export default async function ServiceDetailPage({ params }: Props) {
                     </li>
                   ))}
                 </ul>
-              </aside>
+              </ScrollReveal>
             ) : null}
           </div>
         </section>
       ) : service.capabilities.length ? (
         // No body copy yet: show the capabilities on their own, with no filler text.
         <section className="section-pad" aria-labelledby="service-capabilities">
-          <div className="container-wide reveal">
+          <ScrollReveal className="container-wide">
             <SectionHeading title={<span id="service-capabilities">Capabilities</span>} />
             <CapabilityList items={service.capabilities} label={`${service.title} capabilities`} className="mt-8 capability-list--wide" />
-          </div>
+          </ScrollReveal>
         </section>
       ) : null}
 
@@ -99,13 +102,13 @@ export default async function ServiceDetailPage({ params }: Props) {
                 All projects <ArrowRight aria-hidden="true" size={16} />
               </Link>
             </div>
-            <ul className="card-grid mt-12">
+            <StaggerContainer as="ul" className="card-grid mt-12">
               {related.map((project) => (
-                <li key={project.id}>
+                <StaggerItem as="li" key={project.id}>
                   <ProjectCard project={project} />
-                </li>
+                </StaggerItem>
               ))}
-            </ul>
+            </StaggerContainer>
           </div>
         </section>
       ) : null}

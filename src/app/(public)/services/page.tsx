@@ -8,6 +8,7 @@ import { Eyebrow, PageHero } from "@/components/site";
 import { pageIntros, servicesClosing } from "@/data/content";
 import { cn } from "@/lib/utils";
 import { serviceService } from "@/Services/service.service";
+import { ScrollReveal } from "@/components/motion/reveal";
 
 export const revalidate = 3600;
 
@@ -49,13 +50,16 @@ export default async function ServicesPage() {
               aria-labelledby={titleId}
             >
               <div className={cn("container-wide service-row", index % 2 === 1 && "is-reversed")}>
-                <ServiceMedia
-                  src={service.imageUrl}
-                  sizes="(max-width: 900px) 100vw, 45vw"
-                  preload={index === 0}
-                  className="service-row-media reveal"
-                />
-                <div className="service-row-text reveal reveal-delay-1">
+                {/* The slot takes the grid area; the photo keeps its own ratio. */}
+                <ScrollReveal className="service-row-media-slot" variant={index % 2 === 1 ? "slide-right" : "slide-left"}>
+                  <ServiceMedia
+                    src={service.imageUrl}
+                    sizes="(max-width: 900px) 100vw, 45vw"
+                    preload={index === 0}
+                    className="service-row-media"
+                  />
+                </ScrollReveal>
+                <ScrollReveal className="service-row-text" delay={0.1}>
                   <Eyebrow>{sectionNumber(index)}</Eyebrow>
                   <h2 id={titleId} className="display service-row-title">
                     {service.title}
@@ -70,7 +74,7 @@ export default async function ServicesPage() {
                     Read more<span className="sr-only"> about {service.title}</span>
                     <ArrowRight aria-hidden="true" size={16} />
                   </Link>
-                </div>
+                </ScrollReveal>
               </div>
             </section>
           );

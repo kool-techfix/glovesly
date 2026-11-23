@@ -1,5 +1,6 @@
 import { MemberPhoto } from "@/components/public/team";
 import { toParagraphs } from "@/lib/display";
+import { ScrollReveal } from "@/components/motion/reveal";
 import type { TeamMemberDto } from "@/Services/team.service";
 
 /*
@@ -12,8 +13,10 @@ export function FeaturedMember({ member, index }: { member: TeamMemberDto; index
   const nameId = `team-featured-${member.slug}`;
   return (
     <section className="team-featured" aria-labelledby={nameId} data-testid={`section-team-featured-${member.slug}`}>
-      <MemberPhoto member={member} sizes="(max-width: 860px) 100vw, 26rem" preload={index === 0} className="team-featured-photo reveal" />
-      <figure className="team-featured-copy reveal reveal-delay-1">
+      <ScrollReveal>
+        <MemberPhoto member={member} sizes="(max-width: 860px) 100vw, 26rem" preload={index === 0} className="team-featured-photo" />
+      </ScrollReveal>
+      <ScrollReveal as="figure" className="team-featured-copy" delay={0.1}>
         {paragraphs.length ? (
           <blockquote className="prose-body prose-measure team-featured-message">
             {paragraphs.map((paragraph, i) => (
@@ -27,7 +30,7 @@ export function FeaturedMember({ member, index }: { member: TeamMemberDto; index
           </h2>
           <p className="team-featured-role">{member.role}</p>
         </figcaption>
-      </figure>
+      </ScrollReveal>
     </section>
   );
 }

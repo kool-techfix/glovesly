@@ -5,6 +5,7 @@ import { NIGERIA_MAP, projectLatLng, stateCentroid } from "@/lib/nigeria-map";
 import { cn } from "@/lib/utils";
 import type { ProjectsByState } from "@/Services/project.service";
 import type { WorkspaceSettingsDto } from "@/Services/settings.service";
+import { ScrollReveal, StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 
 /*
  * Nigeria map band. The SVG (37 state paths, office dots) renders here on the
@@ -38,13 +39,19 @@ export function NigeriaMapSection({
   return (
     <section className="map-band" aria-labelledby="map-title">
       <div className="container-wide">
-        <div className="max-w-3xl">
-          <Eyebrow onDark>{home.map.eyebrow}</Eyebrow>
-          <h2 id="map-title" className="display section-heading-title text-white">
+        <StaggerContainer className="max-w-3xl" stagger={0.14}>
+          <StaggerItem>
+            <Eyebrow onDark>{home.map.eyebrow}</Eyebrow>
+          </StaggerItem>
+          <StaggerItem as="h2" id="map-title" className="display section-heading-title text-white">
             {home.map.title}
-          </h2>
-          {home.map.description ? <p className="lede map-band-lede">{home.map.description}</p> : null}
-        </div>
+          </StaggerItem>
+          {home.map.description ? (
+            <StaggerItem as="p" className="lede map-band-lede">
+              {home.map.description}
+            </StaggerItem>
+          ) : null}
+        </StaggerContainer>
 
         {settings.stats.length ? (
           <dl className="map-stats">
@@ -57,7 +64,8 @@ export function NigeriaMapSection({
           </dl>
         ) : null}
 
-        <NigeriaMapInteractive projectsByState={projectsByState} viewBox={viewBox}>
+        <ScrollReveal variant="fade-in">
+          <NigeriaMapInteractive projectsByState={projectsByState} viewBox={viewBox}>
           <svg
             viewBox={viewBox}
             className="map-svg"
@@ -93,6 +101,7 @@ export function NigeriaMapSection({
             </g>
           </svg>
         </NigeriaMapInteractive>
+        </ScrollReveal>
 
         <div className="map-footer">
           <ul className="map-legend" aria-label="Map legend">

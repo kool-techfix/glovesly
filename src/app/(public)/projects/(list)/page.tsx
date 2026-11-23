@@ -6,6 +6,7 @@ import { PageHero } from "@/components/site";
 import { pageIntros } from "@/data/content";
 import { PROJECT_SECTORS, type ProjectSector } from "@/lib/domain";
 import { projectService } from "@/Services/project.service";
+import { StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 
 /*
  * No ISR here: reading searchParams (?sector=) makes the page render per
@@ -80,13 +81,13 @@ export default async function ProjectsPage({ searchParams }: Props) {
           <h2 className="sr-only">{sector ? `${SECTOR_FILTERS[sector].label} projects` : "All projects"}</h2>
           {projects.length ? (
             visible.length ? (
-              <ul className="card-grid">
+              <StaggerContainer as="ul" className="card-grid">
                 {visible.map((project) => (
-                  <li key={project.id}>
+                  <StaggerItem as="li" key={project.id}>
                     <ProjectCard project={project} />
-                  </li>
+                  </StaggerItem>
                 ))}
-              </ul>
+              </StaggerContainer>
             ) : (
               <EmptyNote>No published projects in this sector yet.</EmptyNote>
             )

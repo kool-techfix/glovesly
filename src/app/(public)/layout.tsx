@@ -1,3 +1,4 @@
+import { MotionProvider } from "@/components/motion/motion-provider";
 import { SiteFooter } from "@/components/public/site-footer";
 import { SiteHeader } from "@/components/public/site-header";
 import { settingsService } from "@/Services/settings.service";
@@ -6,7 +7,7 @@ import { settingsService } from "@/Services/settings.service";
 export default async function PublicLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const settings = await settingsService.getPublic();
   return (
-    <>
+    <MotionProvider>
       <a href="#main" className="skip-link focus-ring" data-testid="link-skip-to-content">
         Skip to content
       </a>
@@ -15,6 +16,6 @@ export default async function PublicLayout({ children }: Readonly<{ children: Re
         {children}
       </main>
       <SiteFooter settings={settings} />
-    </>
+    </MotionProvider>
   );
 }

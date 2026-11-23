@@ -7,6 +7,7 @@ import { VacancyCard } from "@/components/careers/vacancy-card";
 import { ButtonLink } from "@/components/site";
 import { EMPLOYMENT_TYPE_LABELS, EMPLOYMENT_TYPES, type EmploymentType } from "@/lib/domain";
 import type { PublicVacancyDto } from "@/Services/vacancy.service";
+import { StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 
 /*
  * Vacancy list with department, type and location filters. The filters live
@@ -160,13 +161,13 @@ function VacancyBoardView({
       </p>
 
       {visible.length ? (
-        <ul className="vacancy-list">
+        <StaggerContainer as="ul" className="vacancy-list">
           {visible.map((vacancy) => (
-            <li key={vacancy.id}>
+            <StaggerItem as="li" key={vacancy.id}>
               <VacancyCard vacancy={vacancy} />
-            </li>
+            </StaggerItem>
           ))}
-        </ul>
+        </StaggerContainer>
       ) : (
         <div className="vacancy-empty" data-testid="state-careers-no-matches">
           <p className="vacancy-empty-text">{copy.noMatches}</p>

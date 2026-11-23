@@ -14,6 +14,7 @@ import { partnerService } from "@/Services/partner.service";
 import { projectService } from "@/Services/project.service";
 import { serviceService, type ServiceDto } from "@/Services/service.service";
 import { settingsService } from "@/Services/settings.service";
+import { StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 
 export const revalidate = 3600;
 
@@ -63,17 +64,17 @@ export default async function HomePage() {
           <div id="home-sectors">
             <SectionHeading eyebrow={home.sectors.eyebrow} title={home.sectors.title} description={home.sectors.description} />
           </div>
-          <ul className="sector-grid mt-12">
+          <StaggerContainer as="ul" className="sector-grid mt-12">
             {sectors.map((sector, index) => (
-              <li key={sector.key} className="sector-card">
+              <StaggerItem as="li" key={sector.key} className="sector-card">
                 <span className="sector-number" aria-hidden="true">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <h3 className="card-title mt-6">{sector.title}</h3>
                 {sector.description ? <p className="card-text mt-3">{sector.description}</p> : null}
-              </li>
+              </StaggerItem>
             ))}
-          </ul>
+          </StaggerContainer>
         </div>
       </section>
 
@@ -91,13 +92,13 @@ export default async function HomePage() {
         }
       >
         {services.length ? (
-          <ul className="card-grid">
+          <StaggerContainer as="ul" className="card-grid">
             {services.slice(0, 6).map((service) => (
-              <li key={service.id}>
+              <StaggerItem as="li" key={service.id}>
                 <ServiceCard service={service} />
-              </li>
+              </StaggerItem>
             ))}
-          </ul>
+          </StaggerContainer>
         ) : (
           <EmptyNote>Services will appear here once they are published.</EmptyNote>
         )}
@@ -114,13 +115,13 @@ export default async function HomePage() {
         }
       >
         {projects.length ? (
-          <ul className="card-grid">
+          <StaggerContainer as="ul" className="card-grid">
             {projects.slice(0, 3).map((project) => (
-              <li key={project.id}>
+              <StaggerItem as="li" key={project.id}>
                 <ProjectCard project={project} />
-              </li>
+              </StaggerItem>
             ))}
-          </ul>
+          </StaggerContainer>
         ) : (
           <EmptyNote>Projects will appear here once they are published.</EmptyNote>
         )}

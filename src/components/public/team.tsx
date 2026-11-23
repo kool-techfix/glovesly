@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import { initials, toParagraphs } from "@/lib/display";
 import { cn } from "@/lib/utils";
 import type { TeamMemberDto } from "@/Services/team.service";
+import { StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 
 /*
  * ICAADA's TeamGrid / TeamMemberCard / TeamMemberModal pattern, restyled with
@@ -50,13 +51,13 @@ export function MemberPhoto({
 
 export function TeamGrid({ members }: { members: TeamMemberDto[] }) {
   return (
-    <ul className="team-directory-grid">
-      {members.map((member, index) => (
-        <li key={member.id} className={cn("reveal", index % 4 === 1 && "reveal-delay-1", index % 4 === 2 && "reveal-delay-2", index % 4 === 3 && "reveal-delay-3")}>
+    <StaggerContainer as="ul" className="team-directory-grid">
+      {members.map((member) => (
+        <StaggerItem as="li" key={member.id}>
           <TeamMemberCard member={member} />
-        </li>
+        </StaggerItem>
       ))}
-    </ul>
+    </StaggerContainer>
   );
 }
 

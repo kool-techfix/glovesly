@@ -1,3 +1,4 @@
+import { StaggerContainer, StaggerItem } from "@/components/motion/reveal";
 import { ButtonLink, SectionHeading } from "@/components/site";
 import { ctaBand, type ClosingBandContent } from "@/data/content";
 import { cn } from "@/lib/utils";
@@ -16,19 +17,19 @@ export function ClosingBand({
 }) {
   return (
     <section className="closing-band" aria-labelledby={id}>
-      <div className="container-wide closing-band-inner">
-        <h2 id={id} className="display closing-band-title">
+      <StaggerContainer className="container-wide closing-band-inner" stagger={0.15}>
+        <StaggerItem as="h2" id={id} className="display closing-band-title">
           {content.title}
-        </h2>
-        <div className="closing-band-actions">
+        </StaggerItem>
+        <StaggerItem className="closing-band-actions">
           <ButtonLink href={content.primaryCta.href} testId={primaryTestId}>
             {content.primaryCta.label}
           </ButtonLink>
           <ButtonLink href={content.secondaryCta.href} variant="secondary" onDark testId={secondaryTestId}>
             {content.secondaryCta.label}
           </ButtonLink>
-        </div>
-      </div>
+        </StaggerItem>
+      </StaggerContainer>
     </section>
   );
 }
@@ -37,17 +38,19 @@ export function ClosingBand({
 export function CtaBand({ area }: { area: string }) {
   return (
     <section className="cta-band" aria-labelledby={`cta-${area}`}>
-      <div className="container-wide cta-band-inner">
-        <div>
+      <StaggerContainer className="container-wide cta-band-inner" stagger={0.15}>
+        <StaggerItem>
           <h2 id={`cta-${area}`} className="display cta-band-title">
             {ctaBand.title}
           </h2>
           {ctaBand.description ? <p className="cta-band-text">{ctaBand.description}</p> : null}
-        </div>
-        <ButtonLink href={ctaBand.cta.href} variant="secondary" onDark testId={`link-${area}-cta-band`}>
-          {ctaBand.cta.label}
-        </ButtonLink>
-      </div>
+        </StaggerItem>
+        <StaggerItem>
+          <ButtonLink href={ctaBand.cta.href} variant="secondary" onDark testId={`link-${area}-cta-band`}>
+            {ctaBand.cta.label}
+          </ButtonLink>
+        </StaggerItem>
+      </StaggerContainer>
     </section>
   );
 }

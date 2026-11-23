@@ -5,6 +5,7 @@ import { useEffect, useId, useRef, useState, useSyncExternalStore } from "react"
 import { flushSync } from "react-dom";
 
 import { HeroImage, markHeroReady } from "@/components/hero-image";
+import { HeroImageAnimation } from "@/components/motion/hero-image-animation";
 import { ButtonLink, Eyebrow } from "@/components/site";
 import type { HeroSlide } from "@/data/content";
 import { cn } from "@/lib/utils";
@@ -158,14 +159,16 @@ export function HeroCarousel({ slides, label = "Highlights" }: HeroCarouselProps
                 {slide.image.src ? (
                   wanted.has(i) ? (
                   <>
-                    <HeroImage
-                      src={slide.image.src}
-                      alt={slide.image.alt}
-                      sizes="100vw"
-                      priority={i === 0}
-                      signalReady={i === 0}
-                      className="hero-slide-image"
-                    />
+                    <HeroImageAnimation index={i} active={isActive}>
+                      <HeroImage
+                        src={slide.image.src}
+                        alt={slide.image.alt}
+                        sizes="100vw"
+                        priority={i === 0}
+                        signalReady={i === 0}
+                        className="hero-slide-image"
+                      />
+                    </HeroImageAnimation>
                     <span className="hero-slide-shade" />
                   </>
                   ) : null

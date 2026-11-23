@@ -8,7 +8,7 @@ import { useAdmin } from "@/lib/admin/admin-store";
 import { plural } from "@/lib/admin/format";
 import type { ActivityDto } from "@/Services/activity.service";
 
-const MODULE_ORDER: ModuleKey[] = ["services", "projects", "news", "team", "partners"];
+const MODULE_ORDER: ModuleKey[] = ["services", "projects", "news", "team", "partners", "vacancies"];
 
 export function Dashboard({ activity }: { activity: ActivityDto[] }) {
   const { me, summary } = useAdmin();
@@ -32,6 +32,10 @@ export function Dashboard({ activity }: { activity: ActivityDto[] }) {
         <Link href="/admin/messages" className="adm-stat" data-testid="link-dashboard-messages">
           <span className="adm-stat-value">{summary.unreadMessages}</span>
           <span className="adm-stat-label">Unread {summary.unreadMessages === 1 ? "message" : "messages"}</span>
+        </Link>
+        <Link href="/admin/applications" className="adm-stat" data-testid="link-dashboard-applications">
+          <span className="adm-stat-value">{summary.newApplications}</span>
+          <span className="adm-stat-label">New {summary.newApplications === 1 ? "application" : "applications"}</span>
         </Link>
         <div className="adm-stat">
           <span className="adm-stat-value">{summary.reviewQueue}</span>

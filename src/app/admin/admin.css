@@ -1376,3 +1376,21 @@ a.adm-stat:hover {
     display: none;
   }
 }
+
+/* Applications inbox: position filter in the toolbar, inline status select. */
+.adm-toolbar-select {
+  width: auto;
+  min-width: 12rem;
+  max-width: 100%;
+}
+.adm-inline-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.adm-inline-field .adm-label {
+  margin: 0;
+}
+.adm-inline-field .adm-select {
+  width: auto;
+}

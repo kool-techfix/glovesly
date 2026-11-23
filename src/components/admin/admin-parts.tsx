@@ -61,6 +61,8 @@ const BADGE_TONE: Record<string, string> = {
   ARCHIVED: "muted",
   NEW: "info",
   READ: "neutral",
+  REVIEWED: "neutral",
+  SHORTLISTED: "success",
   ACTIVE: "success",
   DISABLED: "muted",
   ADMIN: "info",

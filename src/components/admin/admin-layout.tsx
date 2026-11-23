@@ -14,6 +14,8 @@ import {
   UserCog,
   Users,
   X,
+  BriefcaseBusiness,
+  FileUser,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -44,12 +46,14 @@ const NAV: Array<{ heading?: string; items: NavItem[] }> = [
       { href: "/admin/news", label: "News", icon: Newspaper, key: "news" },
       { href: "/admin/team", label: "Team", icon: Users, key: "team" },
       { href: "/admin/partners", label: "Partners", icon: Handshake, key: "partners" },
+      { href: "/admin/vacancies", label: "Vacancies", icon: BriefcaseBusiness, key: "vacancies" },
     ],
   },
   {
     heading: "Workspace",
     items: [
       { href: "/admin/messages", label: "Messages", icon: Mail, key: "messages" },
+      { href: "/admin/applications", label: "Applications", icon: FileUser, key: "applications" },
       { href: "/admin/users", label: "Users", icon: UserCog, key: "users", adminOnly: true },
       { href: "/admin/settings", label: "Settings", icon: Settings, key: "settings" },
     ],
@@ -76,6 +80,7 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
 
   const badges: Record<string, { count: number; label: string; tone?: "warning" } | undefined> = {
     messages: summary.unreadMessages ? { count: summary.unreadMessages, label: "unread" } : undefined,
+    applications: summary.newApplications ? { count: summary.newApplications, label: "new" } : undefined,
     projects: summary.projectsWithoutState
       ? { count: summary.projectsWithoutState, label: "without a state", tone: "warning" }
       : undefined,

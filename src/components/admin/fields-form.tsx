@@ -1,11 +1,11 @@
 "use client";
 
 import { ArrowLeft, ArrowRight, ImagePlus, Loader2, Trash2 } from "lucide-react";
-import { useId, useState } from "react";
+import { useEffect, useId, useState } from "react";
 
 import { describedBy, FieldShell } from "@/components/admin/admin-parts";
 import type { FieldConfig } from "@/components/admin/module-configs";
-import { AdminApiError, errorMessage } from "@/lib/admin/api-client";
+import { AdminApiError, api, errorMessage } from "@/lib/admin/api-client";
 import { uploadToCloudinary } from "@/lib/admin/cloudinary-upload";
 import {
   initialValues,
@@ -250,10 +250,24 @@ function Field({
           />
         </FieldShell>
       );
-    default:
+    case "date":
       control = (
         <input
           {...aria}
+          className="adm-input"
+          type="date"
+          value={text}
+          onChange={(event) => onChange(event.target.value)}
+          data-testid={`input-${area}-${testName}`}
+        />
+      );
+      break;
+    default:
+      control = (
+        <>
+          <input
+          {...aria}
+          list={field.suggestionsEndpoint ? `${id}-suggestions` : undefined}
           className="adm-input"
           type={field.kind === "number" ? "number" : field.kind === "url" ? "url" : "text"}
           inputMode={field.kind === "number" ? "decimal" : undefined}
@@ -264,7 +278,9 @@ function Field({
           placeholder={field.placeholder}
           onChange={(event) => onChange(event.target.value)}
           data-testid={`input-${area}-${testName}`}
-        />
+          />
+          {field.suggestionsEndpoint ? <Suggestions id={`${id}-suggestions`} endpoint={field.suggestionsEndpoint} /> : null}
+        </>
       );
   }
 
@@ -272,6 +288,31 @@ function Field({
     <FieldShell id={id} label={field.label} required={field.required} help={field.help} error={error} wide={field.wide}>
       {control}
     </FieldShell>
+  );
+}
+
+/** A <datalist> filled from an admin endpoint that returns string[] (e.g. existing departments). */
+function Suggestions({ id, endpoint }: { id: string; endpoint: string }) {
+  const [values, setValues] = useState<string[]>([]);
+  useEffect(() => {
+    let cancelled = false;
+    api<string[]>(endpoint)
+      .then((list) => {
+        if (!cancelled) setValues(list);
+      })
+      .catch(() => {
+        // Suggestions are optional; the field still works without them.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [endpoint]);
+  return (
+    <datalist id={id}>
+      {values.map((value) => (
+        <option key={value} value={value} />
+      ))}
+    </datalist>
   );
 }
 

@@ -1,4 +1,6 @@
 import {
+  EMPLOYMENT_TYPE_LABELS,
+  EMPLOYMENT_TYPES,
   PARTNER_TYPE_LABELS,
   PARTNER_TYPES,
   PROJECT_SECTOR_LABELS,
@@ -15,7 +17,7 @@ import type { ContentDtoBase } from "@/Services/content.service";
  * exactly (src/Schemas/*.schema.ts); ModuleManager renders any of them.
  */
 
-export type ModuleKey = "services" | "projects" | "news" | "team" | "partners";
+export type ModuleKey = "services" | "projects" | "news" | "team" | "partners" | "vacancies";
 
 export type FieldKind =
   | "text"
@@ -28,7 +30,9 @@ export type FieldKind =
   | "url"
   | "slug"
   | "asset"
-  | "assets";
+  | "assets"
+  /** A calendar date (YYYY-MM-DD); empty → null. */
+  | "date";
 
 export type SelectOption = { value: string; label: string };
 
@@ -63,6 +67,8 @@ export type FieldConfig = {
   defaultValue?: string | boolean;
   /** Full row width in the two-column form grid. */
   wide?: boolean;
+  /** text: GET endpoint returning string[] offered as suggestions (a datalist). */
+  suggestionsEndpoint?: string;
 };
 
 export type AdminItem = ContentDtoBase & Record<string, unknown>;
@@ -358,6 +364,65 @@ export const moduleConfigs: Record<ModuleKey, ModuleConfig> = {
         wide: true,
         previewTone: "dark",
         help: "Optional white or light version. Without one, dark sections show the logo above on a white tile.",
+      },
+    ],
+  },
+  vacancies: {
+    key: "vacancies",
+    label: "Vacancies",
+    singular: "vacancy",
+    description: "Open roles on the Careers page. Archive a vacancy to close it.",
+    apiPath: "/api/admin/vacancies",
+    folder: "misc",
+    titleKey: "title",
+    subtitle: (item) => {
+      const type = typeof item.employmentType === "string" ? EMPLOYMENT_TYPE_LABELS[item.employmentType as keyof typeof EMPLOYMENT_TYPE_LABELS] : null;
+      const count = typeof item.applicationCount === "number" ? item.applicationCount : 0;
+      const deadline = typeof item.deadlineDate === "string" && item.deadlineDate ? `apply by ${item.deadlineDate}` : null;
+      return [str(item.department) || "No department", type, deadline, `${count} ${count === 1 ? "application" : "applications"}`]
+        .filter(Boolean)
+        .join(" · ");
+    },
+    publicPath: (item) => `/careers/${str(item.slug)}`,
+    publishHint:
+      "Publishing needs a title, department, employment type, location, summary, overview, and at least one responsibility and one requirement.",
+    fields: [
+      { name: "title", label: "Job title", kind: "text", required: true, wide: true },
+      slugField("Used in the address: /careers/your-slug"),
+      sortOrderField,
+      {
+        name: "department",
+        label: "Department",
+        kind: "text",
+        placeholder: "e.g. Aviation",
+        help: "Free text. Suggestions come from existing vacancies. Used for the Careers filters.",
+        suggestionsEndpoint: "/api/admin/vacancies/departments",
+      },
+      {
+        name: "employmentType",
+        label: "Employment type",
+        kind: "select",
+        options: options(EMPLOYMENT_TYPES, EMPLOYMENT_TYPE_LABELS),
+        emptyLabel: "Choose a type",
+      },
+      { name: "location", label: "Location", kind: "text", placeholder: "e.g. Abuja" },
+      {
+        name: "deadline",
+        label: "Application deadline",
+        kind: "date",
+        help: "Optional. The vacancy closes at the end of this day (Nigerian time) and disappears from the site.",
+      },
+      { name: "summary", label: "Summary", kind: "textarea", rows: 3, wide: true, help: "One or two sentences, shown on the vacancy card." },
+      { name: "overview", label: "Overview", kind: "textarea", rows: 8, wide: true, help: "Paragraphs separated by a blank line." },
+      { name: "responsibilities", label: "Responsibilities", kind: "lines", rows: 6, wide: true, help: "One per line." },
+      { name: "requirements", label: "Requirements", kind: "lines", rows: 6, wide: true, help: "One per line." },
+      {
+        name: "applicationNote",
+        label: "How to apply (optional)",
+        kind: "textarea",
+        rows: 3,
+        wide: true,
+        help: "Replaces the default text: \"Complete the form below and attach your CV.\"",
       },
     ],
   },

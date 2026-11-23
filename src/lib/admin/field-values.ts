@@ -1,4 +1,5 @@
 import type { FieldConfig } from "@/components/admin/module-configs";
+import { toLagosDateInput } from "@/lib/lagos-date";
 
 /*
  * DTO ⇄ form conversion for FieldsForm.
@@ -8,6 +9,7 @@ import type { FieldConfig } from "@/components/admin/module-configs";
  * - asset: { url, publicId } → two fields (name + publicIdField)
  * - assets: [{ url, publicId }] → two parallel arrays
  * - slug: empty → omitted (the API generates one)
+ * - date: ISO ↔ "YYYY-MM-DD" (Africa/Lagos); empty → null
  */
 
 export type AssetValue = { url: string; publicId: string };
@@ -37,6 +39,9 @@ export function initialValues(fields: readonly FieldConfig[], item?: AdminRecord
         break;
       case "lines":
         values[field.name] = asStringArray(raw).join("\n");
+        break;
+      case "date":
+        values[field.name] = toLagosDateInput(typeof raw === "string" ? raw : null);
         break;
       case "asset":
         values[field.name] = {
@@ -98,6 +103,11 @@ export function toPayload(
       case "slug": {
         const text = String(value ?? "").trim();
         if (text) payload[field.name] = text;
+        break;
+      }
+      case "date": {
+        const text = String(value ?? "").trim();
+        payload[field.name] = text === "" ? null : text;
         break;
       }
       case "asset": {

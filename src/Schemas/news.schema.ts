@@ -67,11 +67,30 @@ export const SOURCE_PAIR_MESSAGES = {
  * the stored row by newsService.update.
  */
 function checkSourcePair(mode: "create" | "update") {
-  return (input: SourceFields, ctx: z.RefinementCtx) => {
-    if (mode === "update" && (!("sourceName" in input) || !("sourceUrl" in input))) return;
-    const missing = missingSourceField(input);
-    if (missing) ctx.addIssue({ code: z.ZodIssueCode.custom, path: [missing], message: SOURCE_PAIR_MESSAGES[missing] });
+  return (input: SourceFields & CoverFields, ctx: z.RefinementCtx) => {
+    if (!(mode === "update" && (!("sourceName" in input) || !("sourceUrl" in input)))) {
+      const missing = missingSourceField(input);
+      if (missing) ctx.addIssue({ code: z.ZodIssueCode.custom, path: [missing], message: SOURCE_PAIR_MESSAGES[missing] });
+    }
+    checkCoverPair(mode, input, ctx);
   };
+}
+
+type CoverFields = { coverImageUrl?: string | null; coverImagePublicId?: string | null };
+
+/**
+ * The cover image is optional, but its URL and Cloudinary public ID go
+ * together: both set or both empty. Checked when both keys are sent (the
+ * admin form always sends both) and always on create.
+ */
+function checkCoverPair(mode: "create" | "update", input: CoverFields, ctx: z.RefinementCtx) {
+  if (mode === "update" && (!("coverImageUrl" in input) || !("coverImagePublicId" in input))) return;
+  if (input.coverImageUrl && !input.coverImagePublicId) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["coverImagePublicId"], message: "Upload the image again so its Cloudinary ID is saved too" });
+  }
+  if (input.coverImagePublicId && !input.coverImageUrl) {
+    ctx.addIssue({ code: z.ZodIssueCode.custom, path: ["coverImageUrl"], message: "The image link is missing; upload the image again or remove it" });
+  }
 }
 
 export const newsCreateSchema = z.object(newsShape).superRefine(checkSourcePair("create"));

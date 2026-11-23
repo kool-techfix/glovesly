@@ -231,7 +231,7 @@ async function seedNews() {
         tags: post.tags,
         sourceName: post.sourceName,
         sourceUrl: post.sourceUrl,
-        // No cover yet; the admin's cover-image publish rule does not apply to the seed.
+        // News images are optional (only Glovesly's own photos, added in the admin).
         coverImageUrl: null,
         coverImagePublicId: null,
         authorId: null,

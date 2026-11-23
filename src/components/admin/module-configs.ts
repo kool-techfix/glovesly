@@ -88,6 +88,8 @@ export type ModuleConfig = {
   subtitle?: (item: AdminItem) => string;
   /** Thumbnail column. */
   imageKey?: string;
+  /** Text in the thumbnail when there is no image (default: the title's first letter). */
+  emptyImageLabel?: string;
   /** Public URL for "View on site" (published items only). */
   publicPath?: (item: AdminItem) => string | null;
   /** A warning shown on the row (and counted above the list). */
@@ -256,8 +258,9 @@ export const moduleConfigs: Record<ModuleKey, ModuleConfig> = {
       return author ? `By ${author.name}` : "No author";
     },
     imageKey: "coverImageUrl",
+    emptyImageLabel: "No image",
     publicPath: (item) => `/news/${item.slug}`,
-    publishHint: "Publishing needs a cover image.",
+    publishHint: "Publishing needs a title, an excerpt and the article body. The cover image is optional.",
     fields: [
       { name: "title", label: "Title", kind: "text", required: true, wide: true },
       slugField("Used in the address: /news/your-slug"),
@@ -267,11 +270,12 @@ export const moduleConfigs: Record<ModuleKey, ModuleConfig> = {
       { name: "tags", label: "Tags", kind: "list", wide: true, help: "Comma-separated." },
       {
         name: "coverImageUrl",
-        label: "Cover image",
+        label: "Cover image (optional)",
         kind: "asset",
         publicIdField: "coverImagePublicId",
         folder: "news",
         wide: true,
+        help: "Use Glovesly's own photos. Don't upload another publisher's images.",
       },
       {
         name: "sourceName",

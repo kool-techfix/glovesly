@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 
 import { HeroCarousel } from "@/components/hero-carousel";
 import { CeoTeaser } from "@/components/public/ceo-message";
-import { NewsCard, ProjectCard, ServiceCard } from "@/components/public/cards";
+import { ProjectCard, ServiceCard } from "@/components/public/cards";
+import { NewsRows } from "@/components/public/news-list";
 import { NigeriaMapSection } from "@/components/public/nigeria-map-section";
 import { PartnersSection } from "@/components/public/partners-section";
 import { CtaBand, EmptyNote, ListSection } from "@/components/public/sections";
@@ -139,13 +140,7 @@ export default async function HomePage() {
             </ButtonLink>
           }
         >
-          <ul className="card-grid">
-            {news.slice(0, 3).map((post) => (
-              <li key={post.id}>
-                <NewsCard post={post} />
-              </li>
-            ))}
-          </ul>
+          <NewsRows posts={news.slice(0, 3)} />
         </ListSection>
       ) : null}
 

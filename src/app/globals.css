@@ -1425,33 +1425,6 @@
   color: hsl(var(--muted-foreground));
   line-height: 1.65;
 }
-/* Featured (latest) article on /news: image left, text right from 900px. */
-.news-featured-media {
-  aspect-ratio: 16 / 10;
-}
-@media (min-width: 900px) {
-  .news-featured {
-    display: grid;
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  }
-  .news-featured-media {
-    aspect-ratio: auto;
-    min-height: 22rem;
-  }
-  .news-featured-body {
-    justify-content: center;
-    padding: 2.5rem;
-  }
-}
-.news-featured-title {
-  font-size: clamp(1.5rem, 2.8vw, 2.25rem);
-  line-height: 1.15;
-}
-.card-source {
-  margin-top: 0.75rem;
-  font-size: 0.8125rem;
-  color: hsl(var(--muted-foreground));
-}
 .card-meta {
   display: flex;
   flex-wrap: wrap;
@@ -3769,5 +3742,151 @@ html.loader-active .reveal {
   .business-card:hover .business-card-media img,
   .business-card:focus-within .business-card-media img {
     transform: none;
+  }
+}
+
+/* ==================================================================
+   News: text-first list (src/components/public/news-list.tsx)
+   An image appears only when a post has one; otherwise there is no
+   image area at all.
+   ================================================================== */
+.news-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: hsl(var(--muted-foreground));
+}
+.news-read {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  transition:
+    gap 0.2s ease,
+    color 0.2s ease;
+}
+.news-row-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.news-rows {
+  border-top: 1px solid hsl(var(--border));
+}
+.news-rows > li {
+  border-bottom: 1px solid hsl(var(--border));
+}
+.news-row {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem 2.5rem;
+  padding-block: 1.75rem;
+}
+.news-row.has-image {
+  grid-template-columns: minmax(0, 1fr) 220px;
+  align-items: start;
+}
+.news-row-text {
+  display: grid;
+  gap: 0.6rem;
+  justify-items: start;
+}
+.news-row-title {
+  max-width: 40ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+.news-row-excerpt {
+  max-width: 68ch;
+  line-height: 1.65;
+  color: hsl(var(--muted-foreground));
+}
+.news-row-thumb {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  background: hsl(var(--secondary));
+}
+.news-row:hover .news-read,
+.news-row:focus-within .news-read,
+.news-feature:hover .news-read,
+.news-feature:focus-within .news-read {
+  gap: 0.7rem;
+  color: hsl(var(--primary));
+}
+.news-row:hover .news-row-title,
+.news-feature:hover .news-feature-title {
+  color: hsl(var(--primary));
+}
+@media (max-width: 720px) {
+  .news-row.has-image {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  /* Image above the text on mobile. */
+  .news-row.has-image .news-row-thumb {
+    order: -1;
+  }
+}
+
+/* Latest article: one wide text block, or text + image with an image. */
+.news-feature {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem 3.5rem;
+}
+/* The list's top hairline separates it from the latest article. */
+.news-more {
+  margin-top: 2.5rem;
+}
+.news-feature.has-image {
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .news-feature.has-image {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  }
+}
+.news-feature-text {
+  display: grid;
+  gap: 0.85rem;
+  justify-items: start;
+}
+.news-feature-title {
+  max-width: 28ch;
+  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  line-height: 1.1;
+  transition: color 0.2s ease;
+}
+.news-feature-excerpt {
+  max-width: 62ch;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: hsl(var(--muted-foreground));
+}
+.news-feature-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  background: hsl(var(--secondary));
+}
+@media (max-width: 899px) {
+  .news-feature.has-image .news-feature-media {
+    order: -1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .news-read,
+  .news-feature-title {
+    transition: none;
   }
 }

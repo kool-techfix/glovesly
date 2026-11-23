@@ -9,7 +9,6 @@ import {
 } from "@/Schemas/news.schema";
 import {
   createContentService,
-  mediaProblem,
   problems,
   toContentDtoBase,
   type ContentDtoBase,
@@ -53,7 +52,13 @@ const base = createContentService({
   toDto: toNewsPostDto,
   titleOf: (record) => record.title,
   slugSource: (input) => input.title,
-  publishProblems: (record) => problems(mediaProblem(record.coverImageUrl, "A cover image")),
+  // The cover image is optional: only Glovesly's own photos, uploaded in the admin.
+  publishProblems: (record) =>
+    problems(
+      !record.title.trim() && "Add a title.",
+      !record.excerpt.trim() && "Add an excerpt.",
+      !record.body.trim() && "Add the article body.",
+    ),
 });
 
 export const newsService = {

@@ -1394,3 +1394,13 @@ a.adm-stat:hover {
 .adm-inline-field .adm-select {
   width: auto;
 }
+
+/* Thumbnail without an image, labelled in words (e.g. news: "No image"). */
+.adm-thumb--label span {
+  padding: 0 0.25rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  color: var(--admin-ink-soft);
+}

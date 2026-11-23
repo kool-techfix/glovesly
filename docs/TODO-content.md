@@ -12,7 +12,7 @@ Everything below is a placeholder. None of it is a company fact. Replace each it
   - [ ] Client for the Mobile and Fixed Surveillance System
   - [ ] Whether to show full names for FAAN, NCAT and GAT (abbreviations are used as supplied)
 - [x] **News:** three articles from `docs/content/glovesly-news-articles.md` are seeded (`prisma/data/news-seed.ts`), each linking to the outlet that first reported it. Two are published; the GAT article is a draft. The "Sample News Post" rows are removed. Still needed:
-  - [ ] Cover images for the three news articles (use Glovesly's own photos, not the outlets' images). Until then the cards show a flat navy block. The admin needs a cover image before it will publish, so the draft cannot be published without one.
+  - [ ] Optional: add Glovesly's own photos to news posts through the admin
   - [ ] Confirm the cost wording and the publication date in the Punch article, then publish the Zulu/GAT article. The Punch headline says N2bn while the article says N2.2 billion.
   - [ ] Link the GAT article to the Zulu Terminal Expansion project once relations are supported
   - [ ] Check what happened after the January 2021 ALC/MRO announcement before adding any follow-up

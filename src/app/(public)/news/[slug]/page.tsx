@@ -19,15 +19,23 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await newsService.getPublishedBySlug((await params).slug);
   if (!post) return { title: "Article not found" };
-  // Only our own cover image is ever used; never the outlet's picture.
+  // Only Glovesly's own uploaded cover is used; never an outlet's picture.
+  // Without one, the site's default share image (src/app/opengraph-image.tsx).
+  const description = excerpt(post.excerpt || post.body);
+  const images = post.coverImageUrl ? [{ url: post.coverImageUrl, alt: "" }] : [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Glovesly Pro-Project" }];
   return {
     title: post.title,
-    description: excerpt(post.excerpt || post.body),
+    description,
+    alternates: { canonical: `/news/${post.slug}` },
     openGraph: {
       type: "article",
+      title: post.title,
+      description,
+      url: `/news/${post.slug}`,
       publishedTime: post.publishedAt ?? undefined,
-      images: post.coverImageUrl ? [post.coverImageUrl] : undefined,
+      images,
     },
+    twitter: { card: "summary_large_image", title: post.title, description, images: images.map((image) => image.url) },
   };
 }
 

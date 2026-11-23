@@ -172,9 +172,9 @@ export function ModuleManager({ moduleKey }: { moduleKey: ModuleKey }) {
             return (
               <li key={item.id} className={cn("adm-row", flag && "adm-row--flagged")} data-testid={`row-${area}-${item.slug}`}>
                 {config.imageKey ? (
-                  <div className="adm-thumb" aria-hidden>
+                  <div className={cn("adm-thumb", !image && config.emptyImageLabel && "adm-thumb--label")} aria-hidden>
                     {/* eslint-disable-next-line @next/next/no-img-element -- admin thumbnail */}
-                    {image ? <img src={image} alt="" /> : <span>{title(item).charAt(0)}</span>}
+                    {image ? <img src={image} alt="" /> : <span>{config.emptyImageLabel ?? title(item).charAt(0)}</span>}
                   </div>
                 ) : null}
                 <div className="adm-row-main">

@@ -2,9 +2,8 @@ import { ArrowRight, MapPin } from "lucide-react";
 import Link from "next/link";
 
 import { MediaImage } from "@/components/public/media-image";
-import { formatLongDate, sectorLabel } from "@/lib/display";
+import { sectorLabel } from "@/lib/display";
 import { cn } from "@/lib/utils";
-import type { NewsPostDto } from "@/Services/news.service";
 import type { ProjectDto } from "@/Services/project.service";
 import type { ServiceDto } from "@/Services/service.service";
 
@@ -78,59 +77,3 @@ export function ProjectCard({ project }: { project: ProjectDto }) {
   );
 }
 
-/** The latest article, large, at the top of /news. Links to our own article page. */
-export function FeaturedNewsCard({ post }: { post: NewsPostDto }) {
-  return (
-    <article className="card news-featured group" data-testid={`card-news-featured-${post.slug}`}>
-      {post.coverImageUrl ? (
-        <MediaImage src={post.coverImageUrl} alt="" sizes="(max-width: 900px) 100vw, 55vw" priority className="news-featured-media" />
-      ) : (
-        <div className="media-frame media-fallback news-featured-media" aria-hidden="true" />
-      )}
-      <div className="card-body news-featured-body">
-        {post.publishedAt ? (
-          <p className="card-kicker">
-            <time dateTime={post.publishedAt}>{formatLongDate(post.publishedAt)}</time>
-          </p>
-        ) : null}
-        <h3 className="display news-featured-title">
-          <Link href={`/news/${post.slug}`} className="card-link focus-ring" data-testid={`link-news-featured-${post.slug}`}>
-            {post.title}
-          </Link>
-        </h3>
-        {post.excerpt ? <p className="card-text">{post.excerpt}</p> : null}
-        {post.sourceName ? <p className="card-source">Source: {post.sourceName}</p> : null}
-        <span className="card-more" aria-hidden="true">
-          Read the article <ArrowRight size={16} />
-        </span>
-      </div>
-    </article>
-  );
-}
-
-/** Links to our own article page; the outlet is linked from inside the article. */
-export function NewsCard({ post }: { post: NewsPostDto }) {
-  return (
-    <article className="card group">
-      {post.coverImageUrl ? (
-        <MediaImage src={post.coverImageUrl} alt="" sizes="(max-width: 720px) 100vw, 33vw" className="aspect-16/10" />
-      ) : (
-        <div className="media-frame media-fallback aspect-16/10" aria-hidden="true" />
-      )}
-      <div className="card-body">
-        {post.publishedAt ? (
-          <p className="card-kicker">
-            <time dateTime={post.publishedAt}>{formatLongDate(post.publishedAt)}</time>
-          </p>
-        ) : null}
-        <h3 className="card-title">
-          <Link href={`/news/${post.slug}`} className="card-link focus-ring" data-testid={`link-news-card-${post.slug}`}>
-            {post.title}
-          </Link>
-        </h3>
-        {post.excerpt ? <p className="card-text">{post.excerpt}</p> : null}
-        {post.sourceName ? <p className="card-source">Source: {post.sourceName}</p> : null}
-      </div>
-    </article>
-  );
-}

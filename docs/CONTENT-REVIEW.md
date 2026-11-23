@@ -38,3 +38,14 @@ Every visitor-facing string added for a feature, with its source, so the owner c
 | Form states | Sending...; Uploading your application; Try again; Application received; We received your application for <position>.; Back to careers | "Sending...", "Application received" and the acknowledgement line supplied by the owner; the rest newly written |
 | Error messages | e.g. "Upload your CV as a PDF, DOC or DOCX file", "The maximum size is 5 MB", "You have already applied for this position in the last 24 hours. We have your application." | Newly written |
 | Applicant email | We received your application for <position>. Thank you for your interest in Glovesly Pro-Project Limited. | First line supplied by the owner; thank-you line newly written |
+
+## News images
+
+News posts do not need an image. An image is shown only when someone uploads one of Glovesly's own photos in the admin ("Cover image (optional)"). Images are never fetched, hotlinked, copied or re-hosted from the outlets that reported a story, and there is no code that fetches images from external article links. Without an image, the news list, the latest-article block, the home page and the article page show no image area at all, and shared links use the site's default image (src/app/opengraph-image.tsx).
+
+| Where | String | Source |
+|---|---|---|
+| /news latest-article label | Latest | Newly written |
+| /news rows and home news | Read article; Source: <outlet> | Newly written |
+| Admin News form | Cover image (optional); "Use Glovesly's own photos. Don't upload another publisher's images." | Supplied by the owner |
+| Default share image | Glovesly Pro-Project / A Nigerian company working in aviation infrastructure, construction, security solutions and energy solutions. | Site description (existing copy) |

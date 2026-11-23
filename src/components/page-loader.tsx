@@ -3,6 +3,8 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
+import { LOGO_RATIO, LOGO_SRC } from "@/components/brand-logo";
+
 /*
  * "Runway" page loader: a white overlay with the logo and a row of 16 dashes,
  * shown once per browser session on the first page load.
@@ -94,7 +96,7 @@ export function PageLoader() {
       <span className="page-loader-panel page-loader-panel--top" aria-hidden="true" />
       <span className="page-loader-panel page-loader-panel--bottom" aria-hidden="true" />
       <div className="page-loader-content">
-        <Image src="/brand/glovely-logo.png" alt="" width={44} height={44} loading="eager" className="page-loader-logo" />
+        <Image src={LOGO_SRC} alt="" width={Math.round(44 * LOGO_RATIO)} height={44} loading="eager" className="page-loader-logo" />
         <ol className="page-loader-runway" aria-hidden="true">
           {Array.from({ length: DASHES }, (_, i) => (
             <li key={i} className="page-loader-dash" style={{ "--i": i } as React.CSSProperties} />

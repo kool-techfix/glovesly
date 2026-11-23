@@ -3,13 +3,14 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 /*
- * The Glovesly logo image (public/brand/glovely-logo.png: a 500×500 JPEG on a
- * white background, no wordmark). On dark backgrounds it sits on a white tile
- * because the file has no transparency. Hook-free: usable in Server and
- * Client Components.
+ * The Glovesly logo image (public/brand/glovesly-logo.png: 1299×1211, transparent
+ * background, globe mark with the RC number, no wordmark). On dark backgrounds
+ * it can sit on a white tile. Hook-free: usable in Server and Client Components.
  */
 
-export const LOGO_SRC = "/brand/glovely-logo.png";
+export const LOGO_SRC = "/brand/glovesly-logo.png";
+/** Intrinsic width ÷ height of the logo file. */
+export const LOGO_RATIO = 1299 / 1211;
 export const LOGO_ALT = "Glovesly Pro-Project";
 
 export function LogoImage({
@@ -19,7 +20,7 @@ export function LogoImage({
   alt = LOGO_ALT,
   className,
 }: {
-  /** Rendered height and width in px (the logo is square). */
+  /** Rendered height in px; the width follows the logo's proportions. */
   size?: number;
   /** White tile behind the logo, for dark backgrounds. */
   tile?: boolean;
@@ -30,7 +31,14 @@ export function LogoImage({
 }) {
   return (
     <span className={cn("brand-logo", tile && "brand-logo-tile", className)}>
-      <Image src={LOGO_SRC} alt={alt} width={size} height={size} preload={priority} sizes={`${size}px`} />
+      <Image
+        src={LOGO_SRC}
+        alt={alt}
+        width={Math.round(size * LOGO_RATIO)}
+        height={size}
+        preload={priority}
+        sizes={`${Math.round(size * LOGO_RATIO)}px`}
+      />
     </span>
   );
 }

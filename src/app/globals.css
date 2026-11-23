@@ -3018,7 +3018,7 @@ html.loader-active .reveal {
   transition: opacity 0.25s ease;
 }
 .page-loader-logo {
-  width: 44px;
+  width: auto;
   height: 44px;
 }
 .page-loader-runway {

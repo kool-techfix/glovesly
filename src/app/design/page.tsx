@@ -101,7 +101,7 @@ export default function DesignPage() {
           <SectionHeading
             eyebrow="Logo"
             title="Logo placements"
-            description="public/brand/glovely-logo.png (500×500, white background). On dark backgrounds it sits on a white tile."
+            description="public/brand/glovesly-logo.png (1299×1211, transparent). On dark backgrounds it sits on a white tile."
           />
           <div className="design-grid mt-10">
             <Specimen label="Public header (44px, priority, links to /)">
